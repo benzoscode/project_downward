@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3]
 
 [ext_resource type="TileSet" path="res://assets/placeholder/tileset_cave.tres" id="1_tileset"]
-[ext_resource type="Script" path="res://scripts/rooms/room_camera.gd" id="2_camera"]
 [ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="3_room"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_host"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(16, 48)
@@ -38,9 +38,10 @@ shape = SubResource("RectangleShape2D_exit")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(240, 135)
-position_smoothing_enabled = true
 limit_left = 0
 limit_top = 0
 limit_right = 1920
 limit_bottom = 1080
-script = ExtResource("2_camera")
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("4_host")

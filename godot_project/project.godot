@@ -20,6 +20,7 @@ run/main_scene="res://scenes/rooms/demo_room.tscn"
 [autoload]
 
 GameState="*res://scripts/autoload/game_state.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [display]
 
@@ -30,6 +31,10 @@ window/size/window_height_override=540
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 window/stretch/scale_mode="integer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [input]
 

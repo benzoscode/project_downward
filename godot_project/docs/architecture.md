@@ -71,7 +71,10 @@ TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上�
   - 参数推导：重力/初速度由"跳跃高度 + 到顶点时间"反推（`_recalculate_jump`），策划只调直觉参数
   - 自带 2 格半径微光 `AmbientLight`（关灯状态的自发光，策划案 §二(二)1）
 - `scripts/rooms/room_base.gd`（class `RoomBase`，@tool）：**编辑亮 / 运行时暗**分离——编辑器 `editor_brightness`(0.45) 供搭建，运行时 `game_darkness`(0.05) 供游戏；两个颜色均可在 Inspector 调
-- `scripts/rooms/room_camera.gd`（class `RoomCamera`）：挂在模板 Camera2D 上，平滑跟随 group `player`，M5 切老鼠时改跟随组即可
+- 相机（Phantom Camera 插件，v0.11.0.3）：
+  - 房间内 `Camera2D`（limit 0,0~1920,1080）→ 子节点 `PhantomCameraHost`（host 脚本）
+  - 玩家身上 `PhantomCamera2D`（top_level，priority 10，SIMPLE 跟随，`follow_target=..`，`follow_damping` 0.15s，snap_to_pixel）
+  - M5 切老鼠时：新增/切换老鼠的 PhantomCamera2D 或改 priority 即可
 - 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成（tile_map_data 二进制格式由引擎序列化，不手写）；出生点贴近地面
 
 ## 8. 自动验证
@@ -79,5 +82,6 @@ TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上�
 | 脚本 | 断言内容 |
 |---|---|
 | `tools/verify/verify_player.gd` | T1 起步惯性 / T2 满速 48px/s / T3 惯性停步 / T4 跳高 3 格±3px / T5 土狼时间 / T6 跳跃缓冲 |
+| `tools/verify/verify_camera.gd` | 相机被 PhantomCamera 接管、收敛到玩家 ±6px |
 
 运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）

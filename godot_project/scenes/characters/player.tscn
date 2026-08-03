@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/char_player_idle.png" id="2_idle"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/char_player_run.png" id="3_run"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/char_player_jump.png" id="4_jump"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="5_light"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_pcam"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(12, 20)
@@ -52,3 +53,14 @@ color = Color(1, 0.98, 0.92, 1)
 energy = 1.2
 texture = ExtResource("5_light")
 texture_scale = 1.0
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+unique_name_in_owner = true
+top_level = true
+script = ExtResource("6_pcam")
+priority = 10
+follow_mode = 2
+follow_target = NodePath("..")
+follow_damping = true
+follow_damping_value = Vector2(0.15, 0.15)
+snap_to_pixel = true
