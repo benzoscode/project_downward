@@ -143,4 +143,15 @@ New-Png "statue_lamp.png" 32 32 {
     Fill-Rect $g 20 4 8 6 (Color 240 210 110)
 }
 
+# ---- 光照贴图：64×64 径向渐变（白芯透明边），供 PointLight2D 使用 ----
+New-Png "light_radial.png" 64 64 {
+    param($g)
+    for ($r = 31; $r -ge 0; $r--) {
+        $alpha = [int](255 * (1.0 - $r / 32.0) * (1.0 - $r / 32.0))
+        $brush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb($alpha, 255, 250, 235))
+        $g.FillEllipse($brush, 32 - $r, 32 - $r, $r * 2, $r * 2)
+        $brush.Dispose()
+    }
+}
+
 Write-Output "完成。"
