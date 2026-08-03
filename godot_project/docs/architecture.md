@@ -62,3 +62,21 @@ TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上�
 | `tools/capture.gd` | 截图：加载场景跑 N 帧存 PNG（输出到 `tools/out/`，不入库） |
 
 （状态机、光照系统、机关协议、Boss AI 等随里程碑补充）
+
+## 7. 角色与相机（M1）
+
+- `scenes/characters/player.tscn`（class `Player`）：CharacterBody2D，判定 12×20
+  - 移动：3 格/秒，加速度 400 / 减速度 550 px/s²（惯性手感）
+  - 跳跃：3 格高，到顶点 0.35s；下落重力 ×1.4；土狼 0.1s + 缓冲 0.1s
+  - 参数推导：重力/初速度由"跳跃高度 + 到顶点时间"反推（`_recalculate_jump`），策划只调直觉参数
+  - 自带 2 格半径微光 `AmbientLight`（关灯状态的自发光，策划案 §二(二)1）
+- `scripts/rooms/room_camera.gd`（class `RoomCamera`）：挂在模板 Camera2D 上，平滑跟随 group `player`，M5 切老鼠时改跟随组即可
+- 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成（tile_map_data 二进制格式由引擎序列化，不手写）
+
+## 8. 自动验证
+
+| 脚本 | 断言内容 |
+|---|---|
+| `tools/verify/verify_player.gd` | T1 起步惯性 / T2 满速 48px/s / T3 惯性停步 / T4 跳高 3 格±3px / T5 土狼时间 / T6 跳跃缓冲 |
+
+运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）
