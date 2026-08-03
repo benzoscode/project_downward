@@ -42,7 +42,16 @@ TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上�
 
 ## 5. 输入映射
 
-`move_left/right`（A/D/方向键）、`jump`（空格）、`toggle_lamp`（F）、`whistle`（Q）、`switch_control`（R）、`interact`（E）
+| Action | 键鼠 | 手柄 |
+|---|---|---|
+| `move_left` / `move_right` | A/D、方向键 | 十字键左右、左摇杆 X 轴 |
+| `jump` | 空格 | A（南键） |
+| `interact` | E | X（西键） |
+| `toggle_lamp` | F | Y（北键） |
+| `whistle` | Q | LB |
+| `switch_control` | R | RB |
+
+手柄灯光瞄准（右摇杆）在 M2 光照系统中适配，不占用 Input Map action。
 
 ## 6. 开发工具
 
