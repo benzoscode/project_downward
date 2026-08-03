@@ -27,9 +27,9 @@
 ```
 RoomBase (Node2D)
 ├── CanvasModulate      # 全局黑暗基底（0.05, 0.06, 0.09）
-├── Terrain             # TileMapLayer：物理碰撞地形
-├── Decor               # TileMapLayer：无碰撞装饰
-├── MechanismMarkers    # TileMapLayer：机关占位标记
+├── TileMapTerrain          # TileMapLayer：物理碰撞地形
+├── TileMapDecor            # TileMapLayer：无碰撞装饰
+├── TileMapMechanismMarkers # TileMapLayer：机关占位标记
 ├── Mechanisms          # 机关积木实例挂这里
 ├── Characters          # 玩家/老鼠/Boss 挂这里
 ├── Lights              # 环境光源挂这里

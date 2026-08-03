@@ -74,7 +74,7 @@ godot_project/
   - 拖入即用的合理默认值；必要关联（如按钮→门）通过 `@export var door_id: StringName` 或导出 NodePath 完成
   - 提供编辑器可视化辅助（`@tool` + 绘制感应范围/移动路径）
 - `scenes/templates/room_base.tscn`：房间模板，内置出生点标记、出入口触发区、相机边界（`Camera2D` limits）、环境光配置节点；策划复制改名即新房间
-- TileMap 约定 Layer：`0=terrain`（物理碰撞）、`1=decor`（无碰撞装饰）、`2=mechanism_markers`（机关占位标记）；配套 TileSet 需含物理层
+- TileMapLayer 节点命名约定：`TileMapTerrain`（物理碰撞）、`TileMapDecor`（无碰撞装饰）、`TileMapMechanismMarkers`（机关占位标记）；配套 TileSet 需含物理层
 - 房间尺寸 120×67 格（1920×1080 逻辑），瓦片 16×16
 - 节点树层级约定：静态几何 → 机关 → 角色 → 灯光 → UI，层级名用语义命名
 

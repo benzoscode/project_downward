@@ -10,5 +10,5 @@
 ### room_base.tscn（房间模板）
 
 - **用途**：所有房间的起点。复制到 `scenes/rooms/room_XX.tscn` 改名即用。
-- **内置**：黑暗基底、三层 TileMap（Terrain 碰撞 / Decor 装饰 / MechanismMarkers 标记）、出生点、出口触发区、相机边界（1920×1080）。
-- **搭建步骤**：在 Terrain 层画地形 → Decor 层画装饰 → 把机关拖入 Mechanisms 节点 → 调整 SpawnPoint / ExitTrigger 位置。
+- **内置**：黑暗基底、三个 TileMapLayer 节点（TileMapTerrain 碰撞 / TileMapDecor 装饰 / TileMapMechanismMarkers 标记）、出生点、出口触发区、相机边界（1920×1080）。
+- **搭建步骤**：在 TileMapTerrain 画地形 → TileMapDecor 画装饰 → 把机关拖入 Mechanisms 节点 → 调整 SpawnPoint / ExitTrigger 位置。
