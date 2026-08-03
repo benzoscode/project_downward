@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="TileSet" path="res://assets/placeholder/tileset_cave.tres" id="1_tileset"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
+size = Vector2(16, 48)
+
+[node name="RoomBase" type="Node2D"]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.05, 0.06, 0.09, 1)
+
+[node name="TileMapTerrain" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_tileset")
+
+[node name="TileMapDecor" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_tileset")
+
+[node name="TileMapMechanismMarkers" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_tileset")
+
+[node name="Mechanisms" type="Node2D" parent="."]
+
+[node name="Characters" type="Node2D" parent="."]
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(32, 1048)
+
+[node name="ExitTrigger" type="Area2D" parent="."]
+position = Vector2(1904, 1048)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitTrigger"]
+shape = SubResource("RectangleShape2D_exit")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(240, 135)
+position_smoothing_enabled = true
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
