@@ -44,9 +44,9 @@ func _initialize() -> void:
 		elif x % 11 == 5:
 			decor.set_cell(Vector2i(x, FLOOR_TOP - 1), 0, _atlas_crack)
 
-	# 出生点与玩家
+	# 出生点与玩家：贴近地面（地面顶行上方 12px），开局不坠落
 	var spawn := room.get_node("SpawnPoint") as Marker2D
-	spawn.position = Vector2(80, 15 * 16)
+	spawn.position = Vector2(80, FLOOR_TOP * 16 - 12)
 	var player_scene := load("res://scenes/characters/player.tscn") as PackedScene
 	var player := player_scene.instantiate() as CharacterBody2D
 	player.position = spawn.position

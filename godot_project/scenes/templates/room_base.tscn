@@ -1,16 +1,17 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="TileSet" path="res://assets/placeholder/tileset_cave.tres" id="1_tileset"]
 [ext_resource type="Script" path="res://scripts/rooms/room_camera.gd" id="2_camera"]
+[ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="3_room"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(16, 48)
 
 [node name="RoomBase" type="Node2D"]
+script = ExtResource("3_room")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.45, 0.45, 0.45, 1)
-
 [node name="TileMapTerrain" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_tileset")
 

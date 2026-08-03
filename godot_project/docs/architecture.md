@@ -25,8 +25,8 @@
 ## 4. 房间模板（room_base.tscn）节点树
 
 ```
-RoomBase (Node2D)
-├── CanvasModulate      # 全局黑暗基底（0.05, 0.06, 0.09）
+RoomBase (Node2D) + RoomBase.gd (@tool：编辑亮 / 运行时暗)
+├── CanvasModulate      # 亮度由 RoomBase 脚本按编辑/运行态切换
 ├── TileMapTerrain          # TileMapLayer：物理碰撞地形
 ├── TileMapDecor            # TileMapLayer：无碰撞装饰
 ├── TileMapMechanismMarkers # TileMapLayer：机关占位标记
@@ -70,8 +70,9 @@ TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上�
   - 跳跃：3 格高，到顶点 0.35s；下落重力 ×1.4；土狼 0.1s + 缓冲 0.1s
   - 参数推导：重力/初速度由"跳跃高度 + 到顶点时间"反推（`_recalculate_jump`），策划只调直觉参数
   - 自带 2 格半径微光 `AmbientLight`（关灯状态的自发光，策划案 §二(二)1）
+- `scripts/rooms/room_base.gd`（class `RoomBase`，@tool）：**编辑亮 / 运行时暗**分离——编辑器 `editor_brightness`(0.45) 供搭建，运行时 `game_darkness`(0.05) 供游戏；两个颜色均可在 Inspector 调
 - `scripts/rooms/room_camera.gd`（class `RoomCamera`）：挂在模板 Camera2D 上，平滑跟随 group `player`，M5 切老鼠时改跟随组即可
-- 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成（tile_map_data 二进制格式由引擎序列化，不手写）
+- 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成（tile_map_data 二进制格式由引擎序列化，不手写）；出生点贴近地面
 
 ## 8. 自动验证
 
