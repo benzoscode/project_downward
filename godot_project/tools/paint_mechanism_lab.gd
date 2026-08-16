@@ -81,7 +81,8 @@ func _fill_ground(from_x: int, to_x: int) -> void:
 
 
 func _wall(x: int, top_row: int) -> void:
-	for y in range(top_row, FLOOR_TOP):
+	# 只封门洞上方：门占下 3 格（行 10..12），墙面不得压进门洞
+	for y in range(top_row, 10):
 		_terrain.set_cell(Vector2i(x, y), SRC_DIRT, _fill)
 
 
@@ -143,10 +144,10 @@ func _place_all() -> void:
 	var gem2 := _add("res://scenes/interactables/pickup.tscn", Vector2(34 * 16, gy - 8))
 	gem2.set("item", &"gem_amber")
 
-	# 交替平台坑：A/B/A 三座
+	# 交替平台坑：A/B/A 三座（周期 1.5s，策划案房间 8 定值）
 	for i in range(3):
 		var p := _add("res://scenes/interactables/alternating_platform.tscn", Vector2((38 + i * 3) * 16, gy - 32))
-		p.set("period", 1.6)
+		p.set("period", 1.5)
 		p.set("group_b", i == 1)
 
 	# 摇杆平台：摇杆在 x50 地面，平台通往高台

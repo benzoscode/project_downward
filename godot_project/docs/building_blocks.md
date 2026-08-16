@@ -27,8 +27,8 @@
 
 ### lever_platform.tscn 摇杆平台
 
-- **用途**：玩家在摇杆旁**按住 E**，平台沿 `move_offset` 移动；松开/离开自动复位。编辑器内虚线显示路径。
-- **参数**：`move_offset`（px）；`move_speed`（px/秒）。
+- **用途**：玩家在摇杆旁**按住 E**，平台沿 `move_offset` 移动；松开后在终点停留 `dwell_time` 再复位。编辑器内虚线显示路径。
+- **参数**：`move_offset`（px）；`move_speed`（px/秒）；`dwell_time`（默认 0.5s，难度调节项）。
 
 ### dual_button_door.tscn 双按钮门
 

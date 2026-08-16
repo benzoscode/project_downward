@@ -10,9 +10,12 @@ extends Node2D
 		queue_redraw()
 ## 平台移动速度（px/秒）
 @export var move_speed: float = 32.0
+## 松手后平台在终点的停留时间（秒），策划案难度表"平台停留时间"调节项
+@export var dwell_time: float = 0.5
 
 var _player_in_range: bool = false
 var _progress: float = 0.0 # 0=起点 1=终点
+var _dwell_left: float = 0.0 # 松手后剩余停留时间
 
 @onready var _platform: AnimatableBody2D = $Platform
 @onready var _lever_area: Area2D = $LeverArea
@@ -30,13 +33,18 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-	# 按住 E 且站在摇杆旁才推进（策划案 §三(五)）
-	var target := 1.0 if (_player_in_range and Input.is_action_pressed(&"interact")) else 0.0
 	var length := move_offset.length()
 	if length < 0.01:
 		return
-	var step := move_speed * delta / length
-	_progress = move_toward(_progress, target, step)
+	var holding := _player_in_range and Input.is_action_pressed(&"interact")
+	if holding:
+		_dwell_left = dwell_time
+		_progress = move_toward(_progress, 1.0, move_speed * delta / length)
+	else:
+		# 松手后先在终点停留 dwell_time，再复位（玩家追平台的窗口）
+		_dwell_left = maxf(0.0, _dwell_left - delta)
+		if _dwell_left <= 0.0:
+			_progress = move_toward(_progress, 0.0, move_speed * delta / length)
 	_platform.position = _platform_home + move_offset * _progress
 
 

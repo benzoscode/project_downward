@@ -91,10 +91,12 @@ func _run_tests() -> void:
 	await _physics_frames(60) # 1s → 应前进约 64px
 	var moved: float = platform.position.x - home_x
 	Input.action_release(&"interact")
-	await _physics_frames(90)
+	await _physics_frames(60) # 停留 0.5s 内不应复位
+	var dwelling := platform.position.x - home_x
+	await _physics_frames(120) # 停留结束 + 回程（96px/64px/s=1.5s）
 	var returned: float = absf(platform.position.x - home_x)
-	_check("T2 摇杆平台前进并复位", moved > 30.0 and returned < 2.0,
-		"moved=%.1f returned=%.2f" % [moved, returned])
+	_check("T2 摇杆平台前进/停留/复位", moved > 30.0 and dwelling > 30.0 and returned < 2.0,
+		"moved=%.1f dwell=%.1f returned=%.2f" % [moved, dwelling, returned])
 	lever.queue_free()
 
 	# T3 双按钮门：双触发才开，解除后 2s 关闭
