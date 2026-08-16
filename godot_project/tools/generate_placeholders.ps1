@@ -236,4 +236,19 @@ New-Png "light_cone.png" 128 128 {
     }
 }
 
+# ---- 洞窟背景 480×270：暗色垂直渐变 + 稀疏噪点，感光（被灯光照亮以显现光形） ----
+New-Png "bg_cave.png" 480 270 {
+    param($g)
+    $rng = New-Object System.Random(42)
+    for ($y = 0; $y -lt 270; $y++) {
+        $t = $y / 270.0
+        $r = [int](36 - 10 * $t); $gg = [int](33 - 9 * $t); $b = [int](41 - 11 * $t)
+        for ($x = 0; $x -lt 480; $x++) {
+            $n = $rng.Next(-4, 5)
+            $bmp.SetPixel($x, $y, [System.Drawing.Color]::FromArgb(255,
+                [math]::Max(0, $r + $n), [math]::Max(0, $gg + $n), [math]::Max(0, $b + $n)))
+        }
+    }
+}
+
 Write-Output "完成。"

@@ -34,7 +34,7 @@ func _initialize() -> void:
 func _paint_terrain() -> void:
 	# 地面：默认顶行苔藓边 + 下方三行填充；坑洞区域单独处理
 	for x in range(0, 120):
-		if x >= 12 and x <= 14: # 地刺坑：深 2 格
+		if x >= 12 and x <= 13: # 地刺坑：2 格宽（3格/秒×0.65s滞空≈2格跳距，3格跳不过）
 			_terrain.set_cell(Vector2i(x, 65), 1, _edge_top)
 			_terrain.set_cell(Vector2i(x, 66), 1, _fill)
 		elif x >= 18 and x <= 24: # 水池：只留底行
@@ -70,7 +70,7 @@ func _place_mechanisms() -> void:
 	var mech := _room.get_node("Mechanisms")
 	var ground_y := FLOOR_TOP * 16.0
 
-	for x in [12, 13, 14]: # 地刺坑底（坑深 2 格，刺贴坑底）
+	for x in [12, 13]: # 地刺坑底（坑深 2 格，刺贴坑底）
 		_add_mech(mech, "res://scenes/interactables/spikes.tscn", Vector2(x * 16 + 8, 65 * 16 - 8))
 
 	# 水体：水池区域 7×3 格

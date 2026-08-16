@@ -142,7 +142,9 @@ func _physics_process(delta: float) -> void:
 	var speed_multiplier := water_speed_multiplier if in_water else 1.0
 	var target_speed := axis * move_speed_tiles * TILE_SIZE * speed_multiplier
 	var rate := acceleration if absf(target_speed) > 0.01 else deceleration
-	velocity.x = move_toward(velocity.x, target_speed, rate * delta)
+	# 攀爬中锁水平移动：只能跳+方向跃出，或在近地/平台边按左右走下
+	if not _climbing:
+		velocity.x = move_toward(velocity.x, target_speed, rate * delta)
 
 	if not _climbing:
 		if is_on_floor():
