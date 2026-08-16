@@ -22,8 +22,11 @@ func _initialize() -> void:
 	_assert(ts.get_source_count() == 5, "source 总数为 5（占位 + 4 分区），实际 %d" % ts.get_source_count())
 
 	var dirt := ts.get_source(1) as TileSetAtlasSource
-	_assert(dirt != null and dirt.get_tile_data(Vector2i(0, 0), 0).get_collision_polygons_count(0) == 1,
-		"分区1 泥土图块带碰撞")
+	var dirt_td := dirt.get_tile_data(Vector2i(0, 0), 0)
+	_assert(dirt != null and dirt_td.get_collision_polygons_count(0) == 1
+		and dirt_td.get_collision_polygon_points(0, 0).size() == 4
+		and dirt_td.get_collision_polygon_points(0, 0)[2] == Vector2(8, 8),
+		"分区1 泥土图块带有效碰撞（4 点全格）")
 	var stone := ts.get_source(2) as TileSetAtlasSource
 	_assert(stone != null and stone.get_tile_data(Vector2i(6, 0), 0).get_collision_polygons_count(0) == 1,
 		"分区2 石质图块带碰撞")

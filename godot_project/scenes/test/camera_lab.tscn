@@ -1,10 +1,9 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://c2vvfbimd88b6"]
 
-[ext_resource type="Script" path="res://scripts/test/camera_lab.gd" id="1_gokki"]
+[ext_resource type="Script" uid="uid://dalxn6d55ahg1" path="res://scripts/test/camera_lab.gd" id="1_gokki"]
 [ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="2_5o1vn"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="3_1t82u"]
-[ext_resource type="Script" path="res://scripts/characters/player.gd" id="4_a7151"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_0cimm"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_0cimm"]
 
 [node name="CameraLab" type="Node2D" unique_id=587448431]
 script = ExtResource("1_gokki")
@@ -20,18 +19,18 @@ tile_set = ExtResource("2_5o1vn")
 
 [node name="Characters" type="Node2D" parent="." unique_id=1389582574]
 
-[node name="Player" type="CharacterBody2D" parent="Characters" unique_id=688414121 groups=["player"] instance=ExtResource("3_1t82u")]
+[node name="Player" parent="Characters" unique_id=688414121 instance=ExtResource("3_1t82u")]
 position = Vector2(320, 180)
-script = ExtResource("4_a7151")
 
 [node name="RoomCamera" type="Camera2D" parent="." unique_id=1916992727]
+physics_interpolation_mode = 1
+top_level = true
 position = Vector2(320, 180)
-limit_left = 0
-limit_top = 0
-limit_right = 1440
-limit_bottom = 272
+process_callback = 0
 
 [node name="PhantomCameraHost" type="Node" parent="RoomCamera" unique_id=1772424892]
+process_priority = 300
+process_physics_priority = 300
 script = ExtResource("5_0cimm")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=134610937]

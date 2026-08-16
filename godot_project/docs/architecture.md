@@ -22,6 +22,7 @@
 | 单例 | 职责 |
 |---|---|
 | `GameState` | 道具持有（灯/靴/哨/三宝石）、当前房间、检查点位置；发 `item_acquired` / `checkpoint_updated` 信号 |
+| `MechanismBus` | 机关通信总线：`trigger/release/is_triggered` + `triggered/released` 信号；机关状态跨重生保留（decisions.md 2026-08-16） |
 
 ## 4. 房间模板（room_base.tscn）节点树
 
@@ -46,6 +47,7 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 | Action | 键鼠 | 手柄 |
 |---|---|---|
 | `move_left` / `move_right` | A/D、方向键 | 十字键左右、左摇杆 X 轴 |
+| `move_up` / `move_down` | W/S、方向键 | 十字键上下、左摇杆 Y 轴 |
 | `jump` | 空格 | A（南键） |
 | `interact` | E | X（西键） |
 | `toggle_lamp` | F | Y（北键） |
@@ -84,5 +86,15 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 |---|---|
 | `tools/verify/verify_player.gd` | T1 起步惯性 / T2 满速 48px/s / T3 惯性停步 / T4 跳高 3 格±3px / T5 土狼时间 / T6 跳跃缓冲 |
 | `tools/verify/verify_camera.gd` | 相机被 PhantomCamera 接管、收敛到玩家 ±6px |
+| `tools/verify/verify_mechanisms.gd` | 按钮→总线→门开关、一次性按钮、拾取物、宝箱 |
+| `tools/verify/verify_traversal.gd` | 水中减速/半透明、梯子攀爬与跳出、触刺重生、死后机关状态保留 |
+| `tools/verify/verify_tileset.gd` | TileSet 五分区、碰撞配置、32px 装饰格 |
 
-运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）
+运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）。需要 Autoload 的验证走 `scenes/test/verify_host.tscn` 宿主（`--script` 模式无 Autoload）。
+
+## 9. 机关积木（M3）
+
+- 通信：`MechanismBus` 总线 + StringName ID（见 decisions.md 2026-08-16）
+- 积木清单与参数：`docs/building_blocks.md`「机关积木（M3 第一批）」
+- 玩家侧能力：`die()`（回 `spawn_point` 组标记）、`set_interactable/clear_interactable`、`enter/exit_water`、`enter/exit_ladder`；积木经 `is_in_group("player")` 判定后调用
+- 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成：地刺坑 → 水池 → 按钮开门拿宝石 → 梯子开宝箱

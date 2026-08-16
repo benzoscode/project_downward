@@ -27,15 +27,18 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var instance := packed.instantiate()
-	if _bright:
-		# 编辑器亮度（room_base.gd 的默认值），用于布局审阅截图
-		var modulate := instance.get_node_or_null("CanvasModulate") as CanvasModulate
-		if modulate != null:
-			modulate.color = Color(0.45, 0.45, 0.45, 1)
 	root.add_child(instance)
+	_bright_target = instance
+
+var _bright_target: Node = null
 
 
 func _process(_delta: float) -> bool:
+	# bright 模式每帧覆盖：room_base 的亮度赋值时机在 --script 模式下不稳定
+	if _bright and _bright_target != null:
+		var modulate := _bright_target.get_node_or_null("CanvasModulate") as CanvasModulate
+		if modulate != null:
+			modulate.color = Color(0.45, 0.45, 0.45, 1)
 	_elapsed += 1
 	if _elapsed >= _frames:
 		var img := root.get_texture().get_image()
