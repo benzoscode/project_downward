@@ -1,6 +1,6 @@
 extends CharacterBody2D
 class_name Player
-## 玩家控制器：惯性移动 / 跳跃 / 土狼时间 / 跳跃缓冲。
+## 玩家控制器：惯性移动 / 跳跃 / 土狼时间 / 跳跃缓冲 / 攀爬 / 水域 / 交互 / 死亡重生。
 ## 数值依据策划案 §二(一)：移速 3 格/秒、跳跃 3 格、判定 12×20。
 
 const TILE_SIZE := 16.0
@@ -25,12 +25,27 @@ const TILE_SIZE := 16.0
 ## 跳跃缓冲（秒）：落地前提前按跳也生效的宽限
 @export var jump_buffer: float = 0.1
 
+@export_category("攀爬")
+## 梯子攀爬速度（格/秒），刻意慢于平地移动，突出梯子的"安全但慢"
+@export var climb_speed_tiles: float = 2.0
+
+@export_category("水域")
+## 水中水平移速倍率，策划案 §二(三)：浸入减速
+@export_range(0.1, 1.0) var water_speed_multiplier: float = 0.5
+## 水中重力倍率，略小于 1 制造浮力感
+@export_range(0.1, 1.0) var water_gravity_multiplier: float = 0.6
+
 var _gravity_up: float
 var _gravity_down: float
 var _jump_velocity: float
 var _coyote_timer: float = 0.0
 var _buffer_timer: float = 0.0
 var _facing: int = 1
+
+var _interactable: Node = null # 当前可交互对象，由可交互积木注册/注销
+var _water_count: int = 0
+var _ladder_count: int = 0
+var _climbing: bool = false
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -47,28 +62,99 @@ func _recalculate_jump() -> void:
 	_jump_velocity = _gravity_up * jump_time_to_apex
 
 
+## 死亡重生：回当前房间出生点（机关状态由 MechanismBus 保留，策划案 §一）
+func die() -> void:
+	var spawn := get_tree().get_first_node_in_group(&"spawn_point") as Node2D
+	if spawn == null:
+		return
+	global_position = spawn.global_position
+	velocity = Vector2.ZERO
+	_climbing = false
+	reset_physics_interpolation()
+
+
+# ---- 积木注册接口（积木通过 is_in_group("player") 拿到本节点后调用）----
+
+func set_interactable(node: Node) -> void:
+	_interactable = node
+
+
+func clear_interactable(node: Node) -> void:
+	if _interactable == node:
+		_interactable = null
+
+
+func enter_water() -> void:
+	_water_count += 1
+	_sprite.modulate.a = 0.65
+
+
+func exit_water() -> void:
+	_water_count = maxi(0, _water_count - 1)
+	if _water_count == 0:
+		_sprite.modulate.a = 1.0
+
+
+func enter_ladder() -> void:
+	_ladder_count += 1
+
+
+func exit_ladder() -> void:
+	_ladder_count = maxi(0, _ladder_count - 1)
+	if _ladder_count == 0:
+		_climbing = false
+
+
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed(&"interact") and _interactable != null:
+		_interactable.interact()
+
 	var axis := Input.get_axis(&"move_left", &"move_right")
-	var target_speed := axis * move_speed_tiles * TILE_SIZE
+	var axis_y := Input.get_axis(&"move_up", &"move_down")
+	var in_water := _water_count > 0
+
+	# 攀爬：在梯子范围内按上下进入；跳跃或离开梯子退出
+	if not _climbing and _ladder_count > 0 and absf(axis_y) > 0.01:
+		_climbing = true
+		velocity = Vector2.ZERO
+	if _climbing:
+		if _ladder_count == 0:
+			_climbing = false
+		elif Input.is_action_just_pressed(&"jump"):
+			# 梯上跳出：给完整跳跃，便于从梯顶翻上平台
+			_climbing = false
+			velocity.y = -_jump_velocity
+		else:
+			velocity.y = axis_y * climb_speed_tiles * TILE_SIZE
+			velocity.x = 0.0
+			# 爬到底部触地且仍按下时离开攀爬
+			if is_on_floor() and axis_y > 0.01:
+				_climbing = false
+
+	var speed_multiplier := water_speed_multiplier if in_water else 1.0
+	var target_speed := axis * move_speed_tiles * TILE_SIZE * speed_multiplier
 	var rate := acceleration if absf(target_speed) > 0.01 else deceleration
 	velocity.x = move_toward(velocity.x, target_speed, rate * delta)
 
-	if is_on_floor():
-		_coyote_timer = coyote_time
-	else:
-		_coyote_timer = maxf(0.0, _coyote_timer - delta)
-		var gravity := _gravity_up if velocity.y < 0.0 else _gravity_down
-		velocity.y += gravity * delta
+	if not _climbing:
+		if is_on_floor():
+			_coyote_timer = coyote_time
+		else:
+			_coyote_timer = maxf(0.0, _coyote_timer - delta)
+			var gravity := _gravity_up if velocity.y < 0.0 else _gravity_down
+			if in_water:
+				gravity *= water_gravity_multiplier
+			velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed(&"jump"):
-		_buffer_timer = jump_buffer
-	else:
-		_buffer_timer = maxf(0.0, _buffer_timer - delta)
+		if Input.is_action_just_pressed(&"jump"):
+			_buffer_timer = jump_buffer
+		else:
+			_buffer_timer = maxf(0.0, _buffer_timer - delta)
 
-	if _buffer_timer > 0.0 and _coyote_timer > 0.0:
-		velocity.y = -_jump_velocity
-		_buffer_timer = 0.0
-		_coyote_timer = 0.0
+		if _buffer_timer > 0.0 and _coyote_timer > 0.0:
+			velocity.y = -_jump_velocity
+			_buffer_timer = 0.0
+			_coyote_timer = 0.0
 
 	if not is_zero_approx(axis):
 		_facing = 1 if axis > 0.0 else -1
@@ -79,7 +165,9 @@ func _physics_process(delta: float) -> void:
 
 
 func _update_animation() -> void:
-	if not is_on_floor():
+	if _climbing:
+		_sprite.play(&"jump")
+	elif not is_on_floor():
 		_sprite.play(&"jump")
 	elif absf(velocity.x) > 4.0:
 		_sprite.play(&"run")

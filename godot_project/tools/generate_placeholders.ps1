@@ -143,6 +143,38 @@ New-Png "statue_lamp.png" 32 32 {
     Fill-Rect $g 20 4 8 6 (Color 240 210 110)
 }
 
+# ---- 地刺 16×16 / 狮子头按钮 16×16 双态 / 宝箱开盖 32×32 ----
+New-Png "prop_spikes.png" 16 16 {
+    param($g)
+    foreach ($x in @(1, 6, 11)) {
+        $brush = New-Object System.Drawing.SolidBrush((Color 170 175 190))
+        $pts = [System.Drawing.Point[]]@(
+            (New-Object System.Drawing.Point($x, 16)),
+            (New-Object System.Drawing.Point(($x + 2), 6)),
+            (New-Object System.Drawing.Point(($x + 4), 16))
+        )
+        $g.FillPolygon($brush, $pts)
+        $brush.Dispose()
+    }
+    Fill-Rect $g 0 14 16 2 (Color 90 95 108)
+}
+New-Png "prop_button_up.png" 16 16 {
+    param($g)
+    Fill-Rect $g 2 4 12 12 (Color 96 90 84)
+    Fill-Rect $g 4 6 8 8 (Color 180 70 60)
+}
+New-Png "prop_button_down.png" 16 16 {
+    param($g)
+    Fill-Rect $g 2 4 12 12 (Color 96 90 84)
+    Fill-Rect $g 4 9 8 5 (Color 120 45 40)
+}
+New-Png "chest_wood_open.png" 32 32 {
+    param($g)
+    Fill-Rect $g 2 8 28 20 (Color 122 84 52)
+    Fill-Rect $g 2 8 28 6 (Color 40 30 24)
+    Fill-Rect $g 2 2 28 5 (Color 150 105 66)
+}
+
 # ---- 光照贴图：64×64 径向渐变（白芯透明边），供 PointLight2D 使用 ----
 New-Png "light_radial.png" 64 64 {
     param($g)

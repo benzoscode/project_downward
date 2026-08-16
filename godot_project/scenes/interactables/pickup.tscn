@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/pickup.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="shape_pickup"]
+size = Vector2(12, 12)
+
+[node name="Pickup" type="Area2D"]
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("shape_pickup")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
