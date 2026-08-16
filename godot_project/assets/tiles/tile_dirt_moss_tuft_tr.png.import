@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djaonorknnr5n"
-path="res://.godot/imported/tile_dirt_fill_tuft_top.png-faf71cf35eac278c17a6e644d0042cc6.ctex"
+uid="uid://cyhqvuf0fpstr"
+path="res://.godot/imported/tile_dirt_moss_tuft_tr.png-8160c14817381cf91c5dfb5dee34349d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/tile_dirt_fill_tuft_top.png"
-dest_files=["res://.godot/imported/tile_dirt_fill_tuft_top.png-faf71cf35eac278c17a6e644d0042cc6.ctex"]
+source_file="res://assets/tiles/tile_dirt_moss_tuft_tr.png"
+dest_files=["res://.godot/imported/tile_dirt_moss_tuft_tr.png-8160c14817381cf91c5dfb5dee34349d.ctex"]
 
 [params]
 

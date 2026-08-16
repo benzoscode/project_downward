@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d22gbaewroeim"
-path="res://.godot/imported/tile_dirt_fill_tuft_br.png-adb761be77f402f8dd59c24ddfdcf099.ctex"
+path="res://.godot/imported/tile_dirt_moss_tuft_br.png-44b42f73582888abe84fcf68bdcb8e4f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/tile_dirt_fill_tuft_br.png"
-dest_files=["res://.godot/imported/tile_dirt_fill_tuft_br.png-adb761be77f402f8dd59c24ddfdcf099.ctex"]
+source_file="res://assets/tiles/tile_dirt_moss_tuft_br.png"
+dest_files=["res://.godot/imported/tile_dirt_moss_tuft_br.png-44b42f73582888abe84fcf68bdcb8e4f.ctex"]
 
 [params]
 
