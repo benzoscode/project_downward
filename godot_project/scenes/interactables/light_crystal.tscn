@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/light_crystal.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/prop_crystal_off.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="3_glow"]
+
+[node name="LightCrystal" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.4, 0.4, 0.4, 1)
+texture = ExtResource("2_tex")
+
+[node name="Glow" type="PointLight2D" parent="."]
+visible = false
+color = Color(0.55, 0.95, 0.9, 1)
+energy = 0.8
+texture_scale = 0.8
+texture = ExtResource("3_glow")

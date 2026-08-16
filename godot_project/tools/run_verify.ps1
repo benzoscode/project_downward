@@ -7,7 +7,8 @@ param(
         "script:tools/verify/verify_player.gd",
         "script:tools/verify/verify_camera.gd",
         "tools/verify/verify_mechanisms.gd",
-        "tools/verify/verify_traversal.gd"
+        "tools/verify/verify_traversal.gd",
+        "tools/verify/verify_lighting.gd"
     )
 )
 

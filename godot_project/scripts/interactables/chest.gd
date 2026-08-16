@@ -6,6 +6,7 @@ extends Area2D
 var _opened: bool = false
 
 @onready var _sprite: Sprite2D = $Sprite2D
+@onready var _prompt: Label = $Prompt
 @onready var _tex_open: Texture2D = preload("res://assets/placeholder/chest_wood_open.png")
 
 
@@ -20,14 +21,18 @@ func interact() -> void:
 		return
 	_opened = true
 	_sprite.texture = _tex_open
+	_prompt.visible = false
 	GameState.acquire_item(item)
 
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		(body as Player).set_interactable(self)
+		if not _opened:
+			_prompt.visible = true
 
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		(body as Player).clear_interactable(self)
+		_prompt.visible = false

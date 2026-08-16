@@ -48,6 +48,12 @@ var _ladder_count: int = 0
 var _climbing: bool = false
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _ground_probe: RayCast2D = $GroundProbe
+
+
+## 是否正在攀爬（供验证脚本与调试断言）
+func is_climbing() -> bool:
+	return _climbing
 
 
 func _ready() -> void:
@@ -121,20 +127,24 @@ func _physics_process(delta: float) -> void:
 		if _ladder_count == 0:
 			_climbing = false
 		elif Input.is_action_just_pressed(&"jump"):
-			# 梯上跳出：给完整跳跃，便于从梯顶翻上平台
+			# 梯上跳出：完整跳跃 + 水平速度按当前方向输入，实现"跳+左右"跃出
 			_climbing = false
 			velocity.y = -_jump_velocity
+			velocity.x = axis * move_speed_tiles * TILE_SIZE
 		else:
 			velocity.y = axis_y * climb_speed_tiles * TILE_SIZE
 			velocity.x = 0.0
-			# 爬到底部触地且仍按下时离开攀爬
-			if is_on_floor() and axis_y > 0.01:
+			# 接近地面（探测 20px 内）按左右直接走下梯子；梯顶同理可侧向走上平台。
+			# 纯按左右在半空不会脱手。触地时若非上升中（避免起步帧误判）也退出攀爬。
+			if (is_on_floor() and axis_y >= 0.0) or (_ground_probe.is_colliding() and absf(axis) > 0.01):
 				_climbing = false
 
 	var speed_multiplier := water_speed_multiplier if in_water else 1.0
 	var target_speed := axis * move_speed_tiles * TILE_SIZE * speed_multiplier
 	var rate := acceleration if absf(target_speed) > 0.01 else deceleration
-	velocity.x = move_toward(velocity.x, target_speed, rate * delta)
+	# 攀爬中锁水平移动：只能跳+方向跃出，或在近地/平台边按左右走下
+	if not _climbing:
+		velocity.x = move_toward(velocity.x, target_speed, rate * delta)
 
 	if not _climbing:
 		if is_on_floor():

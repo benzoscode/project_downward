@@ -60,6 +60,12 @@ func _initialize() -> void:
 		quit(1)
 		return
 
+	# 遮光层：供 M2 锥形灯阴影。SDF 模式实测会把整锥光吞掉（疑与大面积实心遮光块相关），
+	# 故用多边形模式（sdf_collision=false）
+	if ts.get_occlusion_layers_count() == 0:
+		ts.add_occlusion_layer(0)
+	ts.set_occlusion_layer_sdf_collision(0, false)
+
 	for zone in ZONES:
 		var zone_id: int = zone["id"]
 		if ts.has_source(zone_id):
@@ -81,6 +87,11 @@ func _initialize() -> void:
 				td.set_collision_polygons_count(0, 1)
 				td.set_collision_polygon_points(0, 0, PackedVector2Array(
 					[Vector2(-8, -8), Vector2(8, -8), Vector2(8, 8), Vector2(-8, 8)]))
+				var occluder := OccluderPolygon2D.new()
+				occluder.closed = true
+				occluder.polygon = PackedVector2Array(
+					[Vector2(-8, -8), Vector2(8, -8), Vector2(8, 8), Vector2(-8, 8)])
+				td.set_occluder(0, occluder)
 				# 防御：曾出现写入 16 个零点的退化多边形，立即自检
 				var pts := td.get_collision_polygon_points(0, 0)
 				if pts.size() != 4 or pts[2] != Vector2(8, 8):

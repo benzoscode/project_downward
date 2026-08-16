@@ -14,3 +14,13 @@ shape = SubResource("shape_button")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_tex")
+
+[node name="Prompt" type="Label" parent="."]
+visible = false
+offset_left = -8.0
+offset_top = -26.0
+offset_right = 24.0
+offset_bottom = -14.0
+theme_override_font_sizes/font_size = 8
+text = "E"
+horizontal_alignment = 1

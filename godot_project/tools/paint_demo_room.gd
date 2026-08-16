@@ -34,7 +34,7 @@ func _initialize() -> void:
 func _paint_terrain() -> void:
 	# 地面：默认顶行苔藓边 + 下方三行填充；坑洞区域单独处理
 	for x in range(0, 120):
-		if x >= 12 and x <= 14: # 地刺坑：深 2 格
+		if x >= 12 and x <= 13: # 地刺坑：2 格宽（3格/秒×0.65s滞空≈2格跳距，3格跳不过）
 			_terrain.set_cell(Vector2i(x, 65), 1, _edge_top)
 			_terrain.set_cell(Vector2i(x, 66), 1, _fill)
 		elif x >= 18 and x <= 24: # 水池：只留底行
@@ -52,6 +52,9 @@ func _paint_terrain() -> void:
 	# 门墙：x=32，门洞下方三格留空（门占据），上方封死
 	for y in range(55, 60):
 		_terrain.set_cell(Vector2i(32, y), 1, _fill)
+	# 门墙 2：x=74（光敏水晶门）
+	for y in range(55, 60):
+		_terrain.set_cell(Vector2i(74, y), 1, _fill)
 	# 高台：x 46..56，行 57（梯子顶端平台）
 	for x in range(46, 57):
 		_terrain.set_cell(Vector2i(x, 57), 1, _edge_top)
@@ -67,7 +70,7 @@ func _place_mechanisms() -> void:
 	var mech := _room.get_node("Mechanisms")
 	var ground_y := FLOOR_TOP * 16.0
 
-	for x in [12, 13, 14]: # 地刺坑底（坑深 2 格，刺贴坑底）
+	for x in [12, 13]: # 地刺坑底（坑深 2 格，刺贴坑底）
 		_add_mech(mech, "res://scenes/interactables/spikes.tscn", Vector2(x * 16 + 8, 65 * 16 - 8))
 
 	# 水体：水池区域 7×3 格
@@ -87,6 +90,14 @@ func _place_mechanisms() -> void:
 	ladder.set("height", 7 * 16)
 	var chest := _add_mech(mech, "res://scenes/interactables/chest.tscn", Vector2(52 * 16, 57 * 16 - 16))
 	chest.set("item", &"lamp")
+
+	# 光敏水晶 → 石门 2 → 门后琥珀（需先拿灯）
+	var crystal := _add_mech(mech, "res://scenes/interactables/light_crystal.tscn", Vector2(66 * 16, ground_y - 8))
+	crystal.set("target_id", &"demo_door_2")
+	var door2 := _add_mech(mech, "res://scenes/interactables/stone_door.tscn", Vector2(74 * 16 + 8, ground_y - 24))
+	door2.set("listen_id", &"demo_door_2")
+	var gem2 := _add_mech(mech, "res://scenes/interactables/pickup.tscn", Vector2(78 * 16, ground_y - 8))
+	gem2.set("item", &"gem_amber")
 
 
 func _add_mech(parent: Node, scene_path: String, pos: Vector2) -> Node2D:
