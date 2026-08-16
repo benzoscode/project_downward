@@ -25,6 +25,7 @@ func _apply_preset(p: int) -> void:
 	_pcam.set("follow_damping", true)
 	_pcam.set("follow_damping_value", Vector2(0.15, 0.15))
 	_pcam.set("priority", 10)
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	match p:
 		1:
 			_preset_text = "1 baseline: no-interp + AUTO + snap + damp0.15"
@@ -54,6 +55,11 @@ func _apply_preset(p: int) -> void:
 			_pcam.set("priority", 0)
 			_camera.top_level = true
 			_preset_text = "6 native: interp ON + engine cam lock (NO plugin)"
+		7:
+			# 诊断：关 vsync 不限帧。fps 飙高=vsync 锁错刷新率；仍 60=外部锁帧
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+			Engine.max_fps = 0
+			_preset_text = "7 diag: vsync OFF, uncapped"
 
 
 # 根节点开关即可，子节点默认 INHERIT；同步写 ProjectSettings 让插件的抖动提示静默
@@ -84,16 +90,18 @@ func _physics_process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var key := (event as InputEventKey).keycode
-		if key >= KEY_1 and key <= KEY_6:
+		if key >= KEY_1 and key <= KEY_7:
 			_apply_preset(key - KEY_0)
 
 
 func _process(_delta: float) -> void:
-	_hud.text = "%s\nfps %d / physics %d tps / screen %.0fHz\nplayer.x %.2f  cam.x %.2f" % [
+	_hud.text = "%s\nfps %d / physics %d tps / screen %.0fHz / vsync %d / maxfps %d\nplayer.x %.2f  cam.x %.2f" % [
 		_preset_text,
 		Engine.get_frames_per_second(),
 		Engine.physics_ticks_per_second,
 		DisplayServer.screen_get_refresh_rate(),
+		DisplayServer.window_get_vsync_mode(),
+		Engine.max_fps,
 		_player.global_position.x,
 		_camera.global_position.x,
 	]
