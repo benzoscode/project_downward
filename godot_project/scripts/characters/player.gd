@@ -41,6 +41,10 @@ const TILE_SIZE := 16.0
 ## 水中重力倍率，略小于 1 制造浮力感
 @export_range(0.1, 1.0) var water_gravity_multiplier: float = 0.6
 
+@export_category("致幻（第 9 房间）")
+## 输入延迟（秒）：第 9 房间致幻机制。M6 决策：渲染延迟方案风险高，降级为输入延迟
+@export var input_delay: float = 0.0
+
 var _gravity_up: float
 var _gravity_down: float
 var _jump_velocity: float
@@ -58,6 +62,9 @@ var _ladder_count: int = 0
 var _climbing: bool = false
 ## 操控权标记（M5）：ControlManager 切换老鼠时置 false，玩家静止但保留重力
 var control_active: bool = true
+var _time: float = 0.0
+# 输入采样缓冲：[t, axis, axis_y, jump, interact]，供致幻延迟回放
+var _input_samples: Array = []
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _ground_probe: RayCast2D = $GroundProbe
@@ -127,21 +134,44 @@ func exit_ladder() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if control_active and Input.is_action_just_pressed(&"interact") and _interactable != null:
-		_interactable.interact()
-
-	var axis := Input.get_axis(&"move_left", &"move_right") if control_active else 0.0
-	var axis_y := Input.get_axis(&"move_up", &"move_down") if control_active else 0.0
+	_time += delta
+	# 采样当前输入（无操控权时记零），致幻延迟时回放 delay 秒前的采样
+	var raw := [0.0, 0.0, 0.0, 0.0]
+	if control_active:
+		raw[0] = Input.get_axis(&"move_left", &"move_right")
+		raw[1] = Input.get_axis(&"move_up", &"move_down")
+		raw[2] = 1.0 if Input.is_action_just_pressed(&"jump") else 0.0
+		raw[3] = 1.0 if Input.is_action_just_pressed(&"interact") else 0.0
+	_input_samples.append([_time, raw[0], raw[1], raw[2], raw[3]])
+	var keep_after := _time - input_delay - 0.5
+	while not _input_samples.is_empty() and _input_samples[0][0] < keep_after:
+		_input_samples.remove_at(0)
+	var eff: Array = [_time, raw[0], raw[1], raw[2], raw[3]]
+	if input_delay > 0.0:
+		var target := _time - input_delay
+		eff = [_time, 0.0, 0.0, 0.0, 0.0]
+		for s in _input_samples:
+			if s[0] <= target:
+				eff = s
+			else:
+				break
+	var axis: float = eff[1]
+	var axis_y: float = eff[2]
+	var jump_just: bool = eff[3] > 0.5
+	var interact_just: bool = eff[4] > 0.5
 	var in_water := _water_count > 0
 
+	if interact_just and _interactable != null:
+		_interactable.interact()
+
 	# 攀爬：在梯子范围内按上下进入；跳跃或离开梯子退出
-	if not _climbing and control_active and _ladder_count > 0 and absf(axis_y) > 0.01:
+	if not _climbing and _ladder_count > 0 and absf(axis_y) > 0.01:
 		_climbing = true
 		velocity = Vector2.ZERO
 	if _climbing:
 		if _ladder_count == 0:
 			_climbing = false
-		elif control_active and Input.is_action_just_pressed(&"jump"):
+		elif jump_just:
 			# 梯上跳出：完整跳跃 + 水平速度按当前方向输入，实现"跳+左右"跃出
 			_climbing = false
 			velocity.y = -_jump_velocity
@@ -174,7 +204,7 @@ func _physics_process(delta: float) -> void:
 				gravity *= water_gravity_multiplier
 			velocity.y += gravity * delta
 
-		if control_active and Input.is_action_just_pressed(&"jump"):
+		if jump_just:
 			_buffer_timer = jump_buffer
 			_press_air_time = _air_time
 		else:
