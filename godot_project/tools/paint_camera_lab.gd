@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## 生成镜头试验场：90 格长跑道（约 3 屏宽）+ 跟随镜头，配合 scripts/test/camera_lab.gd。
 ## 用法（godot_project/ 下）：
 ##   & <godot_console.exe> --headless --script tools/paint_camera_lab.gd
@@ -27,7 +27,7 @@ func _initialize() -> void:
 
 	var terrain := TileMapLayer.new()
 	terrain.name = "TileMapTerrain"
-	terrain.tile_set = load("res://assets/placeholder/tileset_cave.tres") as TileSet
+	terrain.tile_set = load("res://assets/tiles/tileset_cave.tres") as TileSet
 	lab.add_child(terrain)
 	terrain.owner = lab
 

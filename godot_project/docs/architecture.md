@@ -1,4 +1,4 @@
-# 架构总览 — 《downward》
+﻿# 架构总览 — 《downward》
 
 > 每个里程碑完成后更新本文档。当前对应里程碑：**M0 工程地基**。
 
@@ -39,7 +39,7 @@ RoomBase (Node2D) + RoomBase.gd (@tool：编辑亮 / 运行时暗)
 └── Camera2D            # 限制 0,0 ~ 1920,1080
 ```
 
-TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 块带碰撞、下行 3 块纯装饰。
+TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 块带碰撞、下行 3 块纯装饰。
 
 ## 5. 输入映射
 

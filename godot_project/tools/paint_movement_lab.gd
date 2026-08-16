@@ -1,4 +1,4 @@
-extends SceneTree
+﻿extends SceneTree
 ## 生成手感对比试验场：单屏 480×270、固定镜头、三条 identical 跑道，
 ## 三名玩家变体吃同一份输入，并排对比跳跃时间曲线（高度均保持策划案 3 格）。
 ## 用法（godot_project/ 下）：
@@ -35,7 +35,7 @@ func _initialize() -> void:
 
 	var terrain := TileMapLayer.new()
 	terrain.name = "TileMapTerrain"
-	terrain.tile_set = load("res://assets/placeholder/tileset_cave.tres") as TileSet
+	terrain.tile_set = load("res://assets/tiles/tileset_cave.tres") as TileSet
 	lab.add_child(terrain)
 	terrain.owner = lab
 

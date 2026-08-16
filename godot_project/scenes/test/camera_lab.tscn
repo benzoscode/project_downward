@@ -1,7 +1,7 @@
 [gd_scene format=4]
 
 [ext_resource type="Script" path="res://scripts/test/camera_lab.gd" id="1_gokki"]
-[ext_resource type="TileSet" path="res://assets/placeholder/tileset_cave.tres" id="2_5o1vn"]
+[ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="2_5o1vn"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="3_1t82u"]
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="4_a7151"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="5_0cimm"]
