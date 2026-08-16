@@ -98,3 +98,11 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 - 积木清单与参数：`docs/building_blocks.md`「机关积木（M3 第一批）」
 - 玩家侧能力：`die()`（回 `spawn_point` 组标记）、`set_interactable/clear_interactable`、`enter/exit_water`、`enter/exit_ladder`；积木经 `is_in_group("player")` 判定后调用
 - 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成：地刺坑 → 水池 → 按钮开门拿宝石 → 梯子开宝箱
+
+## 10. 光照系统（M2）
+
+- **玩家灯**：`player.tscn/Lamp`（`scripts/characters/lamp.gd`）：F 开关（需 `has_lamp`），60° 锥形（贴图 `light_cone.png`，顶点在图中心）、6 格射程、方向跟随鼠标；`PointLight2D.shadow_enabled` + TileSet 遮光层（实心瓦片全格 Occluder，多边形模式——SDF 模式实测异常）
+- **LightSystem**（Autoload）：`is_point_lit(point)` = 射程内 + 锥角内 + 物理射线无遮挡；供光敏水晶、M7 Boss 感知复用
+- **光敏水晶**：`scenes/interactables/light_crystal.tscn`，照射 2s 激活发 `target_id`，带充能渐亮反馈
+- **环境**：房间 `game_darkness` 0.05 + 玩家 2 格自发光（AmbientLight）
+- 已知取舍：贴地掠射的光锥会被地面自身遮光裁剪（物理合理），视觉调试能量/衰减在 Lamp 与贴图两侧

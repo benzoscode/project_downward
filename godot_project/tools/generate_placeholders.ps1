@@ -186,4 +186,54 @@ New-Png "light_radial.png" 64 64 {
     }
 }
 
+# ---- 光敏水晶 16×16 双态：熄灭（暗青）/ 激活（亮青发光）----
+New-Png "prop_crystal_off.png" 16 16 {
+    param($g)
+    $brush = New-Object System.Drawing.SolidBrush((Color 40 80 85))
+    $pts = [System.Drawing.Point[]]@(
+        (New-Object System.Drawing.Point(8, 1)),
+        (New-Object System.Drawing.Point(13, 7)),
+        (New-Object System.Drawing.Point(11, 15)),
+        (New-Object System.Drawing.Point(5, 15)),
+        (New-Object System.Drawing.Point(3, 7))
+    )
+    $g.FillPolygon($brush, $pts)
+    $brush.Dispose()
+}
+New-Png "prop_crystal_on.png" 16 16 {
+    param($g)
+    $brush = New-Object System.Drawing.SolidBrush((Color 90 230 220))
+    $pts = [System.Drawing.Point[]]@(
+        (New-Object System.Drawing.Point(8, 1)),
+        (New-Object System.Drawing.Point(13, 7)),
+        (New-Object System.Drawing.Point(11, 15)),
+        (New-Object System.Drawing.Point(5, 15)),
+        (New-Object System.Drawing.Point(3, 7))
+    )
+    $g.FillPolygon($brush, $pts)
+    $brush.Dispose()
+    Fill-Rect $g 7 4 2 8 (Color 220 255 250)
+}
+
+# ---- 锥形灯贴图：128×128，顶点在图中心（64,64），60° 锥形向 +X 展开，随距离衰减 ----
+# 供玩家照明灯 PointLight2D 使用：texture_scale = 射程px / 64
+New-Png "light_cone.png" 128 128 {
+    param($g)
+    $halfAngle = [math]::PI / 6.0 # 30°，锥形全角 60°（策划案 §二(二)1）
+    for ($y = 0; $y -lt 128; $y++) {
+        for ($x = 64; $x -lt 128; $x++) {
+            $dx = $x - 64; $dy = $y - 64
+            $dist = [math]::Sqrt($dx * $dx + $dy * $dy)
+            if ($dist -lt 1) { continue }
+            $ang = [math]::Atan2($dy, $dx)
+            if ([math]::Abs($ang) -gt $halfAngle) { continue }
+            $falloff = 1.0 - $dist / 64.0
+            $edge = 1.0 - [math]::Abs($ang) / $halfAngle # 锥缘软化
+            $alpha = [int](255 * $falloff * (0.45 + 0.55 * $edge))
+            if ($alpha -le 0) { continue }
+            $bmp.SetPixel($x, $y, [System.Drawing.Color]::FromArgb($alpha, 255, 246, 220))
+        }
+    }
+}
+
 Write-Output "完成。"

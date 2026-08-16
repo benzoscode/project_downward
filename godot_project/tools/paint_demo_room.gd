@@ -52,6 +52,9 @@ func _paint_terrain() -> void:
 	# 门墙：x=32，门洞下方三格留空（门占据），上方封死
 	for y in range(55, 60):
 		_terrain.set_cell(Vector2i(32, y), 1, _fill)
+	# 门墙 2：x=74（光敏水晶门）
+	for y in range(55, 60):
+		_terrain.set_cell(Vector2i(74, y), 1, _fill)
 	# 高台：x 46..56，行 57（梯子顶端平台）
 	for x in range(46, 57):
 		_terrain.set_cell(Vector2i(x, 57), 1, _edge_top)
@@ -87,6 +90,14 @@ func _place_mechanisms() -> void:
 	ladder.set("height", 7 * 16)
 	var chest := _add_mech(mech, "res://scenes/interactables/chest.tscn", Vector2(52 * 16, 57 * 16 - 16))
 	chest.set("item", &"lamp")
+
+	# 光敏水晶 → 石门 2 → 门后琥珀（需先拿灯）
+	var crystal := _add_mech(mech, "res://scenes/interactables/light_crystal.tscn", Vector2(66 * 16, ground_y - 8))
+	crystal.set("target_id", &"demo_door_2")
+	var door2 := _add_mech(mech, "res://scenes/interactables/stone_door.tscn", Vector2(74 * 16 + 8, ground_y - 24))
+	door2.set("listen_id", &"demo_door_2")
+	var gem2 := _add_mech(mech, "res://scenes/interactables/pickup.tscn", Vector2(78 * 16, ground_y - 8))
+	gem2.set("item", &"gem_amber")
 
 
 func _add_mech(parent: Node, scene_path: String, pos: Vector2) -> Node2D:

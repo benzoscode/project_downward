@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/player.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/char_player_idle.png" id="2_idle"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" path="res://assets/placeholder/char_player_jump.png" id="4_jump"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="5_light"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_pcam"]
+[ext_resource type="Script" path="res://scripts/characters/lamp.gd" id="7_lamp"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/light_cone.png" id="8_cone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(12, 20)
@@ -56,6 +58,15 @@ texture_scale = 1.0
 
 [node name="GroundProbe" type="RayCast2D" parent="."]
 target_position = Vector2(0, 20)
+
+[node name="Lamp" type="Node2D" parent="."]
+script = ExtResource("7_lamp")
+
+[node name="PointLight2D" type="PointLight2D" parent="Lamp"]
+color = Color(1, 0.96, 0.85, 1)
+energy = 1.6
+shadow_enabled = true
+texture = ExtResource("8_cone")
 
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
