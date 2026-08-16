@@ -63,4 +63,3 @@ follow_mode = 2
 follow_target = NodePath("..")
 follow_damping = true
 follow_damping_value = Vector2(0.15, 0.15)
-snap_to_pixel = true

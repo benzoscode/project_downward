@@ -5,7 +5,8 @@
 ## 1. 技术基础
 
 - Godot 4.7 stable，GDScript 全静态类型
-- 渲染：480×270 原生 + 整数倍缩放（viewport 拉伸 / keep / integer），Nearest 过滤，像素 snapping
+- 渲染：480×270 原生 + 整数倍缩放（viewport 拉伸 / keep / integer），Nearest 过滤；**不用像素吸附**（亚像素渲染，决策见 decisions.md 2026-08-16）
+- 物理：全局开物理插值（`physics/common/physics_interpolation=true`），相机与物理体移动在 144Hz 屏下保持平滑
 - 逻辑网格：1 格 = 16px，房间 120×67 格（1920×1080 逻辑）
 
 ## 2. 目录与职责
