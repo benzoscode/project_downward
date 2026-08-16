@@ -1,10 +1,10 @@
-[gd_resource type="TileSet" format=3]
+[gd_resource type="TileSet" format=3 uid="uid://cc3ypky6gswfh"]
 
-[ext_resource type="Texture2D" path="res://assets/placeholder/tile_terrain_atlas.png" id="1_atlas"]
-[ext_resource type="Texture2D" path="res://assets/tiles/atlas_dirt.png" id="2_ixm7m"]
-[ext_resource type="Texture2D" path="res://assets/tiles/atlas_stone.png" id="3_2m50p"]
-[ext_resource type="Texture2D" path="res://assets/decor/atlas_decor.png" id="4_cwxvb"]
-[ext_resource type="Texture2D" path="res://assets/decor/atlas_decor_32.png" id="5_qk1xc"]
+[ext_resource type="Texture2D" uid="uid://48octl4fdrkf" path="res://assets/placeholder/tile_terrain_atlas.png" id="1_atlas"]
+[ext_resource type="Texture2D" uid="uid://bnw5xajgaot8c" path="res://assets/tiles/atlas_dirt.png" id="2_ixm7m"]
+[ext_resource type="Texture2D" uid="uid://c776f4rar1a2u" path="res://assets/tiles/atlas_stone.png" id="3_2m50p"]
+[ext_resource type="Texture2D" uid="uid://oidlh0k23bkv" path="res://assets/decor/atlas_decor.png" id="4_cwxvb"]
+[ext_resource type="Texture2D" uid="uid://bq2gwc3oa0w7t" path="res://assets/decor/atlas_decor_32.png" id="5_qk1xc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cave"]
 texture = ExtResource("1_atlas")

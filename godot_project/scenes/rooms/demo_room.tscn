@@ -1,24 +1,16 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://qpyrpmtg2aue"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="1_bpbm3"]
-[ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="2_kfyv7"]
+[ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_bpbm3"]
+[ext_resource type="TileSet" uid="uid://cc3ypky6gswfh" path="res://assets/tiles/tileset_cave.tres" id="2_kfyv7"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="3_qpn7n"]
-[ext_resource type="Script" path="res://scripts/interactables/hazard_area.gd" id="4_2lcme"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/water.tscn" id="5_cxb2v"]
-[ext_resource type="Script" path="res://scripts/interactables/water.gd" id="6_pexaq"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="7_l8xld"]
-[ext_resource type="Script" path="res://scripts/interactables/lion_button.gd" id="8_jhmqb"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="9_s7f1b"]
-[ext_resource type="Script" path="res://scripts/interactables/stone_door.gd" id="10_0qfwn"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="11_jevkn"]
-[ext_resource type="Script" path="res://scripts/interactables/pickup.gd" id="12_v025i"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="13_o56y0"]
-[ext_resource type="Script" path="res://scripts/interactables/ladder.gd" id="14_0kjvr"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="15_mif7h"]
-[ext_resource type="Script" path="res://scripts/interactables/chest.gd" id="16_7jjrn"]
 [ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="17_g4x3r"]
-[ext_resource type="Script" path="res://scripts/characters/player.gd" id="18_fp3dd"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="19_secdt"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="19_secdt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
 size = Vector2(16, 48)
@@ -42,52 +34,39 @@ tile_set = ExtResource("2_kfyv7")
 
 [node name="Mechanisms" type="Node2D" parent="." unique_id=783325]
 
-[node name="Spikes" type="Area2D" parent="Mechanisms" unique_id=729247440 instance=ExtResource("3_qpn7n")]
+[node name="Spikes" parent="Mechanisms" unique_id=729247440 instance=ExtResource("3_qpn7n")]
 position = Vector2(200, 1032)
-script = ExtResource("4_2lcme")
 
-[node name="@Area2D@2" type="Area2D" parent="Mechanisms" unique_id=1031125619 instance=ExtResource("3_qpn7n")]
+[node name="@Area2D@2" parent="Mechanisms" unique_id=1031125619 instance=ExtResource("3_qpn7n")]
 position = Vector2(216, 1032)
-script = ExtResource("4_2lcme")
 
-[node name="@Area2D@3" type="Area2D" parent="Mechanisms" unique_id=1080559063 instance=ExtResource("3_qpn7n")]
-position = Vector2(232, 1032)
-script = ExtResource("4_2lcme")
-
-[node name="Water" type="Area2D" parent="Mechanisms" unique_id=2070451468 instance=ExtResource("5_cxb2v")]
+[node name="Water" parent="Mechanisms" unique_id=2070451468 instance=ExtResource("5_cxb2v")]
 position = Vector2(288, 1008)
-script = ExtResource("6_pexaq")
 size = Vector2i(112, 48)
 
-[node name="LionButton" type="Area2D" parent="Mechanisms" unique_id=1417976219 instance=ExtResource("7_l8xld")]
+[node name="LionButton" parent="Mechanisms" unique_id=1417976219 instance=ExtResource("7_l8xld")]
 position = Vector2(448, 1000)
-script = ExtResource("8_jhmqb")
 target_id = &"demo_door"
 
-[node name="StoneDoor" type="AnimatableBody2D" parent="Mechanisms" unique_id=638733969 instance=ExtResource("9_s7f1b")]
+[node name="StoneDoor" parent="Mechanisms" unique_id=638733969 instance=ExtResource("9_s7f1b")]
 position = Vector2(520, 984)
-script = ExtResource("10_0qfwn")
 listen_id = &"demo_door"
 
-[node name="Pickup" type="Area2D" parent="Mechanisms" unique_id=1943379940 instance=ExtResource("11_jevkn")]
+[node name="Pickup" parent="Mechanisms" unique_id=1943379940 instance=ExtResource("11_jevkn")]
 position = Vector2(560, 1000)
-script = ExtResource("12_v025i")
 item = &"gem_jade"
 
-[node name="Ladder" type="Area2D" parent="Mechanisms" unique_id=39292144 instance=ExtResource("13_o56y0")]
+[node name="Ladder" parent="Mechanisms" unique_id=39292144 instance=ExtResource("13_o56y0")]
 position = Vector2(720, 1008)
-script = ExtResource("14_0kjvr")
 height = 112
 
-[node name="Chest" type="Area2D" parent="Mechanisms" unique_id=446304351 instance=ExtResource("15_mif7h")]
+[node name="Chest" parent="Mechanisms" unique_id=446304351 instance=ExtResource("15_mif7h")]
 position = Vector2(832, 896)
-script = ExtResource("16_7jjrn")
 
 [node name="Characters" type="Node2D" parent="." unique_id=1072373712]
 
-[node name="Player" type="CharacterBody2D" parent="Characters" unique_id=1978242029 groups=["player"] instance=ExtResource("17_g4x3r")]
+[node name="Player" parent="Characters" unique_id=1978242029 instance=ExtResource("17_g4x3r")]
 position = Vector2(80, 996)
-script = ExtResource("18_fp3dd")
 
 [node name="Lights" type="Node2D" parent="." unique_id=1350163563]
 
@@ -101,11 +80,12 @@ position = Vector2(1904, 1048)
 shape = SubResource("RectangleShape2D_exit")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2047687833]
-position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 1920
-limit_bottom = 1080
+physics_interpolation_mode = 1
+top_level = true
+position = Vector2(80, 996)
+process_callback = 0
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=363881107]
+process_priority = 300
+process_physics_priority = 300
 script = ExtResource("19_secdt")
