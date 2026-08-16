@@ -96,5 +96,20 @@ func _run_tests() -> void:
 		"activated=%s" % c3.call("is_activated"))
 	c3.queue_free()
 
+	# T5 灯光跟随脸部朝向：向左走后灯朝左（≈π），向右回正（≈0）
+	_lamp.set("aim_locked", false)
+	Input.action_press(&"move_left")
+	await _physics_frames(10)
+	Input.action_release(&"move_left")
+	await _physics_frames(40)
+	var rot_left: float = absf(_lamp.global_rotation)
+	Input.action_press(&"move_right")
+	await _physics_frames(10)
+	Input.action_release(&"move_right")
+	await _physics_frames(40)
+	var rot_right: float = absf(_lamp.global_rotation)
+	_check("T5 灯光跟随转身", rot_left > PI - 0.3 and rot_right < 0.3,
+		"left=%.2f right=%.2f" % [rot_left, rot_right])
+
 	print("VERIFY RESULT: %d passed, %d failed" % [_passed, _failures])
 	get_tree().quit(1 if _failures > 0 else 0)
