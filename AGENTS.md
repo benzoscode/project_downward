@@ -11,7 +11,7 @@
 
 ## 2. 运行环境
 
-- 引擎可执行文件：`C:\Editors\godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe`
+- 引擎可执行文件：`C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe`
   （console 版用于捕获 stdout/stderr；无 GUI 环境一律用 `--headless`）
 - 工程根目录：`godot_project/`（即 `project.godot` 所在目录）
 - 引擎版本：Godot 4.7 stable，与 `project.godot` features 标记一致
@@ -20,9 +20,9 @@
 
 ```powershell
 # 全项目脚本静态检查（导入资源并检查脚本错误）
-& "C:\Editors\godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe" --headless --import
+& "C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe" --headless --import
 # 冒烟测试：运行指定场景 N 帧后退出，检查运行时错误
-& "C:\Editors\godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe" --headless --quit-after 60 res://scenes/rooms/room_01.tscn
+& "C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe" --headless --quit-after 60 res://scenes/rooms/room_01.tscn
 # 截图（配合 tools/ 下的截图脚本，用于人类审阅）
 ```
 

@@ -7,7 +7,7 @@ param(
 $SceneList = $Scenes -split ","
 
 $ErrorActionPreference = "Continue"
-$Godot = "C:\Editors\godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe"
+$Godot = "C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe"
 $ErrorPattern = "SCRIPT ERROR|Parse Error|Failed loading resource|Cannot load|Invalid call|Attempt to call"
 $failed = $false
 

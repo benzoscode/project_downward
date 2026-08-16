@@ -4,7 +4,7 @@ param(
     [string[]]$VerifyScripts = @("tools/verify/verify_player.gd", "tools/verify/verify_camera.gd")
 )
 
-$Godot = "C:\Editors\godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe"
+$Godot = "C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe"
 $failed = $false
 foreach ($script in $VerifyScripts) {
     Write-Output "== $script =="
