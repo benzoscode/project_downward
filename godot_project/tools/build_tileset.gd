@@ -6,8 +6,6 @@ extends SceneTree
 ## 布局变更时同步修改本脚本与 docs/building_blocks.md 的分区表。
 
 const TILESET_PATH := "res://assets/tiles/tileset_cave.tres"
-# 全格碰撞多边形（图块原点为中心，与既有占位图块一致）
-static var FULL_SQUARE := PackedVector2Array([-8, -8, 8, -8, 8, 8, -8, 8])
 
 # 每个分区：图集路径 / 单元格尺寸 / 占用格子 / 是否加碰撞
 const ZONES: Array[Dictionary] = [
@@ -80,8 +78,15 @@ func _initialize() -> void:
 		if zone["collision"]:
 			for cell: Vector2i in zone["cells"]:
 				var td := src.get_tile_data(cell, 0)
-				td.add_collision_polygon(0)
-				td.set_collision_polygon_points(0, 0, FULL_SQUARE)
+				td.set_collision_polygons_count(0, 1)
+				td.set_collision_polygon_points(0, 0, PackedVector2Array(
+					[Vector2(-8, -8), Vector2(8, -8), Vector2(8, 8), Vector2(-8, 8)]))
+				# 防御：曾出现写入 16 个零点的退化多边形，立即自检
+				var pts := td.get_collision_polygon_points(0, 0)
+				if pts.size() != 4 or pts[2] != Vector2(8, 8):
+					printerr("collision polygon write failed at ", cell)
+					quit(1)
+					return
 		print("zone %d added: %s (%d cells)" % [zone_id, zone["texture"], (zone["cells"] as Array).size()])
 
 	if ResourceSaver.save(ts, TILESET_PATH) != OK:

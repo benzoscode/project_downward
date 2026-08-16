@@ -3,7 +3,51 @@
 > 面向策划：每个积木是 `scenes/interactables/` 下的独立场景，拖入房间即可用。
 > 通用规则：可调参数都在 Inspector（@export）；机关间关联用 `door_id` 等字符串 ID，不拖节点引用。
 
-（M3/M6 里程碑交付积木后逐个补充：用途、参数表、连线方式、截图）
+（M6 里程碑交付积木后逐个补充：用途、参数表、连线方式、截图）
+
+## 机关积木（M3 第一批）
+
+> 联动规则：触发源设 `target_id`、接收方设 `listen_id`，同名即联动；可一对多。
+> 机关状态存在 MechanismBus 单例里，玩家死亡重生后机关保持原状态（策划案 §一）。
+
+### spikes.tscn 地刺
+
+- **用途**：触碰即死，玩家回房间出生点。
+- **放置**： origin 在瓦片中心，贴地放（刺高半格）。
+- **参数**：无。
+
+### lion_button.tscn 狮子头按钮
+
+- **用途**：玩家靠近按 E 触发，广播 `target_id`。
+- **参数**：`target_id`（联动 ID）；`one_shot`（true=一次性，false=开关切换）。
+- **交互范围**：28×20，可跨 1 格多触发。
+
+### stone_door.tscn 石门
+
+- **用途**：监听 `listen_id` 开/关（向上滑入动画 0.4s）。
+- **参数**：`listen_id`；`start_open`（常开门，信号反转）；`tween_duration`。
+- **尺寸**：32×48（2×3 格），origin 在门中心。
+
+### pickup.tscn 道具拾取物
+
+- **用途**：触碰即获得，写入 GameState。
+- **参数**：`item` = `lamp`/`boots`/`whistle`/`gem_jade`/`gem_amber`/`gem_violet`，图标自动匹配。
+
+### chest.tscn 宝箱
+
+- **用途**：E 开启发放道具（一次性），开盖换图。
+- **参数**：`item`（同上）。
+
+### water.tscn 水体
+
+- **用途**：浸入减速 50% + 半透明；编辑器内直接拖 `size`。
+- **参数**：`size`（px，origin 左上角）；玩家侧 `water_speed_multiplier`/`water_gravity_multiplier` 可调。
+
+### ladder.tscn 梯子
+
+- **用途**：范围内按 W/S（move_up/down）攀爬，空格翻出（完整跳跃）。
+- **参数**：`height`（px，origin 在底部，向上延伸）；搭建时顶端高出平台半格以上便于翻越。
+
 
 ## 模板
 
