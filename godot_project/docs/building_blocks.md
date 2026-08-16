@@ -25,7 +25,7 @@
 ### stone_door.tscn 石门
 
 - **用途**：监听 `listen_id` 开/关（向上滑入动画 0.4s）。
-- **参数**：`listen_id`；`start_open`（常开门，信号反转）；`tween_duration`。
+- **参数**：`listen_id`；`start_open`（常开门，信号反转）；`tween_duration`；`tint`（门面调色，用于区分开启方式，如水晶门青色）
 - **尺寸**：32×48（2×3 格），origin 在门中心。
 
 ### pickup.tscn 道具拾取物
