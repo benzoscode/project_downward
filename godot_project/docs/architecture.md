@@ -23,6 +23,9 @@
 |---|---|
 | `GameState` | 道具持有（灯/靴/哨/三宝石）、当前房间、检查点位置；发 `item_acquired` / `checkpoint_updated` 信号 |
 | `MechanismBus` | 机关通信总线：`trigger/release/is_triggered` + `triggered/released` 信号；机关状态跨重生保留（decisions.md 2026-08-16） |
+| `LightSystem` | 光照判定：`is_point_lit(point)`（射程+锥角+物理射线），供水晶/Boss 复用 |
+| `ControlManager` | 双体控制（M5）：Q 召唤/收回、R 切换、老鼠死亡 5s 冷却、pcam 优先级切换 |
+| `HUD` | 占位 UI：道具获取弹窗 + 持有图标栏（M10 重做） |
 
 ## 4. 房间模板（room_base.tscn）节点树
 
@@ -88,6 +91,10 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 | `tools/verify/verify_camera.gd` | 相机被 PhantomCamera 接管、收敛到玩家 ±6px |
 | `tools/verify/verify_mechanisms.gd` | 按钮→总线→门开关、一次性按钮、拾取物、宝箱 |
 | `tools/verify/verify_traversal.gd` | 水中减速/半透明、梯子攀爬与跳出、触刺重生、死后机关状态保留 |
+| `tools/verify/verify_lighting.gd` | 水晶 2s 激活 / 遮挡不激活 / 关灯不激活 / 超程不激活 |
+| `tools/verify/verify_double_jump.gd` | M4：无靴 3 格 / 有靴 5 格 / 0.2s 窗口 / 重置水平速度 |
+| `tools/verify/verify_mouse.gd` | M5：召唤/切换/相机/窄缝/0.8s 延迟/双档压力板/死亡冷却/收回（11 项） |
+| `tools/verify/verify_mechanisms2.gd` | M6：交替平台/摇杆平台/双按钮门/滞后/草丛/顺序机关/虚空平台/玩家输入延迟 |
 | `tools/verify/verify_tileset.gd` | TileSet 五分区、碰撞配置、32px 装饰格 |
 
 运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）。需要 Autoload 的验证走 `scenes/test/verify_host.tscn` 宿主（`--script` 模式无 Autoload）。
@@ -106,3 +113,16 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 - **光敏水晶**：`scenes/interactables/light_crystal.tscn`，照射 2s 激活发 `target_id`，带充能渐亮反馈
 - **环境**：房间 `game_darkness` 0.05 + 玩家 2 格自发光（AmbientLight）
 - 已知取舍：贴地掠射的光锥会被地面自身遮光裁剪（物理合理），视觉调试能量/衰减在 Lamp 与贴图两侧
+
+## 11. 双体与能力（M4/M5）
+
+- **碰撞分层**：地形/门=层1、玩家=层2、老鼠=层3（值4）；交互区 `collision_mask=6`（2|4）同时感知两者，人鼠互不碰撞
+- **老鼠**：`scenes/characters/mouse.tscn`（class Mouse），5.2 格/秒、2+1.5 格跳、6×6 判定、`input_delay` 采样回放实现
+- **操控切换**：ControlManager 管召唤/收回/切换/冷却；玩家与老鼠各有 `control_active` 门控输入；相机靠老鼠自带 pcam 的优先级（11 压过玩家 10）
+- **二段跳**：player.gd，`has_boots` 门槛、0.2s 防误触（按按键时刻判定）、重置空中水平速度
+- **玩家致幻输入延迟**：`player.input_delay`（采样回放，与老鼠同构）
+
+## 12. 机关积木二批（M6）
+
+交替平台 / 摇杆平台 / 双按钮门 / 滞后组件 / 草丛光透 / 水滴顺序机关（color_button + sequence_controller，组 `seq_<id>` 注册）/ 虚空平台。手册见 building_blocks.md。
+综合试验场：`scenes/test/mechanism_lab.tscn`（由 tools/paint_mechanism_lab.gd 生成），长跑道串联全部能力。
