@@ -93,9 +93,9 @@ func _initialize() -> void:
 		printerr("pack failed")
 		quit(1)
 		return
-	if ResourceSaver.save(packed, "res://scenes/rooms/movement_lab.tscn") != OK:
+	if ResourceSaver.save(packed, "res://scenes/test/movement_lab.tscn") != OK:
 		printerr("save failed")
 		quit(1)
 		return
-	print("movement lab saved: res://scenes/rooms/movement_lab.tscn")
+	print("movement lab saved: res://scenes/test/movement_lab.tscn")
 	quit(0)
