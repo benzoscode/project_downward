@@ -54,6 +54,9 @@ energy = 1.2
 texture = ExtResource("5_light")
 texture_scale = 1.0
 
+[node name="GroundProbe" type="RayCast2D" parent="."]
+target_position = Vector2(0, 20)
+
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
 top_level = true

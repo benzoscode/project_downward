@@ -9,6 +9,7 @@ extends Area2D
 var _pressed: bool = false
 
 @onready var _sprite: Sprite2D = $Sprite2D
+@onready var _prompt: Label = $Prompt
 @onready var _tex_up: Texture2D = preload("res://assets/placeholder/prop_button_up.png")
 @onready var _tex_down: Texture2D = preload("res://assets/placeholder/prop_button_down.png")
 
@@ -32,13 +33,18 @@ func interact() -> void:
 	else:
 		MechanismBus.release(target_id)
 	_sprite.texture = _tex_down if _pressed else _tex_up
+	if one_shot and _pressed:
+		_prompt.visible = false
 
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		(body as Player).set_interactable(self)
+		if not (one_shot and _pressed):
+			_prompt.visible = true
 
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		(body as Player).clear_interactable(self)
+		_prompt.visible = false

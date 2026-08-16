@@ -12,6 +12,7 @@ const WIDTH := 16
 
 @onready var _collision: CollisionShape2D = $CollisionShape2D
 @onready var _visual: ColorRect = $ColorRect
+@onready var _prompt: Label = $Prompt
 
 
 func _ready() -> void:
@@ -33,13 +34,17 @@ func _apply_size() -> void:
 	_collision.position = Vector2(WIDTH * 0.5, -height * 0.5)
 	_visual.size = Vector2(WIDTH, height)
 	_visual.position = Vector2(0, -height)
+	_prompt.offset_top = -height - 12.0
+	_prompt.offset_bottom = -height
 
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		(body as Player).enter_ladder()
+		_prompt.visible = true
 
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		(body as Player).exit_ladder()
+		_prompt.visible = false

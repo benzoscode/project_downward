@@ -119,6 +119,22 @@ func _run_tests() -> void:
 	await get_tree().physics_frame
 	_check("T4 梯上跳出", _player.velocity.y < -150.0,
 		"vy=%.1f，期望 <-150" % _player.velocity.y)
+
+	# T7 接近梯底可按左右提前走下（不用爬到底）
+	_player.position = Vector2(600, SURFACE_Y - 10.0)
+	_player.velocity = Vector2.ZERO
+	_player.reset_physics_interpolation()
+	await _settle()
+	Input.action_press(&"move_up")
+	await _physics_frames(12) # 只爬离地面几像素
+	Input.action_release(&"move_up")
+	await get_tree().physics_frame
+	Input.action_press(&"move_left")
+	await _physics_frames(15)
+	Input.action_release(&"move_left")
+	var walked_off: bool = _player.position.x < 595.0
+	_check("T7 梯底提前侧走下梯", walked_off,
+		"x=%.1f，期望 <595" % _player.position.x)
 	ladder.queue_free()
 
 	# T5 地刺致死重生 + T6 机关状态保留
