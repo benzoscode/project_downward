@@ -89,10 +89,8 @@ func _initialize() -> void:
 					[Vector2(-8, -8), Vector2(8, -8), Vector2(8, 8), Vector2(-8, 8)]))
 				var occluder := OccluderPolygon2D.new()
 				occluder.closed = true
-				# 遮光体内缩 1px：全格遮光会让瓦片表面像素永远处于阴影（地面照不亮）；
-				# 内缩后表面受光、光线仍穿不过实体块，仅角落漏光 <1px
 				occluder.polygon = PackedVector2Array(
-					[Vector2(-7, -7), Vector2(7, -7), Vector2(7, 7), Vector2(-7, 7)])
+					[Vector2(-8, -8), Vector2(8, -8), Vector2(8, 8), Vector2(-8, 8)])
 				td.set_occluder(0, occluder)
 				# 防御：曾出现写入 16 个零点的退化多边形，立即自检
 				var pts := td.get_collision_polygon_points(0, 0)
