@@ -7,12 +7,15 @@ extends AnimatableBody2D
 @export var start_open: bool = false
 ## 开门动画时长（秒）
 @export var tween_duration: float = 0.4
+## 门面着色：用于区分开启方式不同的门（如水晶门调青色）
+@export var tint: Color = Color.WHITE
 
 var _is_open: bool = false
 var _closed_y: float
 var _tween: Tween = null
 
 @onready var _collision: CollisionShape2D = $CollisionShape2D
+@onready var _sprite: Sprite2D = $Sprite2D
 
 
 func is_open() -> bool:
@@ -20,6 +23,7 @@ func is_open() -> bool:
 
 
 func _ready() -> void:
+	_sprite.modulate = tint
 	_closed_y = position.y
 	MechanismBus.triggered.connect(_on_triggered)
 	MechanismBus.released.connect(_on_released)

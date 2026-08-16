@@ -96,6 +96,7 @@ func _place_mechanisms() -> void:
 	crystal.set("target_id", &"demo_door_2")
 	var door2 := _add_mech(mech, "res://scenes/interactables/stone_door.tscn", Vector2(74 * 16 + 8, ground_y - 24))
 	door2.set("listen_id", &"demo_door_2")
+	door2.set("tint", Color(0.55, 0.95, 0.9)) # 青色：提示由光敏水晶开启
 	var gem2 := _add_mech(mech, "res://scenes/interactables/pickup.tscn", Vector2(78 * 16, ground_y - 8))
 	gem2.set("item", &"gem_amber")
 
