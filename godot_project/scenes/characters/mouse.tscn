@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/mouse.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/char_mouse_idle.png" id="2_tex"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="3_pcam"]
+
+[sub_resource type="RectangleShape2D" id="shape_mouse"]
+size = Vector2(6, 6)
+
+[node name="Mouse" type="CharacterBody2D" groups=["mouse"]]
+collision_layer = 4
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("shape_mouse")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
+
+[node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+unique_name_in_owner = true
+top_level = true
+script = ExtResource("3_pcam")
+priority = 0
+follow_mode = 2
+follow_target = NodePath("..")
+follow_damping = true
+follow_damping_value = Vector2(0.15, 0.15)

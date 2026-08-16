@@ -56,6 +56,8 @@ var _interactable: Node = null # 当前可交互对象，由可交互积木注�
 var _water_count: int = 0
 var _ladder_count: int = 0
 var _climbing: bool = false
+## 操控权标记（M5）：ControlManager 切换老鼠时置 false，玩家静止但保留重力
+var control_active: bool = true
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _ground_probe: RayCast2D = $GroundProbe
@@ -68,6 +70,7 @@ func is_climbing() -> bool:
 
 func _ready() -> void:
 	_recalculate_jump()
+	ControlManager.register_player(self)
 
 
 ## 由"跳跃高度 + 到顶点时间"反推重力与初速度，策划只调直觉参数
@@ -124,21 +127,21 @@ func exit_ladder() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed(&"interact") and _interactable != null:
+	if control_active and Input.is_action_just_pressed(&"interact") and _interactable != null:
 		_interactable.interact()
 
-	var axis := Input.get_axis(&"move_left", &"move_right")
-	var axis_y := Input.get_axis(&"move_up", &"move_down")
+	var axis := Input.get_axis(&"move_left", &"move_right") if control_active else 0.0
+	var axis_y := Input.get_axis(&"move_up", &"move_down") if control_active else 0.0
 	var in_water := _water_count > 0
 
 	# 攀爬：在梯子范围内按上下进入；跳跃或离开梯子退出
-	if not _climbing and _ladder_count > 0 and absf(axis_y) > 0.01:
+	if not _climbing and control_active and _ladder_count > 0 and absf(axis_y) > 0.01:
 		_climbing = true
 		velocity = Vector2.ZERO
 	if _climbing:
 		if _ladder_count == 0:
 			_climbing = false
-		elif Input.is_action_just_pressed(&"jump"):
+		elif control_active and Input.is_action_just_pressed(&"jump"):
 			# 梯上跳出：完整跳跃 + 水平速度按当前方向输入，实现"跳+左右"跃出
 			_climbing = false
 			velocity.y = -_jump_velocity
@@ -171,7 +174,7 @@ func _physics_process(delta: float) -> void:
 				gravity *= water_gravity_multiplier
 			velocity.y += gravity * delta
 
-		if Input.is_action_just_pressed(&"jump"):
+		if control_active and Input.is_action_just_pressed(&"jump"):
 			_buffer_timer = jump_buffer
 			_press_air_time = _air_time
 		else:

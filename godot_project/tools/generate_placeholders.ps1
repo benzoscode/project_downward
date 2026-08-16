@@ -251,4 +251,16 @@ New-Png "bg_cave.png" 480 270 {
     }
 }
 
+# ---- 压力板：小型 8×4（仅老鼠）/ 大型 16×4（人鼠皆可）----
+New-Png "prop_plate_small.png" 8 4 {
+    param($g)
+    Fill-Rect $g 0 1 8 3 (Color 120 90 130)
+    Fill-Rect $g 1 0 6 1 (Color 170 130 185)
+}
+New-Png "prop_plate_large.png" 16 4 {
+    param($g)
+    Fill-Rect $g 0 1 16 3 (Color 120 90 130)
+    Fill-Rect $g 1 0 14 1 (Color 170 130 185)
+}
+
 Write-Output "完成。"
