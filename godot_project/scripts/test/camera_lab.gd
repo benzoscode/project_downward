@@ -30,6 +30,8 @@ func _apply_preset(p: int) -> void:
 	_pcam.set("follow_damping_value", Vector2(0.15, 0.15))
 	_pcam.set("priority", 10)
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	ProjectSettings.set_setting("rendering/2d/snap/snap_2d_transforms_to_pixel", true)
+	ProjectSettings.set_setting("rendering/2d/snap/snap_2d_vertices_to_pixel", true)
 	match p:
 		1:
 			_preset_text = "1 baseline: no-interp + AUTO + snap + damp0.15"
@@ -64,6 +66,15 @@ func _apply_preset(p: int) -> void:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 			Engine.max_fps = 0
 			_preset_text = "7 diag: vsync OFF, uncapped"
+		8:
+			# 亚像素方案：吸附全关 + 插值 + 原生相机硬锁，角色允许半像素渲染
+			_set_interpolation(true)
+			_pcam.set("priority", 0)
+			_pcam.set("snap_to_pixel", false)
+			_camera.top_level = true
+			ProjectSettings.set_setting("rendering/2d/snap/snap_2d_transforms_to_pixel", false)
+			ProjectSettings.set_setting("rendering/2d/snap/snap_2d_vertices_to_pixel", false)
+			_preset_text = "8 subpixel: interp ON + ALL snap OFF + native cam"
 
 
 # 根节点开关即可，子节点默认 INHERIT；同步写 ProjectSettings 让插件的抖动提示静默
@@ -86,15 +97,15 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	# 预设 6：插件已退场，由本脚本在物理帧驱动相机（引擎负责渲染插值）
-	if _preset == 6:
+	# 预设 6/8：插件已退场，由本脚本在物理帧驱动相机（引擎负责渲染插值）
+	if _preset == 6 or _preset == 8:
 		_camera.global_position = _player.global_position
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var key := (event as InputEventKey).keycode
-		if key >= KEY_1 and key <= KEY_7:
+		if key >= KEY_1 and key <= KEY_8:
 			_apply_preset(key - KEY_0)
 		elif key == KEY_F1:
 			_dump_log()
