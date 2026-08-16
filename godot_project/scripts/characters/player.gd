@@ -56,11 +56,6 @@ func is_climbing() -> bool:
 	return _climbing
 
 
-## 当前脸部朝向：1 右 / -1 左（供灯光等子节点跟随）
-func get_facing() -> int:
-	return _facing
-
-
 func _ready() -> void:
 	_recalculate_jump()
 

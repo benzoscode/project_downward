@@ -6,13 +6,11 @@ extends Node2D
 @export var range_tiles: float = 6.0
 ## 锥形半角（度），全角 60°
 @export var cone_half_angle_deg: float = 30.0
-## 转向响应时间（秒）：越小转身时灯光跟随越快
-@export var turn_duration: float = 0.12
 
 var lamp_on: bool = false
 var range_px: float
 var half_angle: float
-## 验证脚本用：锁定瞄准点后不再跟随朝向
+## 验证脚本用：锁定瞄准点后不再跟随鼠标
 var aim_locked: bool = false
 
 @onready var _light: PointLight2D = $PointLight2D
@@ -31,15 +29,12 @@ func _exit_tree() -> void:
 	LightSystem.unregister_lamp(self)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed(&"toggle_lamp") and GameState.has_lamp:
 		lamp_on = not lamp_on
 		_light.visible = lamp_on
 	if not aim_locked:
-		# 灯光跟随角色脸部朝向，转身时平滑转向
-		var target_angle := 0.0 if (get_parent() as Player).get_facing() > 0 else PI
-		global_rotation = lerp_angle(global_rotation, target_angle,
-			1.0 - exp(-delta / turn_duration))
+		global_rotation = (get_global_mouse_position() - global_position).angle()
 
 
 ## 验证脚本：锁定瞄准到指定世界坐标
