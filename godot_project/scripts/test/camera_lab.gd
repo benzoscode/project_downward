@@ -12,6 +12,10 @@ extends Node2D
 var _preset: int = 1
 var _preset_text: String = ""
 
+# 逐帧记录（环形缓冲 600 帧 ≈ 10s）：F1 导出 CSV 供抖动模式分析
+const LOG_CAPACITY := 600
+var _log: Array[PackedFloat64Array] = []
+
 # host 的 interpolation_mode 枚举（插件定义）
 const HOST_AUTO := 0
 const HOST_IDLE := 1
@@ -92,10 +96,34 @@ func _unhandled_input(event: InputEvent) -> void:
 		var key := (event as InputEventKey).keycode
 		if key >= KEY_1 and key <= KEY_7:
 			_apply_preset(key - KEY_0)
+		elif key == KEY_F1:
+			_dump_log()
+
+
+func _dump_log() -> void:
+	var path := ProjectSettings.globalize_path("res://tools/out/jitter_log.csv")
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		printerr("cannot write log: ", error_string(FileAccess.get_open_error()))
+		return
+	file.store_line("frame,time_ms,dt_ms,player_x,cam_x,diff_x")
+	for i in _log.size():
+		var r := _log[i]
+		file.store_line("%d,%.3f,%.3f,%.4f,%.4f,%.4f" % [i, r[0], r[1], r[2], r[3], r[4]])
+	file.close()
+	print("jitter log saved: ", path)
 
 
 func _process(_delta: float) -> void:
-	_hud.text = "%s\nfps %d / physics %d tps / screen %.0fHz / vsync %d / maxfps %d\nplayer.x %.2f  cam.x %.2f" % [
+	var player_x := _player.global_position.x
+	var cam_x := _camera.global_position.x
+	if _log.size() >= LOG_CAPACITY:
+		_log.remove_at(0)
+	var prev_time: float = _log[-1][0] if not _log.is_empty() else 0.0
+	var now := Time.get_ticks_msec() / 1000.0
+	_log.append([now * 1000.0, (now * 1000.0 - prev_time) if prev_time > 0.0 else 0.0,
+		player_x, cam_x, player_x - cam_x])
+	_hud.text = "%s\nfps %d / physics %d tps / screen %.0fHz / vsync %d / maxfps %d\nplayer.x %.2f  cam.x %.2f  [F1] dump log" % [
 		_preset_text,
 		Engine.get_frames_per_second(),
 		Engine.physics_ticks_per_second,
