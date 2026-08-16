@@ -5,6 +5,57 @@
 
 （M6 里程碑交付积木后逐个补充：用途、参数表、连线方式、截图）
 
+## 角色积木（M5）
+
+### mouse.tscn 老鼠（scenes/characters/）
+
+- **操控**：Q 召唤/收回（需召唤哨），R 切换操控（玩家静止、相机切换、切回老鼠停留原地）
+- **参数**：`input_delay`（秒）——第 9 房间 0.8s 延迟机制，默认 0
+- **注意**：人鼠碰撞层分离（玩家层2/老鼠层3），互不推挤；地刺对老鼠致死并进 5s 冷却
+
+### pressure_plate.tscn 压力板
+
+- **用途**：踩下触发 `target_id`，离开解除。
+- **参数**：`mouse_only`（true=小型仅老鼠 / false=大型人鼠皆可）。
+
+## 机关积木（M6 第二批）
+
+### alternating_platform.tscn 交替平台
+
+- **用途**：A/B 两组按周期交替显隐（半透明+撤碰撞），全房间时间同步。
+- **参数**：`period`（秒，每组各亮一半）；`group_b`（false=A 先亮）。
+
+### lever_platform.tscn 摇杆平台
+
+- **用途**：玩家在摇杆旁**按住 E**，平台沿 `move_offset` 移动；松开后在终点停留 `dwell_time` 再复位。编辑器内虚线显示路径。
+- **参数**：`move_offset`（px）；`move_speed`（px/秒）；`dwell_time`（默认 0.5s，难度调节项）。
+
+### dual_button_door.tscn 双按钮门
+
+- **用途**：`listen_ids` **全部**触发才开门；任一解除后延迟 `close_delay` 秒关闭（琥珀色门面区分）。
+- **参数**：`listen_ids`（数组）；`close_delay`（默认 2s）。
+
+### trigger_relay.tscn 滞后组件
+
+- **用途**：`input_id` 触发后延迟 `delay` 秒才触发 `output_id`（如石桥延迟升起）；解除立即传递。纯逻辑无视觉。
+
+### grass_cover.tscn 草丛光透
+
+- **用途**：灯光照到变透明，显露隐藏通道；纯视觉无碰撞（秘密通道本来就能走）。
+
+### color_button.tscn + sequence_controller.tscn 水滴顺序机关
+
+- **用途**：彩按钮按 `expected` 顺序按下 → 广播 `target_id`；按错进度清零。
+- **连线**：按钮设 `sequence_id` + `color_id`；控制器设同名 `sequence_id`、`expected`（颜色数组）、`target_id`。
+
+### fake_platform.tscn 虚空平台
+
+- **用途**：看着是平台、踩上直接穿过（无碰撞），第 9 房间幻觉主题教学件。
+
+### 玩家致幻参数
+
+- `player.input_delay`（秒）：第 9 房间输入延迟。**决策记录**：渲染延迟方案风险过高，按里程碑预案降级为输入延迟。
+
 ## 机关积木（M3 第一批）
 
 > 联动规则：触发源设 `target_id`、接收方设 `listen_id`，同名即联动；可一对多。
@@ -39,7 +90,6 @@
 - **参数**：`item`（同上）。
 
 ### light_crystal.tscn 光敏水晶（M2）
-
 - **用途**：被玩家锥形灯持续照射 2 秒激活，广播 `target_id`；激活后常亮并发光。
 - **参数**：`target_id`（联动 ID）；`charge_time`（默认 2.0s，策划案 §二(二)1）。
 - **判定**：经 LightSystem（射程 6 格内 + 锥角内 + 射线无遮挡），石柱/墙体挡光有效。

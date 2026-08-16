@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/alternating_platform.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/prop_platform_red.png" id="2_red"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/prop_platform_green.png" id="3_green"]
+
+[sub_resource type="RectangleShape2D" id="shape_platform"]
+size = Vector2(48, 8)
+
+[node name="AlternatingPlatform" type="AnimatableBody2D"]
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(24, 4)
+shape = SubResource("shape_platform")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+centered = false
+texture = ExtResource("2_red")

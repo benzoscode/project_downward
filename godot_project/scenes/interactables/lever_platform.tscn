@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/lever_platform.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/prop_lever.png" id="2_lever"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/prop_platform_green.png" id="3_platform"]
+
+[sub_resource type="RectangleShape2D" id="shape_lever"]
+size = Vector2(24, 24)
+
+[sub_resource type="RectangleShape2D" id="shape_platform"]
+size = Vector2(48, 8)
+
+[node name="LeverPlatform" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="LeverArea" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeverArea"]
+shape = SubResource("shape_lever")
+
+[node name="Sprite2D" type="Sprite2D" parent="LeverArea"]
+texture = ExtResource("2_lever")
+
+[node name="Platform" type="AnimatableBody2D" parent="."]
+position = Vector2(64, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+shape = SubResource("shape_platform")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platform"]
+centered = false
+position = Vector2(-24, -4)
+texture = ExtResource("3_platform")

@@ -8,7 +8,10 @@ param(
         "script:tools/verify/verify_camera.gd",
         "tools/verify/verify_mechanisms.gd",
         "tools/verify/verify_traversal.gd",
-        "tools/verify/verify_lighting.gd"
+        "tools/verify/verify_lighting.gd",
+        "tools/verify/verify_double_jump.gd",
+        "tools/verify/verify_mouse.gd",
+        "tools/verify/verify_mechanisms2.gd"
     )
 )
 

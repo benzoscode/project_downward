@@ -251,4 +251,46 @@ New-Png "bg_cave.png" 480 270 {
     }
 }
 
+# ---- 压力板：小型 8×4（仅老鼠）/ 大型 16×4（人鼠皆可）----
+New-Png "prop_plate_small.png" 8 4 {
+    param($g)
+    Fill-Rect $g 0 1 8 3 (Color 120 90 130)
+    Fill-Rect $g 1 0 6 1 (Color 170 130 185)
+}
+New-Png "prop_plate_large.png" 16 4 {
+    param($g)
+    Fill-Rect $g 0 1 16 3 (Color 120 90 130)
+    Fill-Rect $g 1 0 14 1 (Color 170 130 185)
+}
+
+# ---- M6：交替平台 48×8 双色 / 摇杆 16×16 / 草丛 16×16 / 彩色按钮 16×16（白底供调色） ----
+New-Png "prop_platform_red.png" 48 8 {
+    param($g)
+    Fill-Rect $g 0 0 48 8 (Color 150 60 55)
+    Fill-Rect $g 0 0 48 2 (Color 200 95 85)
+}
+New-Png "prop_platform_green.png" 48 8 {
+    param($g)
+    Fill-Rect $g 0 0 48 8 (Color 70 140 75)
+    Fill-Rect $g 0 0 48 2 (Color 110 190 115)
+}
+New-Png "prop_lever.png" 16 16 {
+    param($g)
+    Fill-Rect $g 3 10 10 5 (Color 90 88 96)
+    Fill-Rect $g 7 4 2 8 (Color 150 145 130)
+    Fill-Rect $g 5 2 6 4 (Color 200 80 70)
+}
+New-Png "prop_grass.png" 16 16 {
+    param($g)
+    Fill-Rect $g 1 6 3 10 (Color 60 110 60)
+    Fill-Rect $g 5 3 3 13 (Color 75 130 70)
+    Fill-Rect $g 9 5 3 11 (Color 60 110 60)
+    Fill-Rect $g 12 8 3 8 (Color 85 145 80)
+}
+New-Png "prop_button_color.png" 16 16 {
+    param($g)
+    Fill-Rect $g 2 4 12 12 (Color 96 90 84)
+    Fill-Rect $g 4 6 8 8 (Color 235 235 235)
+}
+
 Write-Output "完成。"
