@@ -24,6 +24,7 @@ func _apply_preset(p: int) -> void:
 	_pcam.set("snap_to_pixel", true)
 	_pcam.set("follow_damping", true)
 	_pcam.set("follow_damping_value", Vector2(0.15, 0.15))
+	_pcam.set("priority", 10)
 	match p:
 		1:
 			_preset_text = "1 baseline: no-interp + AUTO + snap + damp0.15"
@@ -47,6 +48,12 @@ func _apply_preset(p: int) -> void:
 			# 对照组：硬锁定无阻尼，相机=目标位置。仍抖则查 vsync/帧 pacing
 			_pcam.set("follow_damping", false)
 			_preset_text = "5 control: glued, no damp, no interp"
+		6:
+			# 对照组：完全绕过插件，原生相机物理帧硬锁 + 引擎插值
+			_set_interpolation(true)
+			_pcam.set("priority", 0)
+			_camera.top_level = true
+			_preset_text = "6 native: interp ON + engine cam lock (NO plugin)"
 
 
 # 根节点开关即可，子节点默认 INHERIT；同步写 ProjectSettings 让插件的抖动提示静默
@@ -68,10 +75,16 @@ func _ready() -> void:
 	_apply_preset(1)
 
 
+func _physics_process(_delta: float) -> void:
+	# 预设 6：插件已退场，由本脚本在物理帧驱动相机（引擎负责渲染插值）
+	if _preset == 6:
+		_camera.global_position = _player.global_position
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		var key := (event as InputEventKey).keycode
-		if key >= KEY_1 and key <= KEY_5:
+		if key >= KEY_1 and key <= KEY_6:
 			_apply_preset(key - KEY_0)
 
 
