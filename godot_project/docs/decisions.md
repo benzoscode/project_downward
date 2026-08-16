@@ -22,3 +22,9 @@
 - **决策**：关闭 `rendering/2d/snap/*` 全局吸附与 pcam `snap_to_pixel`，允许半像素渲染；全局开启 `physics/common/physics_interpolation`（Phantom Camera 官方推荐配置，引擎会把 Camera2D 强制为物理回调并自行插值）。
 - **代价**：半像素位置下 Nearest 采样有轻微 shimmer，现代像素游戏的普遍取舍（Celeste/Dead Cells 同方案）。
 - **附带结论**：相机继续用 Phantom Camera 插件，不自写；其像素吸附功能有已知未解决问题（插件 issue #445），本项目不再使用。
+
+## 2026-08-16 机关通信协议：Autoload 总线 + StringName ID
+
+- **背景**：按钮→门等机关联动需要解耦；AGENTS.md §5 禁止跨场景节点直引，§6 要求策划拖积木改 ID 即可连线。
+- **决策**：`MechanismBus` 单例提供 `trigger(id)`/`release(id)`/`is_triggered(id)` 与 `triggered`/`released` 信号；触发源 `@export target_id`，接收方 `@export listen_id`。机关状态存于总线，死亡/重生不重置（策划案 §一）。
+- **备选否决**：房间级注册表（房间切换时状态归属复杂）；节点路径导出（违反 §5）。
