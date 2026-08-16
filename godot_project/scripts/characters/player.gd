@@ -25,6 +25,12 @@ const TILE_SIZE := 16.0
 ## 跳跃缓冲（秒）：落地前提前按跳也生效的宽限
 @export var jump_buffer: float = 0.1
 
+@export_category("二段跳（羽翎靴）")
+## 二段跳高度（格），策划案 §二(二)2：合计 3+2=5 格
+@export var double_jump_height_tiles: float = 2.0
+## 起跳后多少秒内不可触发二段跳（防误触，策划案 §二(二)2）
+@export var double_jump_lockout: float = 0.2
+
 @export_category("攀爬")
 ## 梯子攀爬速度（格/秒），刻意慢于平地移动，突出梯子的"安全但慢"
 @export var climb_speed_tiles: float = 2.0
@@ -38,9 +44,13 @@ const TILE_SIZE := 16.0
 var _gravity_up: float
 var _gravity_down: float
 var _jump_velocity: float
+var _double_jump_velocity: float
 var _coyote_timer: float = 0.0
 var _buffer_timer: float = 0.0
 var _facing: int = 1
+var _air_time: float = 0.0
+var _press_air_time: float = -1.0 # 本次跳跃缓冲按下时的空中时长（防误触窗口按按键时刻判定）
+var _can_double_jump: bool = false
 
 var _interactable: Node = null # 当前可交互对象，由可交互积木注册/注销
 var _water_count: int = 0
@@ -66,6 +76,8 @@ func _recalculate_jump() -> void:
 	_gravity_up = 2.0 * height / (jump_time_to_apex * jump_time_to_apex)
 	_gravity_down = _gravity_up * fall_gravity_multiplier
 	_jump_velocity = _gravity_up * jump_time_to_apex
+	# 二段跳：同一上升重力下达到 2 格所需的初速度
+	_double_jump_velocity = sqrt(2.0 * _gravity_up * double_jump_height_tiles * TILE_SIZE)
 
 
 ## 死亡重生：回当前房间出生点（机关状态由 MechanismBus 保留，策划案 §一）
@@ -149,8 +161,11 @@ func _physics_process(delta: float) -> void:
 	if not _climbing:
 		if is_on_floor():
 			_coyote_timer = coyote_time
+			_air_time = 0.0
+			_can_double_jump = true
 		else:
 			_coyote_timer = maxf(0.0, _coyote_timer - delta)
+			_air_time += delta
 			var gravity := _gravity_up if velocity.y < 0.0 else _gravity_down
 			if in_water:
 				gravity *= water_gravity_multiplier
@@ -158,13 +173,21 @@ func _physics_process(delta: float) -> void:
 
 		if Input.is_action_just_pressed(&"jump"):
 			_buffer_timer = jump_buffer
+			_press_air_time = _air_time
 		else:
 			_buffer_timer = maxf(0.0, _buffer_timer - delta)
 
-		if _buffer_timer > 0.0 and _coyote_timer > 0.0:
-			velocity.y = -_jump_velocity
-			_buffer_timer = 0.0
-			_coyote_timer = 0.0
+		if _buffer_timer > 0.0:
+			if _coyote_timer > 0.0:
+				velocity.y = -_jump_velocity
+				_buffer_timer = 0.0
+				_coyote_timer = 0.0
+			elif _can_double_jump and _press_air_time >= double_jump_lockout and GameState.has_boots:
+				# 二段跳：重置空中水平速度为当前输入方向（策划案 §二(二)2）
+				velocity.y = -_double_jump_velocity
+				velocity.x = axis * move_speed_tiles * TILE_SIZE
+				_can_double_jump = false
+				_buffer_timer = 0.0
 
 	if not is_zero_approx(axis):
 		_facing = 1 if axis > 0.0 else -1
