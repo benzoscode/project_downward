@@ -1,12 +1,13 @@
 ﻿# 冒烟验证：headless 导入检查 + 逐场景运行 N 帧，任何脚本错误即失败。
 # 用法（godot_project/ 下）：powershell -File tools/verify_smoke.ps1 [-Scenes "res://...", "..."]
 param(
-    [string[]]$Scenes = @("res://scenes/templates/room_base.tscn"),
+    [string]$Scenes = "res://scenes/templates/room_base.tscn",
     [int]$Frames = 120
 )
+$SceneList = $Scenes -split ","
 
 $ErrorActionPreference = "Continue"
-$Godot = "C:\Editors\godot\Godot_v4.7-stable_win64\Godot_v4.7-stable_win64_console.exe"
+$Godot = "C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe"
 $ErrorPattern = "SCRIPT ERROR|Parse Error|Failed loading resource|Cannot load|Invalid call|Attempt to call"
 $failed = $false
 
@@ -21,7 +22,7 @@ if ($importOut -match $ErrorPattern) {
 }
 
 Write-Output "== [2/2] scene smoke ($Frames frames) =="
-foreach ($scene in $Scenes) {
+foreach ($scene in $SceneList) {
     $runOut = & $Godot --headless --quit-after $Frames $scene 2>&1 | Out-String
     if ($runOut -match $ErrorPattern) {
         Write-Output "FAIL: $scene"

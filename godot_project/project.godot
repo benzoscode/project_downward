@@ -4,21 +4,21 @@
 ;
 ; Format:
 ;   [section] ; section goes between []
-;   param=value ; param goes between []
-;
-; 渲染方案：480×270 原生分辨率 + 整数倍缩放（决策见 docs/decisions.md）
+;   param=value ; assign values to parameters
 
 config_version=5
 
 [application]
 
 config/name="downward"
+run/main_scene="res://scenes/rooms/demo_room.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GameState="*res://scripts/autoload/game_state.gd"
+PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 
 [display]
 
@@ -27,8 +27,11 @@ window/size/viewport_height=270
 window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="viewport"
-window/stretch/aspect="keep"
 window/stretch/scale_mode="integer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -82,11 +85,11 @@ interact={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+common/physics_interpolation=true
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
-textures/canvas_textures/default_texture_filter=0
-2d/snap/snap_2d_transforms_to_pixel=true
-2d/snap/snap_2d_vertices_to_pixel=true
+environment/defaults/default_clear_color=Color(0.008, 0.01, 0.016, 1)

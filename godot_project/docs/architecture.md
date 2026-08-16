@@ -5,7 +5,8 @@
 ## 1. 技术基础
 
 - Godot 4.7 stable，GDScript 全静态类型
-- 渲染：480×270 原生 + 整数倍缩放（viewport 拉伸 / keep / integer），Nearest 过滤，像素 snapping
+- 渲染：480×270 原生 + 整数倍缩放（viewport 拉伸 / keep / integer），Nearest 过滤；**不用像素吸附**（亚像素渲染，决策见 decisions.md 2026-08-16）
+- 物理：全局开物理插值（`physics/common/physics_interpolation=true`），相机与物理体移动在 144Hz 屏下保持平滑
 - 逻辑网格：1 格 = 16px，房间 120×67 格（1920×1080 逻辑）
 
 ## 2. 目录与职责
@@ -25,8 +26,8 @@
 ## 4. 房间模板（room_base.tscn）节点树
 
 ```
-RoomBase (Node2D)
-├── CanvasModulate      # 全局黑暗基底（0.05, 0.06, 0.09）
+RoomBase (Node2D) + RoomBase.gd (@tool：编辑亮 / 运行时暗)
+├── CanvasModulate      # 亮度由 RoomBase 脚本按编辑/运行态切换
 ├── TileMapTerrain          # TileMapLayer：物理碰撞地形
 ├── TileMapDecor            # TileMapLayer：无碰撞装饰
 ├── TileMapMechanismMarkers # TileMapLayer：机关占位标记
@@ -62,3 +63,26 @@ TileSet：`assets/placeholder/tileset_cave.tres`，图集 4×2 块 16×16，上�
 | `tools/capture.gd` | 截图：加载场景跑 N 帧存 PNG（输出到 `tools/out/`，不入库） |
 
 （状态机、光照系统、机关协议、Boss AI 等随里程碑补充）
+
+## 7. 角色与相机（M1）
+
+- `scenes/characters/player.tscn`（class `Player`）：CharacterBody2D，判定 12×20
+  - 移动：3 格/秒，加速度 400 / 减速度 550 px/s²（惯性手感）
+  - 跳跃：3 格高，到顶点 0.35s；下落重力 ×1.4；土狼 0.1s + 缓冲 0.1s
+  - 参数推导：重力/初速度由"跳跃高度 + 到顶点时间"反推（`_recalculate_jump`），策划只调直觉参数
+  - 自带 2 格半径微光 `AmbientLight`（关灯状态的自发光，策划案 §二(二)1）
+- `scripts/rooms/room_base.gd`（class `RoomBase`，@tool）：**编辑亮 / 运行时暗**分离——编辑器 `editor_brightness`(0.45) 供搭建，运行时 `game_darkness`(0.05) 供游戏；两个颜色均可在 Inspector 调
+- 相机（Phantom Camera 插件，v0.11.0.3）：
+  - 房间内 `Camera2D`（limit 0,0~1920,1080）→ 子节点 `PhantomCameraHost`（host 脚本）
+  - 玩家身上 `PhantomCamera2D`（top_level，priority 10，SIMPLE 跟随，`follow_target=..`，`follow_damping` 0.15s，snap_to_pixel）
+  - M5 切老鼠时：新增/切换老鼠的 PhantomCamera2D 或改 priority 即可
+- 演示房间 `scenes/rooms/demo_room.tscn` 由 `tools/paint_demo_room.gd` 生成（tile_map_data 二进制格式由引擎序列化，不手写）；出生点贴近地面
+
+## 8. 自动验证
+
+| 脚本 | 断言内容 |
+|---|---|
+| `tools/verify/verify_player.gd` | T1 起步惯性 / T2 满速 48px/s / T3 惯性停步 / T4 跳高 3 格±3px / T5 土狼时间 / T6 跳跃缓冲 |
+| `tools/verify/verify_camera.gd` | 相机被 PhantomCamera 接管、收敛到玩家 ±6px |
+
+运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）

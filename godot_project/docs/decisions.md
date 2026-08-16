@@ -15,3 +15,10 @@
 ## 2026-08-03 Git LFS 用于二进制素材
 
 - 图片/音频（png/jpg/gif/wav/ogg/mp3）走 LFS，避免仓库膨胀；已入库的小图不回溯迁移。
+
+## 2026-08-16 放弃像素吸附，改亚像素渲染 + 全局物理插值
+
+- **背景**：低速移动（48px/s，每物理帧仅 0.8px）在 480×270 像素网格下，角色与相机的量化节奏不同步，产生"角色相对背景抖动"的拍频（实验数据：tools/out/jitter_log.csv，diff_x 在 6.5~7.3 间漂移）。帧率/vsync/插件均被对照实验排除（camera_lab 预设 1-8）。
+- **决策**：关闭 `rendering/2d/snap/*` 全局吸附与 pcam `snap_to_pixel`，允许半像素渲染；全局开启 `physics/common/physics_interpolation`（Phantom Camera 官方推荐配置，引擎会把 Camera2D 强制为物理回调并自行插值）。
+- **代价**：半像素位置下 Nearest 采样有轻微 shimmer，现代像素游戏的普遍取舍（Celeste/Dead Cells 同方案）。
+- **附带结论**：相机继续用 Phantom Camera 插件，不自写；其像素吸附功能有已知未解决问题（插件 issue #445），本项目不再使用。

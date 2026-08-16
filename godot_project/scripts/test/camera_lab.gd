@@ -1,0 +1,146 @@
+extends Node2D
+## 镜头试验场：数字键 1-5 切换预设，定位跟随卡顿来源。
+## 依据：Phantom Camera FAQ（物理体目标需全局开物理插值）、插件 issue #648/#445。
+## 预设 5 为对照组（硬锁定）：若它仍抖，则问题在帧 pacing/vsync 而非跟随逻辑。
+
+@onready var _pcam: Node2D = $Characters/Player/PhantomCamera2D
+@onready var _player: CharacterBody2D = $Characters/Player
+@onready var _camera: Camera2D = $RoomCamera
+@onready var _host: Node = $RoomCamera/PhantomCameraHost
+@onready var _hud: Label = $HUD/Label
+
+var _preset: int = 1
+var _preset_text: String = ""
+
+# 逐帧记录（环形缓冲 600 帧 ≈ 10s）：F1 导出 CSV 供抖动模式分析
+const LOG_CAPACITY := 600
+var _log: Array[PackedFloat64Array] = []
+
+# host 的 interpolation_mode 枚举（插件定义）
+const HOST_AUTO := 0
+const HOST_IDLE := 1
+
+# 预设：先全部重置为基线，再叠加差异项，保证对比只变一个变量
+func _apply_preset(p: int) -> void:
+	_preset = p
+	_set_interpolation(false)
+	_set_host_mode(HOST_AUTO)
+	_pcam.set("snap_to_pixel", true)
+	_pcam.set("follow_damping", true)
+	_pcam.set("follow_damping_value", Vector2(0.15, 0.15))
+	_pcam.set("priority", 10)
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	ProjectSettings.set_setting("rendering/2d/snap/snap_2d_transforms_to_pixel", true)
+	ProjectSettings.set_setting("rendering/2d/snap/snap_2d_vertices_to_pixel", true)
+	match p:
+		1:
+			_preset_text = "1 baseline: no-interp + AUTO + snap + damp0.15"
+		2:
+			# 插件官方推荐配置：插值开 + AUTO（相机物理帧更新，pcam 自身被插值）
+			_set_interpolation(true)
+			_preset_text = "2 interp ON + AUTO + snap + damp0.15"
+		3:
+			# 相机逻辑挪到渲染帧，直接读插值后的目标位置
+			_set_interpolation(true)
+			_set_host_mode(HOST_IDLE)
+			_pcam.set("snap_to_pixel", false)
+			_preset_text = "3 interp ON + hostIDLE + no-snap + damp0.15"
+		4:
+			_set_interpolation(true)
+			_set_host_mode(HOST_IDLE)
+			_pcam.set("snap_to_pixel", false)
+			_pcam.set("follow_damping_value", Vector2(0.10, 0.10))
+			_preset_text = "4 interp ON + hostIDLE + no-snap + damp0.10"
+		5:
+			# 对照组：硬锁定无阻尼，相机=目标位置。仍抖则查 vsync/帧 pacing
+			_pcam.set("follow_damping", false)
+			_preset_text = "5 control: glued, no damp, no interp"
+		6:
+			# 对照组：完全绕过插件，原生相机物理帧硬锁 + 引擎插值
+			_set_interpolation(true)
+			_pcam.set("priority", 0)
+			_camera.top_level = true
+			_preset_text = "6 native: interp ON + engine cam lock (NO plugin)"
+		7:
+			# 诊断：关 vsync 不限帧。fps 飙高=vsync 锁错刷新率；仍 60=外部锁帧
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+			Engine.max_fps = 0
+			_preset_text = "7 diag: vsync OFF, uncapped"
+		8:
+			# 亚像素方案：吸附全关 + 插值 + 原生相机硬锁，角色允许半像素渲染
+			_set_interpolation(true)
+			_pcam.set("priority", 0)
+			_pcam.set("snap_to_pixel", false)
+			_camera.top_level = true
+			ProjectSettings.set_setting("rendering/2d/snap/snap_2d_transforms_to_pixel", false)
+			ProjectSettings.set_setting("rendering/2d/snap/snap_2d_vertices_to_pixel", false)
+			_preset_text = "8 subpixel: interp ON + ALL snap OFF + native cam"
+
+
+# 根节点开关即可，子节点默认 INHERIT；同步写 ProjectSettings 让插件的抖动提示静默
+func _set_interpolation(enabled: bool) -> void:
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON if enabled \
+		else Node.PHYSICS_INTERPOLATION_MODE_OFF
+	ProjectSettings.set_setting("physics/common/physics_interpolation", enabled)
+
+
+# host 的 set_interpolation_mode 在 _active_pcam_2d 为空时会报错（插件 bug），
+# 需等 pcam 激活后再设置；未激活时跳过，下个物理帧由 _apply_preset 重试
+func _set_host_mode(mode: int) -> void:
+	if _host.call("get_active_pcam") == null:
+		return
+	_host.set("interpolation_mode", mode)
+
+
+func _ready() -> void:
+	_apply_preset(1)
+
+
+func _physics_process(_delta: float) -> void:
+	# 预设 6/8：插件已退场，由本脚本在物理帧驱动相机（引擎负责渲染插值）
+	if _preset == 6 or _preset == 8:
+		_camera.global_position = _player.global_position
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		var key := (event as InputEventKey).keycode
+		if key >= KEY_1 and key <= KEY_8:
+			_apply_preset(key - KEY_0)
+		elif key == KEY_F1:
+			_dump_log()
+
+
+func _dump_log() -> void:
+	var path := ProjectSettings.globalize_path("res://tools/out/jitter_log.csv")
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		printerr("cannot write log: ", error_string(FileAccess.get_open_error()))
+		return
+	file.store_line("frame,time_ms,dt_ms,player_x,cam_x,diff_x")
+	for i in _log.size():
+		var r := _log[i]
+		file.store_line("%d,%.3f,%.3f,%.4f,%.4f,%.4f" % [i, r[0], r[1], r[2], r[3], r[4]])
+	file.close()
+	print("jitter log saved: ", path)
+
+
+func _process(_delta: float) -> void:
+	var player_x := _player.global_position.x
+	var cam_x := _camera.global_position.x
+	if _log.size() >= LOG_CAPACITY:
+		_log.remove_at(0)
+	var prev_time: float = _log[-1][0] if not _log.is_empty() else 0.0
+	var now := Time.get_ticks_msec() / 1000.0
+	_log.append([now * 1000.0, (now * 1000.0 - prev_time) if prev_time > 0.0 else 0.0,
+		player_x, cam_x, player_x - cam_x])
+	_hud.text = "%s\nfps %d / physics %d tps / screen %.0fHz / vsync %d / maxfps %d\nplayer.x %.2f  cam.x %.2f  [F1] dump log" % [
+		_preset_text,
+		Engine.get_frames_per_second(),
+		Engine.physics_ticks_per_second,
+		DisplayServer.screen_get_refresh_rate(),
+		DisplayServer.window_get_vsync_mode(),
+		Engine.max_fps,
+		_player.global_position.x,
+		_camera.global_position.x,
+	]
