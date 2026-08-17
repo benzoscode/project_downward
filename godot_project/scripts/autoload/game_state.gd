@@ -11,6 +11,8 @@ signal checkpoint_updated(room: StringName, position: Vector2)
 var has_lamp: bool = false
 var has_boots: bool = false
 var has_whistle: bool = false
+## 第 4 房间宝箱钥匙，开第 3 房间右上角钥匙门（策划案 §三(三)/(四)）
+var has_key: bool = false
 ## 已收集宝石：翡翠/琥珀/紫金，用于第 12 房间三宝石之门（策划案 §三(十二)）
 var gems: Array[StringName] = []
 
@@ -27,8 +29,11 @@ func acquire_item(item: StringName) -> void:
 			has_boots = true
 		&"whistle":
 			has_whistle = true
+		&"key":
+			has_key = true
 		_:
-			if not gems.has(item):
+			# 只认 gem_ 前缀，其他道具不得误入宝石列表
+			if item.begins_with("gem_") and not gems.has(item):
 				gems.append(item)
 	item_acquired.emit(item)
 

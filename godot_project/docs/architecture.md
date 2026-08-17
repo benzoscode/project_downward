@@ -21,10 +21,11 @@
 
 | 单例 | 职责 |
 |---|---|
-| `GameState` | 道具持有（灯/靴/哨/三宝石）、当前房间、检查点位置；发 `item_acquired` / `checkpoint_updated` 信号 |
+| `GameState` | 道具持有（灯/靴/哨/钥匙/三宝石）、当前房间、检查点位置；发 `item_acquired` / `checkpoint_updated` 信号 |
 | `MechanismBus` | 机关通信总线：`trigger/release/is_triggered` + `triggered/released` 信号；机关状态跨重生保留（decisions.md 2026-08-16） |
-| `LightSystem` | 光照判定：`is_point_lit(point)`（射程+锥角+物理射线），供水晶/Boss 复用 |
-| `ControlManager` | 双体控制（M5）：Q 召唤/收回、R 切换、老鼠死亡 5s 冷却、pcam 优先级切换 |
+| `LightSystem` | 光照判定：`is_point_lit(point)`（射程+锥角+物理射线）+ `is_point_lit_ambient`（环境光）+ `has_clear_line`，供水晶/Boss 复用 |
+| `ControlManager` | 双体控制（M5）：Q 召唤/收回、R 切换、老鼠死亡 5s 冷却、pcam 优先级切换；`force_recall` 供转场主动收回（免冷却） |
+| `RoomManager` | 房间切换（M8）：`goto_room` 淡入淡出、入口落位、检查点重生（可跨房间）、玩家实例跨房间托管、pcam 钳制同步 |
 | `HUD` | 占位 UI：道具获取弹窗 + 持有图标栏（M10 重做） |
 
 ## 4. 房间模板（room_base.tscn）节点树
@@ -96,6 +97,7 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 | `tools/verify/verify_mouse.gd` | M5：召唤/切换/相机/窄缝/0.8s 延迟/双档压力板/死亡冷却/收回（11 项） |
 | `tools/verify/verify_mechanisms2.gd` | M6：交替平台/摇杆平台/双按钮门/滞后/草丛/顺序机关/虚空平台/玩家输入延迟 |
 | `tools/verify/verify_boss.gd` | M7：五状态全部转换路径、老鼠优先级、双扑杀、搜索 10s 超时、环境光暴露、黑暗安全（12 项） |
+| `tools/verify/verify_rooms.gd` | M8：12 房间 BFS 连通/入口存在性、能力门结构、过渡落位与检查点、出口触发、同/跨房间重生、钥匙门、pcam 钳制（12 项） |
 | `tools/verify/verify_tileset.gd` | TileSet 五分区、碰撞配置、32px 装饰格 |
 
 运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）。需要 Autoload 的验证走 `scenes/test/verify_host.tscn` 宿主（`--script` 模式无 Autoload）。
@@ -139,3 +141,15 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 - **编辑器可视化**：@tool 绘制追击 8 格（红）/警戒 12 格（黄）/分心 6 格（紫）感知圈 + 巡逻路径；触须三态用 modulate 五色占位（未来换正式动画）
 - 试验场 `scenes/test/boss_lab.tscn`（由 tools/paint_boss_lab.gd 生成）；五状态截图工具 `tools/capture_boss_states.gd`（走 verify_host，输出 tools/out/）
 - 注意：Boss 感知查询经组 `player`/`mouse` 与根节点取 LightSystem，**不直接引用 Autoload 名**——--script 模式（无 Autoload）下编译期解析会失败（paint 脚本约束）
+
+## 14. 房间连通与检查点（M8）
+
+- **主场景**：`scenes/main.tscn`（F5 从 room_01 开局）；demo_room/labs 仍可 F6 独立运行，RoomManager 会收养场景自带玩家
+- **RoomManager**（Autoload）：
+  - `ROOMS` 注册表：12 房间 ID → 场景路径；`goto_room(room_id, entrance_id)` 淡出(0.25s)→切场景→落位→淡入，转场中锁玩家输入并主动收回老鼠（免冷却）
+  - 玩家为**持久实例**：切房间时从旧房间摘下挂入新房间 `Characters`；房间无玩家则自动实例化
+  - **检查点**：进房间自动 `GameState.set_checkpoint(room_id, 入口位置)`；`player.die()` → `respawn()`：同房间直接落位，跨房间重载目标房间；无检查点上下文（独立测试场景）回退旧 spawn_point 行为
+  - **pcam 钳制同步**（遗留修复）：进房间时把房间 Camera2D 的 limit 写入玩家 pcam 的 `limit_*`——此前 pcam 直写坐标绕过 Camera2D 钳制
+- **房间协议**（策划手册见 building_blocks.md）：房间根 = RoomBase 脚本（`room_id` + `player_input_delay` 房间级致幻配置）；入口 = `Entrance_<id>` Marker2D；出口 = `room_exit.tscn` 积木（`target_room`/`target_entrance` 字符串连线，编辑器内青色描边+目标文字）
+- **钥匙门积木** `key_door.tscn`：`GameState.has_key` 开启（第 4 房间宝箱 → 第 3 房间右上角门 → 12 房）
+- **12 房间灰盒骨架**：`tools/paint_rooms_graybox.gd` 批量生成 `scenes/rooms/room_01..12.tscn`（镜像 room_base 结构；room_12 为 360×67 三层空壳）。连接图：1→2→3→4→5→6→7→8→9→11；7⇄10 梯子；5→4 水体秘密通道；11→狭长通道→3 回环；3 钥匙门→12。能力门结构：3 房 5 格高墙（二段跳）/钥匙门、9 房老鼠窄缝、8 房地刺床。**策划在灰盒上装修，出入口结构不动**

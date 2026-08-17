@@ -90,15 +90,15 @@ func _recalculate_jump() -> void:
 	_double_jump_velocity = sqrt(2.0 * _gravity_up * double_jump_height_tiles * TILE_SIZE)
 
 
-## 死亡重生：回当前房间出生点（机关状态由 MechanismBus 保留，策划案 §一）
+## 死亡重生：回最近检查点（M8 起由 RoomManager 处理，可跨房间；
+## 机关状态由 MechanismBus 保留，策划案 §一）
 func die() -> void:
-	var spawn := get_tree().get_first_node_in_group(&"spawn_point") as Node2D
-	if spawn == null:
-		return
-	global_position = spawn.global_position
-	velocity = Vector2.ZERO
+	RoomManager.respawn()
+
+
+## 重生时清理瞬态（攀爬等），由 RoomManager 调用
+func reset_on_respawn() -> void:
 	_climbing = false
-	reset_physics_interpolation()
 
 
 # ---- 积木注册接口（积木通过 is_in_group("player") 拿到本节点后调用）----
