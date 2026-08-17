@@ -102,7 +102,7 @@
     <tr><th>层</th><th>画什么</th><th>特性</th></tr>
     <tr><td>TileMapTerrain</td><td>地面、墙、平台——一切会挡住玩家的东西</td><td>带碰撞 + 挡灯光</td></tr>
     <tr><td>TileMapDecor</td><td>草丛、钟乳石、水晶簇等装饰</td><td>无碰撞，纯好看</td></tr>
-    <tr><td>TileMapMechanismMarkers</td><td>机关占位标记（给自己看的备注格）</td><td>无碰撞</td></tr>
+    <tr><td>TileMapMechanismMarkers</td><td>机关占位草稿（规划记号用，<strong>没有任何代码读它</strong>）</td><td>无碰撞；<strong>会在游戏里显示</strong>——草稿打完记得清空或把层 visible 关掉</td></tr>
   </table>
   <h3>操作</h3>
   <ol class="steps">
@@ -177,11 +177,12 @@
 <h2 id="exit">5. 传送点（出入口）</h2>
 <div class="card">
   <h3>入口 = 一个 Marker2D</h3>
-  <p>右键根节点 → Add Child Node → <strong>Marker2D</strong> → 命名 <code>Entrance_xxx</code>，摆到落点。
+  <p>选中<strong>根节点</strong> → Add Child Node → <strong>Marker2D</strong> → 命名 <code>Entrance_xxx</code>，摆到落点。
   约定：<code>Entrance_default</code> 是默认入口（没指名时落这里，再没有就落 SpawnPoint）。</p>
+  <div class="warn"><strong>入口/出口必须挂在根节点直接子级</strong>（和 SpawnPoint 平级），不要放进 Mechanisms 等子节点里——落位查找只认根节点直接子级，挂错层会静默找不到，玩家落到 SpawnPoint 甚至原点，只有一条不显眼的警告。</div>
   <h3>出口 = room_exit 积木</h3>
   <ol class="steps">
-    <li>把 <code>scenes/interactables/room_exit.tscn</code> 拖进房间（建议挂根节点下），摆到门洞/通道口位置。</li>
+    <li>把 <code>scenes/interactables/room_exit.tscn</code> 拖进房间，<strong>挂到根节点下</strong>（与入口标记平级），摆到门洞/通道口位置。</li>
     <li>Inspector 里 <code>target_scene</code> <strong>点文件选择器直接选对面的 .tscn</strong>。</li>
     <li><code>target_entrance</code> 填对面入口 id（对面是 Entrance_default 就留空 default）。</li>
     <li>需要触发区更高/更宽：展开它的 <code>CollisionShape2D</code> 调矩形尺寸。编辑器里出口显示青色框 + 目标名，一眼可辨。</li>
