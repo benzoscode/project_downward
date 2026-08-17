@@ -25,7 +25,7 @@
 | 机关通信 | `MechanismBus` | `trigger/release/is_triggered`，StringName ID，状态跨重生保留 |
 | 房间连通 | `RoomManager`（M8） | `goto_room` 淡入淡出、入口落位、检查点重生（可跨房间）、玩家托管、pcam 钳制同步；协议见 architecture.md §14 |
 | 积木 16 个 | `scenes/interactables/` | 手册：`godot_project/docs/building_blocks.md`（每个积木的参数与连线） |
-| TileSet | `assets/tiles/tileset_cave.tres` | 4 分区（source 1 泥土/2 石质带碰撞+遮光，3 装饰16px/4 装饰32px）；布局改动走 `tools/build_tileset.gd` |
+| TileSet | `assets/tiles/tileset_cave.tres` | 12 源（1 泥土/2 石质/5 石砖带碰撞+遮光，3/4/6 装饰，7 水面，8-11 水体动画瓦片）；布局改动走 `tools/build_tileset.gd` |
 | HUD | `scripts/autoload/hud.gd` | 占位：拾取弹窗+持有图标栏，M10 重做 |
 
 ## 3. 下一步计划（按依赖顺序）

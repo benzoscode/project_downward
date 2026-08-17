@@ -19,7 +19,7 @@ func _initialize() -> void:
 	if ts == null:
 		quit(1)
 		return
-	_assert(ts.get_source_count() == 5, "source 总数为 5（占位 + 4 分区），实际 %d" % ts.get_source_count())
+	_assert(ts.get_source_count() == 12, "source 总数为 12（占位 + 4 分区 + 第三批 7 区），实际 %d" % ts.get_source_count())
 
 	var dirt := ts.get_source(1) as TileSetAtlasSource
 	var dirt_td := dirt.get_tile_data(Vector2i(0, 0), 0)
@@ -36,6 +36,29 @@ func _initialize() -> void:
 	var big := ts.get_source(4) as TileSetAtlasSource
 	_assert(big != null and big.texture_region_size == Vector2i(32, 32),
 		"分区4 单元格 32×32")
+	# 第三批：石砖/草丛/水面/水体动画
+	var brick := ts.get_source(5) as TileSetAtlasSource
+	_assert(brick != null and brick.get_tile_data(Vector2i(0, 0), 0).get_collision_polygons_count(0) == 1
+		and brick.get_tile_data(Vector2i(7, 0), 0).get_collision_polygons_count(0) == 1,
+		"分区5 石砖 8 格带碰撞+遮光")
+	var grass := ts.get_source(6) as TileSetAtlasSource
+	_assert(grass != null and grass.has_tile(Vector2i(0, 0)) and grass.has_tile(Vector2i(6, 0))
+		and grass.get_tile_data(Vector2i(6, 0), 0).get_collision_polygons_count(0) == 0,
+		"分区6 草丛 7 格无碰撞")
+	var surface := ts.get_source(7) as TileSetAtlasSource
+	_assert(surface != null and surface.get_tile_animation_frames_count(Vector2i(0, 0)) == 1,
+		"分区7 水面静态瓦片")
+	var calm := ts.get_source(8) as TileSetAtlasSource
+	_assert(calm != null and calm.get_tile_animation_frames_count(Vector2i(0, 0)) == 9
+		and is_equal_approx(calm.get_tile_animation_speed(Vector2i(0, 0)), 6.0),
+		"分区8 平静水体 9 帧动画 @6fps")
+	var calm_long := ts.get_source(9) as TileSetAtlasSource
+	var wave1 := ts.get_source(10) as TileSetAtlasSource
+	var wave2 := ts.get_source(11) as TileSetAtlasSource
+	_assert(calm_long != null and calm_long.get_tile_animation_frames_count(Vector2i(0, 0)) == 18
+		and wave1 != null and wave1.get_tile_animation_frames_count(Vector2i(0, 0)) == 16
+		and wave2 != null and wave2.get_tile_animation_frames_count(Vector2i(0, 0)) == 16,
+		"分区9-11 水体动画 18/16/16 帧")
 
 	print("VERIFY RESULT: ", "FAILED" if _failed else "ALL PASSED")
 	quit(1 if _failed else 0)

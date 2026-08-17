@@ -39,39 +39,47 @@ function Copy-Tile([string]$srcName, [string]$dstDir, [string]$dstName, [hashtab
     Write-Output "  $srcName  ->  $dstName"
 }
 
-function Split-WaterStrip([string]$srcName, [string]$dstName, [hashtable]$globalFrames) {
-    # 纵向 16xN 序列帧 → 帧级去重 → 横向序列帧（AGENTS.md §7：动画横向排布）
+function Split-WaterStrip([string]$srcName, [string]$dstName) {
+    # 纵向 16xN 序列帧 → 横向序列帧（AGENTS.md §7：动画横向排布）。
+    # 条内帧原样保留——重复帧是动画节奏设计，不得去重（2026-08-17 用户确认）
     $path = Join-Path $Src $srcName
     $bmp = New-Object System.Drawing.Bitmap($path)
     $frames = $bmp.Height / 16
-    $unique = New-Object System.Collections.ArrayList
-    $localHashes = @{}
-    for ($f = 0; $f -lt $frames; $f++) {
-        $h = Get-PixelHash $bmp 0 ($f * 16) 16 16
-        if ($localHashes.ContainsKey($h)) { continue }
-        $localHashes[$h] = $f
-        if ($globalFrames.ContainsKey($h)) {
-            Write-Output "  帧 $f 与 $($globalFrames[$h]) 重复，并入时不重复计数"
-        }
-        $globalFrames[$h] = "$dstName#$f"
-        [void]$unique.Add($f)
-    }
-    $outW = 16 * $unique.Count
+    $outW = 16 * $frames
     $out = New-Object System.Drawing.Bitmap($outW, 16)
     $g = [System.Drawing.Graphics]::FromImage($out)
-    for ($i = 0; $i -lt $unique.Count; $i++) {
+    for ($i = 0; $i -lt $frames; $i++) {
         $dstX = 16 * $i
-        $srcY = 16 * $unique[$i]
+        $srcY = 16 * $i
         $dstRect = New-Object System.Drawing.Rectangle($dstX, 0, 16, 16)
         $srcRect = New-Object System.Drawing.Rectangle(0, $srcY, 16, 16)
         $g.DrawImage($bmp, $dstRect, $srcRect, [System.Drawing.GraphicsUnit]::Pixel)
     }
     $g.Dispose()
     $out.Save((Join-Path $TilesDir $dstName), [System.Drawing.Imaging.ImageFormat]::Png)
-    Write-Output "  $srcName  ->  $dstName（$frames 帧去重后 $($unique.Count) 帧，已转横向）"
+    Write-Output "  $srcName  ->  $dstName（$frames 帧，已转横向）"
     $bmp.Dispose()
     $out.Dispose()
-    return $unique.Count
+}
+
+function Merge-Atlas([string[]]$srcFiles, [string]$dstPath) {
+    # 多张 16x16 横向拼成图集（供 TileSet 分区引用，布局见 build_tileset.gd 分区表）
+    $count = $srcFiles.Count
+    $outW = 16 * $count
+    $out = New-Object System.Drawing.Bitmap($outW, 16)
+    $g = [System.Drawing.Graphics]::FromImage($out)
+    for ($i = 0; $i -lt $count; $i++) {
+        $bmp = New-Object System.Drawing.Bitmap((Join-Path $TilesDir $srcFiles[$i]))
+        $dstX = 16 * $i
+        $dstRect = New-Object System.Drawing.Rectangle($dstX, 0, 16, 16)
+        $g.DrawImage($bmp, $dstRect, (New-Object System.Drawing.Rectangle(0, 0, 16, 16)),
+            [System.Drawing.GraphicsUnit]::Pixel)
+        $bmp.Dispose()
+    }
+    $g.Dispose()
+    $out.Save($dstPath, [System.Drawing.Imaging.ImageFormat]::Png)
+    $out.Dispose()
+    Write-Output "  图集: $dstPath（$count 格）"
 }
 
 Write-Output "== 地形：石砖/水 =="
@@ -87,11 +95,10 @@ Copy-Tile "表面裂纹 (3).png" $TilesDir "tile_stone_brick_crack_03.png" $seen
 Copy-Tile "水体2.png" $TilesDir "tile_water_surface_01.png" $seenTiles
 
 Write-Output "== 水体序列帧（转横向） =="
-$waterFrames = @{}
-Split-WaterStrip "平静水体.png" "tile_water_calm_anim.png" $waterFrames | Out-Null
-Split-WaterStrip "平静水体 (3).png" "tile_water_calm_anim_long.png" $waterFrames | Out-Null
-Split-WaterStrip "水体 (2).png" "tile_water_wave_anim_01.png" $waterFrames | Out-Null
-Split-WaterStrip "水体 (3).png" "tile_water_wave_anim_02.png" $waterFrames | Out-Null
+Split-WaterStrip "平静水体.png" "tile_water_calm_anim.png"
+Split-WaterStrip "平静水体 (3).png" "tile_water_calm_anim_long.png"
+Split-WaterStrip "水体 (2).png" "tile_water_wave_anim_01.png"
+Split-WaterStrip "水体 (3).png" "tile_water_wave_anim_02.png"
 # 水体 (3) (1).png 与 水体 (3).png 文件级 MD5 相同，直接不入库
 Write-Output "  跳过（文件级重复）: 水体 (3) (1).png"
 
@@ -104,5 +111,17 @@ Copy-Tile "草 (2).png" $DecorDir "decor_grass_04.png" $seenDecor
 Copy-Tile "草 (3).png" $DecorDir "decor_grass_05.png" $seenDecor
 Copy-Tile "草 (4).png" $DecorDir "decor_grass_06.png" $seenDecor
 Copy-Tile "草 (5).png" $DecorDir "decor_grass_07.png" $seenDecor
+
+Write-Output "== 图集拼装（供 TileSet 分区） =="
+Merge-Atlas @("tile_stone_brick_01.png", "tile_stone_brick_top.png",
+    "tile_stone_brick_grass_01.png", "tile_stone_brick_grass_02.png", "tile_stone_brick_grass_03.png",
+    "tile_stone_brick_crack_01.png", "tile_stone_brick_crack_02.png", "tile_stone_brick_crack_03.png") `
+    (Join-Path $TilesDir "atlas_brick.png")
+$grassFiles = 1..7 | ForEach-Object { "decor_grass_0$_.png" }
+$grassPaths = $grassFiles | ForEach-Object { $_ }
+# Merge-Atlas 从 tiles 目录读源，草丛在 decor 目录——先复制临时拼合
+foreach ($f in $grassPaths) { Copy-Item (Join-Path $DecorDir $f) (Join-Path $TilesDir $f) -Force }
+Merge-Atlas $grassPaths (Join-Path $DecorDir "atlas_grass.png")
+foreach ($f in $grassPaths) { Remove-Item (Join-Path $TilesDir $f) -Force }
 
 Write-Output "完成。"

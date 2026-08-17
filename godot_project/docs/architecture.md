@@ -44,7 +44,7 @@ RoomBase (Node2D) + RoomBase.gd (@tool：编辑亮 / 运行时暗)
 └── Camera2D            # 限制 0,0 ~ 1920,1080
 ```
 
-TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 块带碰撞、下行 3 块纯装饰。
+TileSet：`assets/tiles/tileset_cave.tres`，12 个 source（0 占位 / 1 泥土 / 2 石质 / 5 石砖，带碰撞+遮光；3 装饰16px / 4 装饰32px / 6 草丛 / 7 水面 / 8-11 水体动画瓦片，无碰撞）；布局改动走 `tools/build_tileset.gd`，分区表见 building_blocks.md。
 
 ## 5. 输入映射
 
