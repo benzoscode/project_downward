@@ -68,6 +68,7 @@ var _input_samples: Array = []
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _ground_probe: RayCast2D = $GroundProbe
+@onready var _lamp: Node2D = $Lamp
 
 
 ## 是否正在攀爬（供验证脚本与调试断言）
@@ -231,11 +232,15 @@ func _physics_process(delta: float) -> void:
 
 
 func _update_animation() -> void:
+	# 正式素材（2026-08-17 实装）：每个状态分无灯/有灯两版，跳跃暂用走路第 1 帧
+	var base: StringName
 	if _climbing:
-		_sprite.play(&"jump")
+		base = &"jump"
 	elif not is_on_floor():
-		_sprite.play(&"jump")
+		base = &"jump"
 	elif absf(velocity.x) > 4.0:
-		_sprite.play(&"run")
+		base = &"run"
 	else:
-		_sprite.play(&"idle")
+		base = &"idle"
+	var lamp_on: bool = _lamp.get("lamp_on")
+	_sprite.play(base + (&"_lamp" if lamp_on else &""))
