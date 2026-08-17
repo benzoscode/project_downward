@@ -5,8 +5,8 @@ extends Node
 
 ## 获得道具（照明灯/羽翎靴/召唤哨/宝石）时发出，供 UI 反馈与房间逻辑订阅
 signal item_acquired(item: StringName)
-## 检查点更新（进入新房间入口时）
-signal checkpoint_updated(room: StringName, position: Vector2)
+## 检查点更新（进入新场景入口或触碰检查点积木时）
+signal checkpoint_updated(scene: String, position: Vector2)
 
 var has_lamp: bool = false
 var has_boots: bool = false
@@ -16,8 +16,9 @@ var has_key: bool = false
 ## 已收集宝石：翡翠/琥珀/紫金，用于第 12 房间三宝石之门（策划案 §三(十二)）
 var gems: Array[StringName] = []
 
-var current_room: StringName = &""
-var checkpoint_room: StringName = &""
+## 当前场景/检查点场景：均为 .tscn 路径（M8 方案 D：无注册表，出口直接存路径）
+var current_room: String = ""
+var checkpoint_room: String = ""
 var checkpoint_position: Vector2 = Vector2.ZERO
 
 
@@ -38,7 +39,7 @@ func acquire_item(item: StringName) -> void:
 	item_acquired.emit(item)
 
 
-func set_checkpoint(room: StringName, position: Vector2) -> void:
-	checkpoint_room = room
+func set_checkpoint(scene: String, position: Vector2) -> void:
+	checkpoint_room = scene
 	checkpoint_position = position
-	checkpoint_updated.emit(room, position)
+	checkpoint_updated.emit(scene, position)

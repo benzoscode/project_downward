@@ -1,13 +1,14 @@
 @tool
 extends Area2D
-## 房间出口积木（M8）：玩家进入触发区 → RoomManager 切换到目标房间入口。
-## 连线用字符串 ID（target_room 须在 RoomManager.ROOMS 注册；target_entrance 对应对面
-## 房间的 Entrance_<id> 标记，缺省 default）。门控由实体机关（石门/钥匙门）负责，本积木不管。
+## 房间出口积木（M8）：玩家进入触发区 → RoomManager 切换到目标场景入口。
+## 连线：target_scene 在 Inspector 里直接选 .tscn 文件（文件选择器，无需手敲路径）；
+## target_entrance 对应对面场景的 Entrance_<id> 标记，缺省 default。
+## 门控由实体机关（石门/钥匙门）负责，本积木不管。
 
-## 目标房间 ID（RoomManager.ROOMS 键）
-@export var target_room: StringName:
+## 目标场景文件（Inspector 文件选择器选取）
+@export_file("*.tscn") var target_scene: String:
 	set(value):
-		target_room = value
+		target_scene = value
 		queue_redraw()
 ## 目标入口 ID（对面对应 Entrance_<id> 标记；default 可省略）
 @export var target_entrance: StringName = &"default":
@@ -25,10 +26,10 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group(&"player"):
 		return
-	if target_room == &"":
-		push_warning("room_exit 未配置 target_room")
+	if target_scene.is_empty():
+		push_warning("room_exit 未配置 target_scene")
 		return
-	RoomManager.goto_room(target_room, target_entrance)
+	RoomManager.goto_room(target_scene, target_entrance)
 
 
 func _draw() -> void:
@@ -42,7 +43,7 @@ func _draw() -> void:
 	var rect := Rect2(-half, half * 2.0)
 	draw_rect(rect, Color(0.3, 0.9, 1.0, 0.15), true)
 	draw_rect(rect, Color(0.3, 0.9, 1.0, 0.8), false, 1.5)
-	var label := "→ " + String(target_room)
+	var label := "→ " + target_scene.get_file().get_basename()
 	if target_entrance != &"default":
 		label += ":" + String(target_entrance)
 	draw_string(ThemeDB.fallback_font, Vector2(-half.x, -half.y - 6.0),

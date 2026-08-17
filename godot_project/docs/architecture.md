@@ -145,11 +145,12 @@ TileSet：`assets/tiles/tileset_cave.tres`，12 个 source（0 占位 / 1 泥土
 ## 14. 房间连通与检查点（M8）
 
 - **主场景**：`scenes/main.tscn`（F5 从 room_01 开局）；demo_room/labs 仍可 F6 独立运行，RoomManager 会收养场景自带玩家
-- **RoomManager**（Autoload）：
-  - `ROOMS` 注册表：12 房间 ID → 场景路径；`goto_room(room_id, entrance_id)` 淡出(0.25s)→切场景→落位→淡入，转场中锁玩家输入并主动收回老鼠（免冷却）
-  - 玩家为**持久实例**：切房间时从旧房间摘下挂入新房间 `Characters`；房间无玩家则自动实例化
-  - **检查点**：进房间自动 `GameState.set_checkpoint(room_id, 入口位置)`；`player.die()` → `respawn()`：同房间直接落位，跨房间重载目标房间；无检查点上下文（独立测试场景）回退旧 spawn_point 行为
-  - **pcam 钳制同步**（遗留修复）：进房间时把房间 Camera2D 的 limit 写入玩家 pcam 的 `limit_*`——此前 pcam 直写坐标绕过 Camera2D 钳制
-- **房间协议**（策划手册见 building_blocks.md）：房间根 = RoomBase 脚本（`room_id` + `player_input_delay` 房间级致幻配置）；入口 = `Entrance_<id>` Marker2D；出口 = `room_exit.tscn` 积木（`target_room`/`target_entrance` 字符串连线，编辑器内青色描边+目标文字）
+- **RoomManager**（Autoload，**无注册表**——方案 D，decisions.md 2026-08-17）：
+  - `goto_room(scene_path, entrance_id)` 淡出(0.4s)→黑场(0.15s)→切场景→落位→淡入(0.4s)，转场中锁玩家输入并主动收回老鼠（免冷却）
+  - 场景路径取自实例的 `scene_file_path`，新增房间**零代码零登记**：丢进 `scenes/rooms/` 即可被指出口
+  - 玩家为**持久实例**：切场景时从旧场景摘下挂入新场景 `Characters`；场景无玩家则自动实例化
+  - **检查点**：进场景自动 `GameState.set_checkpoint(路径, 入口位置)`；`checkpoint.tscn` 积木提供房间中部存档位；`player.die()` → `respawn()`：同场景直接落位，跨场景重载；无检查点上下文（独立测试场景）回退旧 spawn_point 行为
+  - **相机**：进场景/重生后把 Camera2D limit 同步到 pcam（遗留修复），并调 pcam `teleport_position()` 瞬移对准玩家（跳过 0.15s 阻尼摇镜）
+- **场景协议**（策划手册见 building_blocks.md）：场景根 = RoomBase 脚本（`player_input_delay` 场景级致幻配置）；入口 = `Entrance_<id>` Marker2D；出口 = `room_exit.tscn`（`target_scene` 在 Inspector 用文件选择器选 .tscn，`target_entrance` 填入口 id；编辑器内青色描边+目标文字）
 - **钥匙门积木** `key_door.tscn`：`GameState.has_key` 开启（第 4 房间宝箱 → 第 3 房间右上角门 → 12 房）
 - **12 房间灰盒骨架**：`tools/paint_rooms_graybox.gd` 批量生成 `scenes/rooms/room_01..12.tscn`（镜像 room_base 结构）。连接图：1→2→3→4→5→6→7→8→9→11；7⇄10 梯子；5→4 水体秘密通道；11→狭长通道→3 回环；3 钥匙门→12。能力门结构：3 房 5 格高墙（二段跳）/钥匙门、9 房老鼠窄缝、8 房地刺床。**尺寸为紧凑测试规格** 40×17 格（room_12 为 90×34 三层空壳），灰盒亮度 0.3 便于观察；策划案正式房间 ≥120×67，装修阶段按出入口相对关系扩建（decisions.md 2026-08-17）。**策划在灰盒上装修，出入口结构不动**

@@ -58,16 +58,22 @@
 
 ## 房间搭建协议（M8）
 
-- **房间根节点**：挂 `RoomBase` 脚本（模板 `scenes/templates/room_base.tscn` 复制改名）。`room_id` 必须与 `RoomManager.ROOMS` 注册表一致（`room_01`…`room_12`）；`player_input_delay` 配房间级致幻（第 9 房间 0.8）。
+- **房间根节点**：挂 `RoomBase` 脚本（模板 `scenes/templates/room_base.tscn` 复制改名）。`player_input_delay` 配房间级致幻（第 9 房间 0.8）。**无需任何登记**——新房间丢进 `scenes/rooms/` 即可被指出口。
 - **入口**：放 Marker2D 命名 `Entrance_<id>`（如 `Entrance_default`、`Entrance_corridor`）——对面房间的出口会指到这里。进入房间即自动存档（检查点=入口位置）。
-- **出口**：拖 `room_exit.tscn`，配 `target_room`（对面 room_id）+ `target_entrance`（对面入口 id，default 可省略）。编辑器里出口显示青色描边+目标文字。门控（钥匙门/石门）用实体机关挡在出口前，出口积木本身不做条件判断。
+- **出口**：拖 `room_exit.tscn`，Inspector 里 `target_scene` **直接选 .tscn 文件**（文件选择器），`target_entrance` 填对面入口 id（default 可省略）。编辑器里出口显示青色描边+目标文字。门控（钥匙门/石门）用实体机关挡在出口前，出口积木本身不做条件判断。回程出口需要在对门房间再配一个指回来的——双向由人控制，不强制。
+- **检查点**：房间中部需要存档时拖 `checkpoint.tscn`（红旗占位），玩家触碰即存档，死亡回这里；触碰后变金色。
 - **玩家**：灰盒房间不放玩家——RoomManager 自动实例化并落位；测试场景自带玩家则被收养。
-- **灰盒装修规则**：room_01–12 骨架由 `tools/paint_rooms_graybox.gd` 生成；策划在其上装修（装饰层/机关/灯光），**出入口位置与能力门结构（高墙/窄缝/钥匙门）不可改动**，否则连通性断言（verify_rooms）会红。
+- **灰盒装修规则**：room_01–12 骨架由 `tools/paint_rooms_graybox.gd` 生成（紧凑测试尺寸 40×17）；策划在其上装修（装饰层/机关/灯光），**出入口位置与能力门结构（高墙/窄缝/钥匙门）不可改动**，否则连通性断言（verify_rooms）会红。走廊/通道类过渡空间并入相邻房间，不单独做场景。
 
 ### room_exit.tscn 房间出口
 
-- **用途**：玩家进入触发区 → 切换房间（淡入淡出 0.25s），落到目标房间指定入口。
-- **参数**：`target_room`、`target_entrance`。
+- **用途**：玩家进入触发区 → 切换场景（0.4s 渐出/0.15s 黑场/0.4s 渐入），落到目标场景指定入口。
+- **参数**：`target_scene`（文件选择器）、`target_entrance`。
+
+### checkpoint.tscn 检查点
+
+- **用途**：触碰即把检查点设为本点（当前场景+本坐标），死亡回这里；触碰后旗帜变金色。
+- **参数**：无需配置。
 
 ### key_door.tscn 钥匙门
 

@@ -176,7 +176,6 @@ func _build_room(spec: Dictionary) -> void:
 	_room.name = spec["label"]
 	_room.set_script(load("res://scripts/rooms/room_base.gd"))
 	root.add_child(_room)
-	_room.set("room_id", spec["id"])
 	_room.set("game_darkness", GRAYBOX_DARKNESS)
 
 	var dark := CanvasModulate.new()
@@ -326,7 +325,8 @@ func _place_exits(spec: Dictionary) -> void:
 		var node := (load("res://scenes/interactables/room_exit.tscn") as PackedScene).instantiate() as Area2D
 		node.name = "Exit_to_%s" % exit["target_room"]
 		node.position = _tile_center(exit["pos"])
-		node.set("target_room", exit["target_room"])
+		# 方案 D：出口直接存场景路径（无注册表）
+		node.set("target_scene", "res://scenes/rooms/%s.tscn" % exit["target_room"])
 		node.set("target_entrance", exit["target_entrance"])
 		_room.add_child(node)
 		node.owner = _room

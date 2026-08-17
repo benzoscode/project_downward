@@ -4,4 +4,4 @@ extends Node
 
 
 func _ready() -> void:
-	RoomManager.goto_room(&"room_01", &"default")
+	RoomManager.goto_room("res://scenes/rooms/room_01.tscn", &"default")

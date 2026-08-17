@@ -6,8 +6,6 @@ class_name RoomBase
 ## M2 实现照明灯后，游戏内黑暗由灯光系统与 CanvasModulate 共同作用。
 ## M8 起：运行时自动注册到 RoomManager（入口落位/检查点/相机钳制同步）。
 
-## 房间标识（M8）：与 RoomManager.ROOMS 注册表一致，如 "room_01"
-@export var room_id: StringName = &""
 ## 编辑器显示亮度（搭建用，仅编辑器生效）
 @export_color_no_alpha var editor_brightness: Color = Color(0.45, 0.45, 0.45)
 ## 运行时黑暗亮度（游戏用）

@@ -11,87 +11,86 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_jygcb"]
 [ext_resource type="Script" path="res://scripts/interactables/room_exit.gd" id="10_j6w01"]
 
-[node name="Room03" type="Node2D" unique_id=1203146517]
+[node name="Room03" type="Node2D" unique_id=852059303]
 script = ExtResource("1_e8wg7")
-room_id = &"room_03"
 game_darkness = Color(0.3, 0.3, 0.32, 1)
 
-[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=752341931]
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=2101407673]
 color = Color(0.45, 0.45, 0.45, 1)
 
-[node name="Background" type="TextureRect" parent="." unique_id=410144948]
+[node name="Background" type="TextureRect" parent="." unique_id=554076583]
 z_index = -10
 offset_right = 640.0
 offset_bottom = 272.0
 texture = ExtResource("2_pgnq3")
 
-[node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=342208262]
+[node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=703368235]
 tile_map_data = PackedByteArray("AAAAAA0AAQAAAAAAAAABAA0AAQAAAAAAAAACAA0AAQAAAAAAAAADAA0AAQAAAAAAAAAEAA0AAQAAAAAAAAAFAA0AAQAAAAAAAAAGAA0AAQAAAAAAAAAHAA0AAQAAAAAAAAAIAA0A//////////8JAA0A//////////8KAA0A//////////8LAA0AAQAAAAAAAAAMAA0AAQAAAAAAAAANAA0AAQAAAAAAAAAOAA0AAQAAAAAAAAAPAA0AAQAAAAAAAAAQAA0AAQAAAAAAAAARAA0AAQAAAAAAAAASAA0AAQAAAAAAAAATAA0AAQAAAAAAAAAUAA0AAQAAAAAAAAAVAA0AAQAAAAAAAAAWAA0AAQAAAAAAAAAXAA0AAQAAAAAAAAAYAA0AAQAAAAAAAAAZAA0AAQAAAAAAAAAaAA0AAQAAAAAAAAAbAA0AAQAAAAAAAAAcAA0AAQAAAAAAAAAdAA0AAQAAAAAAAAAeAA0AAQAAAAAAAAAfAA0AAQAAAAAAAAAgAA0AAQAAAAAAAAAhAA0AAQAAAAAAAAAiAA0AAQAAAAAAAAAjAA0AAQAAAAAAAAAkAA0AAQAAAAAAAAAlAA0AAQAAAAAAAAAmAA0AAQAAAAAAAAAnAA0AAQAAAAAAAAAAAA4AAQAAAAIAAAAAAA8AAQAAAAIAAAAAABAAAQAAAAIAAAABAA4AAQAAAAIAAAABAA8AAQAAAAIAAAABABAAAQAAAAIAAAACAA4AAQAAAAIAAAACAA8AAQAAAAIAAAACABAAAQAAAAIAAAADAA4AAQAAAAIAAAADAA8AAQAAAAIAAAADABAAAQAAAAIAAAAEAA4AAQAAAAIAAAAEAA8AAQAAAAIAAAAEABAAAQAAAAIAAAAFAA4AAQAAAAIAAAAFAA8AAQAAAAIAAAAFABAAAQAAAAIAAAAGAA4AAQAAAAIAAAAGAA8AAQAAAAIAAAAGABAAAQAAAAIAAAAHAA4AAQAAAAIAAAAHAA8AAQAAAAIAAAAHABAAAQAAAAIAAAAIAA4A//////////8IAA8A//////////8IABAA//////////8JAA4A//////////8JAA8A//////////8JABAA//////////8KAA4A//////////8KAA8A//////////8KABAA//////////8LAA4AAQAAAAIAAAALAA8AAQAAAAIAAAALABAAAQAAAAIAAAAMAA4AAQAAAAIAAAAMAA8AAQAAAAIAAAAMABAAAQAAAAIAAAANAA4AAQAAAAIAAAANAA8AAQAAAAIAAAANABAAAQAAAAIAAAAOAA4AAQAAAAIAAAAOAA8AAQAAAAIAAAAOABAAAQAAAAIAAAAPAA4AAQAAAAIAAAAPAA8AAQAAAAIAAAAPABAAAQAAAAIAAAAQAA4AAQAAAAIAAAAQAA8AAQAAAAIAAAAQABAAAQAAAAIAAAARAA4AAQAAAAIAAAARAA8AAQAAAAIAAAARABAAAQAAAAIAAAASAA4AAQAAAAIAAAASAA8AAQAAAAIAAAASABAAAQAAAAIAAAATAA4AAQAAAAIAAAATAA8AAQAAAAIAAAATABAAAQAAAAIAAAAUAA4AAQAAAAIAAAAUAA8AAQAAAAIAAAAUABAAAQAAAAIAAAAVAA4AAQAAAAIAAAAVAA8AAQAAAAIAAAAVABAAAQAAAAIAAAAWAA4AAQAAAAIAAAAWAA8AAQAAAAIAAAAWABAAAQAAAAIAAAAXAA4AAQAAAAIAAAAXAA8AAQAAAAIAAAAXABAAAQAAAAIAAAAYAA4AAQAAAAIAAAAYAA8AAQAAAAIAAAAYABAAAQAAAAIAAAAZAA4AAQAAAAIAAAAZAA8AAQAAAAIAAAAZABAAAQAAAAIAAAAaAA4AAQAAAAIAAAAaAA8AAQAAAAIAAAAaABAAAQAAAAIAAAAbAA4AAQAAAAIAAAAbAA8AAQAAAAIAAAAbABAAAQAAAAIAAAAcAA4AAQAAAAIAAAAcAA8AAQAAAAIAAAAcABAAAQAAAAIAAAAdAA4AAQAAAAIAAAAdAA8AAQAAAAIAAAAdABAAAQAAAAIAAAAeAA4AAQAAAAIAAAAeAA8AAQAAAAIAAAAeABAAAQAAAAIAAAAfAA4AAQAAAAIAAAAfAA8AAQAAAAIAAAAfABAAAQAAAAIAAAAgAA4AAQAAAAIAAAAgAA8AAQAAAAIAAAAgABAAAQAAAAIAAAAhAA4AAQAAAAIAAAAhAA8AAQAAAAIAAAAhABAAAQAAAAIAAAAiAA4AAQAAAAIAAAAiAA8AAQAAAAIAAAAiABAAAQAAAAIAAAAjAA4AAQAAAAIAAAAjAA8AAQAAAAIAAAAjABAAAQAAAAIAAAAkAA4AAQAAAAIAAAAkAA8AAQAAAAIAAAAkABAAAQAAAAIAAAAlAA4AAQAAAAIAAAAlAA8AAQAAAAIAAAAlABAAAQAAAAIAAAAmAA4AAQAAAAIAAAAmAA8AAQAAAAIAAAAmABAAAQAAAAIAAAAnAA4AAQAAAAIAAAAnAA8AAQAAAAIAAAAnABAAAQAAAAIAAAAAAAAAAQAAAAIAAAAAAAEAAQAAAAIAAAAAAAIAAQAAAAIAAAAAAAMAAQAAAAIAAAAAAAQA//////////8AAAUA//////////8AAAYA//////////8AAAcAAQAAAAIAAAAAAAgAAQAAAAIAAAAAAAkAAQAAAAIAAAAAAAoAAQAAAAIAAAAAAAsAAQAAAAIAAAAAAAwAAQAAAAIAAAAnAAAAAQAAAAIAAAAnAAEAAQAAAAIAAAAnAAIAAQAAAAIAAAAnAAMAAQAAAAIAAAAnAAQA//////////8nAAUA//////////8nAAYA//////////8nAAcAAQAAAAIAAAAnAAgAAQAAAAIAAAAnAAkAAQAAAAIAAAAnAAoAAQAAAAIAAAAnAAsAAQAAAAIAAAAnAAwAAQAAAAIAAAABAAAAAQAAAAIAAAACAAAAAQAAAAIAAAADAAAAAQAAAAIAAAAEAAAAAQAAAAIAAAAFAAAAAQAAAAIAAAAGAAAAAQAAAAIAAAAHAAAAAQAAAAIAAAAIAAAAAQAAAAIAAAAJAAAAAQAAAAIAAAAKAAAAAQAAAAIAAAALAAAAAQAAAAIAAAAMAAAAAQAAAAIAAAANAAAAAQAAAAIAAAAOAAAAAQAAAAIAAAAPAAAAAQAAAAIAAAAQAAAAAQAAAAIAAAARAAAAAQAAAAIAAAASAAAAAQAAAAIAAAATAAAAAQAAAAIAAAAUAAAAAQAAAAIAAAAVAAAAAQAAAAIAAAAWAAAAAQAAAAIAAAAXAAAAAQAAAAIAAAAYAAAAAQAAAAIAAAAZAAAAAQAAAAIAAAAaAAAAAQAAAAIAAAAbAAAAAQAAAAIAAAAcAAAAAQAAAAIAAAAdAAAAAQAAAAIAAAAeAAAAAQAAAAIAAAAfAAAAAQAAAAIAAAAgAAAAAQAAAAIAAAAhAAAAAQAAAAIAAAAiAAAAAQAAAAIAAAAjAAAAAQAAAAIAAAAkAAAAAQAAAAIAAAAlAAAAAQAAAAIAAAAmAAAAAQAAAAIAAAACAAYAAQAAAAAAAAADAAYAAQAAAAAAAAAEAAYAAQAAAAAAAAAFAAYAAQAAAAAAAAAGAAYAAQAAAAAAAAAHAAYAAQAAAAAAAAAIAAYAAQAAAAAAAAAcAAYAAQAAAAAAAAAdAAYAAQAAAAAAAAAeAAYAAQAAAAAAAAAfAAYAAQAAAAAAAAAgAAYAAQAAAAAAAAAhAAYAAQAAAAAAAAAiAAYAAQAAAAAAAAAjAAYAAQAAAAAAAAAkAAYAAQAAAAAAAAAlAAYAAQAAAAAAAAAmAAYAAQAAAAAAAAAMAAgAAQAAAAIAAAAMAAkAAQAAAAIAAAAMAAoAAQAAAAIAAAAMAAsAAQAAAAIAAAAMAAwAAQAAAAIAAAA=")
 tile_set = ExtResource("3_mci11")
 
-[node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1412291471]
+[node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1092454160]
 tile_set = ExtResource("3_mci11")
 
-[node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=151351962]
+[node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=1621865684]
 tile_set = ExtResource("3_mci11")
 
-[node name="Mechanisms" type="Node2D" parent="." unique_id=477564884]
+[node name="Mechanisms" type="Node2D" parent="." unique_id=1657155890]
 
-[node name="Ladder" type="Area2D" parent="Mechanisms" unique_id=1099065331 instance=ExtResource("4_xtd7u")]
+[node name="Ladder" type="Area2D" parent="Mechanisms" unique_id=437753357 instance=ExtResource("4_xtd7u")]
 position = Vector2(96, 208)
 collision_mask = 6
 script = ExtResource("5_vupmi")
 
-[node name="@Area2D@2" type="Area2D" parent="Mechanisms" unique_id=615176746 instance=ExtResource("4_xtd7u")]
+[node name="@Area2D@2" type="Area2D" parent="Mechanisms" unique_id=1463670153 instance=ExtResource("4_xtd7u")]
 position = Vector2(480, 208)
 collision_mask = 6
 script = ExtResource("5_vupmi")
 
-[node name="KeyDoor" type="AnimatableBody2D" parent="Mechanisms" unique_id=785756521 instance=ExtResource("6_cuuij")]
+[node name="KeyDoor" type="AnimatableBody2D" parent="Mechanisms" unique_id=1036990743 instance=ExtResource("6_cuuij")]
 position = Vector2(584, 88)
 script = ExtResource("7_v6n2f")
 
-[node name="Characters" type="Node2D" parent="." unique_id=363251349]
+[node name="Characters" type="Node2D" parent="." unique_id=1147407515]
 
-[node name="Lights" type="Node2D" parent="." unique_id=1460172941]
+[node name="Lights" type="Node2D" parent="." unique_id=434454370]
 
-[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1688883790]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=854990520]
 position = Vector2(56, 200)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=2007825435]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1784868094]
 position = Vector2(240, 135)
 limit_left = 0
 limit_top = 0
 limit_right = 640
 limit_bottom = 272
 
-[node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=79151453]
+[node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=618356008]
 script = ExtResource("8_5rxdy")
 
-[node name="Entrance_default" type="Marker2D" parent="." unique_id=436499738]
+[node name="Entrance_default" type="Marker2D" parent="." unique_id=2092770546]
 position = Vector2(56, 200)
 
-[node name="Entrance_corridor" type="Marker2D" parent="." unique_id=1698099553]
+[node name="Entrance_corridor" type="Marker2D" parent="." unique_id=953502405]
 position = Vector2(88, 88)
 
-[node name="Exit_to_room_04" type="Area2D" parent="." unique_id=1591825783 instance=ExtResource("9_jygcb")]
+[node name="Exit_to_room_04" type="Area2D" parent="." unique_id=1014875094 instance=ExtResource("9_jygcb")]
 position = Vector2(152, 232)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("10_j6w01")
-target_room = &"room_04"
+target_scene = "res://scenes/rooms/room_04.tscn"
 
-[node name="Exit_to_room_11" type="Area2D" parent="." unique_id=1790925957 instance=ExtResource("9_jygcb")]
+[node name="Exit_to_room_11" type="Area2D" parent="." unique_id=1370957813 instance=ExtResource("9_jygcb")]
 position = Vector2(8, 88)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("10_j6w01")
-target_room = &"room_11"
+target_scene = "res://scenes/rooms/room_11.tscn"
 target_entrance = &"corridor"
 
-[node name="Exit_to_room_12" type="Area2D" parent="." unique_id=483227405 instance=ExtResource("9_jygcb")]
+[node name="Exit_to_room_12" type="Area2D" parent="." unique_id=794282016 instance=ExtResource("9_jygcb")]
 position = Vector2(632, 88)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("10_j6w01")
-target_room = &"room_12"
+target_scene = "res://scenes/rooms/room_12.tscn"

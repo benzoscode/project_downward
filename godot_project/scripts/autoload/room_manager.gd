@@ -2,33 +2,18 @@ extends Node
 ## 房间管理（Autoload: RoomManager，M8）
 ## 职责：房间切换（淡出/淡入）、入口落位、检查点重生、玩家实例跨房间托管。
 ## 协议（策划手册见 building_blocks.md）：
-## - 房间根节点挂 RoomBase 脚本，`room_id` 标识房间；运行时自动注册到本管理器
+## - 房间根节点挂 RoomBase 脚本；运行时自动注册到本管理器（路径取自 scene_file_path）
 ## - 入口 = 房间内名为 `Entrance_<id>` 的 Marker2D（缺省 `Entrance_default`，再缺省 SpawnPoint）
-## - 出口 = room_exit.tscn 积木，配 `target_room` + `target_entrance` 字符串连线
+## - 出口 = room_exit.tscn 积木，`target_scene` 在 Inspector 选 .tscn 文件 + `target_entrance`
 ## 死亡重生回最近检查点（进入房间的入口），机关状态由 MechanismBus 保留（策划案 §一）。
 
-## 房间切换完成（新房间已就绪、玩家已落位）时发出
-signal room_changed(room_id: StringName)
-
-## 12 房间注册表：room_id → 场景路径（灰盒骨架，策划装修覆盖同名文件即可）
-const ROOMS: Dictionary = {
-	&"room_01": "res://scenes/rooms/room_01.tscn",
-	&"room_02": "res://scenes/rooms/room_02.tscn",
-	&"room_03": "res://scenes/rooms/room_03.tscn",
-	&"room_04": "res://scenes/rooms/room_04.tscn",
-	&"room_05": "res://scenes/rooms/room_05.tscn",
-	&"room_06": "res://scenes/rooms/room_06.tscn",
-	&"room_07": "res://scenes/rooms/room_07.tscn",
-	&"room_08": "res://scenes/rooms/room_08.tscn",
-	&"room_09": "res://scenes/rooms/room_09.tscn",
-	&"room_10": "res://scenes/rooms/room_10.tscn",
-	&"room_11": "res://scenes/rooms/room_11.tscn",
-	&"room_12": "res://scenes/rooms/room_12.tscn",
-}
+## 房间切换完成（新场景已就绪、玩家已落位）时发出
+signal room_changed(scene_path: String)
 
 const PLAYER_SCENE := "res://scenes/characters/player.tscn"
 
-var current_room_id: StringName = &""
+## 当前场景路径（.tscn）。M8 方案 D：无注册表，出口积木直接存场景路径
+var current_room_id: String = ""
 
 var _room: Node2D = null
 var _player: Player = null
@@ -53,7 +38,8 @@ func _ready() -> void:
 ## 独立运行的测试场景（demo_room/labs 自带玩家）也走这里——玩家已存在则被收养。
 func register_active_room(room: Node2D) -> void:
 	_room = room
-	current_room_id = room.get("room_id")
+	# 场景实例自带来源路径（scene_file_path），无需任何注册/配置
+	current_room_id = room.scene_file_path
 	_ensure_player()
 	_place_player(_pending_entrance)
 	_pending_entrance = &"default"
@@ -63,12 +49,12 @@ func register_active_room(room: Node2D) -> void:
 	room_changed.emit(current_room_id)
 
 
-## 切换到目标房间的指定入口（带淡出/淡入）。过渡期间忽略重复触发。
-func goto_room(target_room: StringName, target_entrance: StringName = &"default") -> void:
+## 切换到目标场景的指定入口（带淡出/淡入）。过渡期间忽略重复触发。
+func goto_room(target_scene: String, target_entrance: StringName = &"default") -> void:
 	if _transitioning:
 		return
-	if not ROOMS.has(target_room):
-		printerr("RoomManager: 未注册的房间 ", target_room)
+	if not ResourceLoader.exists(target_scene):
+		printerr("RoomManager: 场景不存在 ", target_scene)
 		return
 	_transitioning = true
 	_lock_player(true)
@@ -83,7 +69,7 @@ func goto_room(target_room: StringName, target_entrance: StringName = &"default"
 	if _room != null and is_instance_valid(_room):
 		_room.queue_free()
 	_pending_entrance = target_entrance
-	var packed := load(ROOMS[target_room]) as PackedScene
+	var packed := load(target_scene) as PackedScene
 	_room = packed.instantiate() as Node2D
 	get_tree().root.add_child(_room)
 	# RoomBase._ready 回调 register_active_room 完成落位与检查点
@@ -99,14 +85,16 @@ func respawn() -> void:
 	if _transitioning:
 		return
 	# 无检查点上下文（独立测试场景未走 RoomBase 注册）：回退旧行为——spawn_point 组标记
-	if GameState.checkpoint_room == &"":
+	if GameState.checkpoint_room == "":
 		var spawn := get_tree().get_first_node_in_group(&"spawn_point") as Node2D
 		if spawn != null and _player_or_scene_player() != null:
 			var p := _player_or_scene_player()
+			_player = p
 			p.global_position = spawn.global_position
 			p.velocity = Vector2.ZERO
 			p.reset_on_respawn()
 			p.reset_physics_interpolation()
+			_snap_camera_to_player()
 		return
 	_lock_player(true)
 	ControlManager.force_recall()
@@ -117,6 +105,7 @@ func respawn() -> void:
 			_player.velocity = Vector2.ZERO
 			_player.reset_on_respawn()
 			_player.reset_physics_interpolation()
+			_snap_camera_to_player()
 		_lock_player(false)
 		return
 	await goto_room(GameState.checkpoint_room, &"__checkpoint__")
@@ -183,6 +172,19 @@ func _place_player(entrance: StringName) -> void:
 	# 房间级玩家参数（第 9 房间致幻延迟等，策划在房间根节点配）
 	_player.input_delay = _room.get("player_input_delay")
 	_player.reset_physics_interpolation()
+	_snap_camera_to_player()
+
+
+## 相机瞬移到玩家：pcam 的 follow_damping 会让镜头从上一位置摇过来（0.15s），
+## 进房间/重生时应直接对准（用户反馈 2026-08-17）。teleport_position 为插件官方 API。
+## 需等一帧：pcam 缓存的跟随目标是玩家瞬移前的旧位置，同帧调用会瞬移到旧坐标。
+func _snap_camera_to_player() -> void:
+	await get_tree().process_frame
+	if _player == null or not is_instance_valid(_player):
+		return
+	var pcam := _player.get_node_or_null("PhantomCamera2D")
+	if pcam != null and pcam.has_method("teleport_position"):
+		pcam.teleport_position()
 
 
 ## 房间切换后把房间 Camera2D 的 limit 同步到玩家 pcam
