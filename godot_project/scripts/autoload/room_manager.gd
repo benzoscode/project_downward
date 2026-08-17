@@ -75,6 +75,8 @@ func goto_room(target_room: StringName, target_entrance: StringName = &"default"
 	# 收回老鼠：跨房间不携带（主动转场免死亡冷却）
 	ControlManager.force_recall()
 	await _fade_to(1.0)
+	# 黑场停留一拍：渐出/渐入节奏可被感知（用户反馈原 0.25s 直连看不出渐入）
+	await get_tree().create_timer(0.15).timeout
 	# 把持久玩家从旧房间摘下，避免随旧房间一起释放
 	if _player != null and is_instance_valid(_player) and _player.get_parent() != null:
 		_player.get_parent().remove_child(_player)
@@ -205,5 +207,5 @@ func _lock_player(locked: bool) -> void:
 
 func _fade_to(alpha: float) -> void:
 	var tween := create_tween()
-	tween.tween_property(_fade_rect, "color:a", alpha, 0.25)
+	tween.tween_property(_fade_rect, "color:a", alpha, 0.4)
 	await tween.finished

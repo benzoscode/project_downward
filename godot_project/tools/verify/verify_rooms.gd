@@ -71,11 +71,13 @@ func _terrain_solid(room_id: StringName, cell: Vector2i) -> bool:
 	return solid
 
 
-func _wait_room(room_id: StringName, max_frames: int = 120) -> bool:
-	for i in range(max_frames):
-		await get_tree().process_frame
+## 等房间切换完成：按真实时间超时（headless 无垂直同步，帧跑得快、补间按秒走，数帧不可靠）
+func _wait_room(room_id: StringName, timeout_ms: int = 8000) -> bool:
+	var deadline := Time.get_ticks_msec() + timeout_ms
+	while Time.get_ticks_msec() < deadline:
 		if RoomManager.current_room_id == room_id and not RoomManager.is_transitioning():
 			return true
+		await get_tree().process_frame
 	return false
 
 
@@ -108,14 +110,14 @@ func _run_tests() -> void:
 	_check("T1b 出口目标均已注册且入口标记存在", unregistered.is_empty() and missing_entrance.is_empty(),
 		"unregistered=%s missing=%s" % [unregistered, missing_entrance])
 
-	# ---- T2 能力门结构（静态）：room_03 五格高墙、room_09 老鼠窄缝 ----
+	# ---- T2 能力门结构（静态）：room_03 五格高墙（行 8..12）、room_09 老鼠窄缝（行 12 通行）----
 	var wall_solid := true
-	for y in range(55, 60):
+	for y in range(8, 13):
 		wall_solid = wall_solid and _terrain_solid(&"room_03", Vector2i(12, y))
-	_check("T2a 二段跳高墙（5 格实心）", wall_solid and not _terrain_solid(&"room_03", Vector2i(12, 54)))
-	var gap_ok := not _terrain_solid(&"room_09", Vector2i(40, 59))
-	for y in range(55, 59):
-		gap_ok = gap_ok and _terrain_solid(&"room_09", Vector2i(40, y))
+	_check("T2a 二段跳高墙（5 格实心）", wall_solid and not _terrain_solid(&"room_03", Vector2i(12, 7)))
+	var gap_ok := not _terrain_solid(&"room_09", Vector2i(20, 12))
+	for y in range(8, 12):
+		gap_ok = gap_ok and _terrain_solid(&"room_09", Vector2i(20, y))
 	_check("T2b 老鼠窄缝（底行 1 格高通道）", gap_ok)
 
 	# ---- T3 过渡与检查点（运行）----
@@ -136,13 +138,13 @@ func _run_tests() -> void:
 		ok and player.global_position.distance_to(entrance2) < 8.0 and GameState.checkpoint_room == &"room_02",
 		"room=%s checkpoint=%s" % [RoomManager.current_room_id, GameState.checkpoint_room])
 
-	# ---- T4 pcam 钳制同步（遗留修复验证）：room_01 限 1920，room_12 限 5760 ----
+	# ---- T4 pcam 钳制同步（遗留修复验证）：room_01 限 640（40 格），room_12 限 1440（90 格）----
 	var pcam := player.get_node("PhantomCamera2D")
 	var limit_r1: int = pcam.get("limit_right")
 	RoomManager.goto_room(&"room_12", &"default")
 	ok = await _wait_room(&"room_12")
 	var limit_r12: int = pcam.get("limit_right")
-	_check("T4 相机钳制随房间同步", limit_r1 == 1920 and limit_r12 == 5760,
+	_check("T4 相机钳制随房间同步", limit_r1 == 640 and limit_r12 == 1440,
 		"room_01=%d room_12=%d" % [limit_r1, limit_r12])
 
 	# ---- T5 出口触发区真实切换：回 room_01 把玩家放上出口 ----
@@ -152,7 +154,7 @@ func _run_tests() -> void:
 	var exit_node := RoomManager.get_active_room().get_node("Exit_to_room_02") as Area2D
 	player.global_position = exit_node.global_position
 	player.reset_physics_interpolation()
-	ok = await _wait_room(&"room_02", 180)
+	ok = await _wait_room(&"room_02")
 	_check("T5 踩出口触发区切换到 room_02", ok, "room=%s" % RoomManager.current_room_id)
 
 	# ---- T6 死亡重生：同房间回检查点 ----
@@ -173,7 +175,7 @@ func _run_tests() -> void:
 	# 手动把检查点设回 room_02（模拟之前在 room_02 存过档，当前房间死亡）
 	GameState.set_checkpoint(&"room_02", cp)
 	player.die()
-	ok = await _wait_room(&"room_02", 180)
+	ok = await _wait_room(&"room_02")
 	player = get_tree().get_first_node_in_group(&"player") as Player
 	_check("T7 跨房间死亡回检查点房间", ok and player.global_position.distance_to(cp) < 8.0,
 		"room=%s pos=%s expect=%s" % [RoomManager.current_room_id, player.global_position, cp])

@@ -1,22 +1,25 @@
 extends SceneTree
 ## 生成 12 房间灰盒骨架（M8）：地板/围墙/出入口/门洞/梯子/能力门结构。
-## 连接关系按策划案 §三房间一览与详设（progress.md §3 亦有摘录）：
+## 连接关系按策划案 §三房间一览与详设：
 ##   1→2→3→4→5→6→7→8→9→11；7⇄10（梯子）；5→4（水体秘密通道回程）；
 ##   11→狭长通道→3（回环）；3 钥匙门→12（终局）。
-## 目的：可流通的地图骨架 + 机制测试场。策划在灰盒上装修，不推翻出入口结构。
+## 尺寸决策（decisions.md 2026-08-17）：灰盒为**紧凑测试尺寸** 40×17 格（room_12 为 90×34），
+## 便于机制与连通测试；策划案正式房间 ≥120×67，装修阶段以灰盒出入口相对关系为准扩建。
+## 灰盒亮度调高（game_darkness 0.3）便于测试观察，装修时可调暗。
 ## 用法（godot_project/ 下）：
 ##   & <godot_console.exe> --headless --script tools/paint_rooms_graybox.gd
 
-const TEMPLATE := "res://scenes/rooms/room_base.tscn"
 const SRC := 1 # TileSet source：泥土（带碰撞+遮光）
 const EDGE_TOP := Vector2i(0, 0)
 const FILL := Vector2i(0, 2)
-const FLOOR_ROW := 60 # 地面顶行（67 行高房间）
 const TILE := 16.0
+const GRAYBOX_DARKNESS := Color(0.3, 0.3, 0.32, 1)
 
 var _terrain: TileMapLayer
 var _room: Node2D
 var _room_w: int
+var _room_h: int
+var _floor_row: int
 
 
 func _initialize() -> void:
@@ -26,142 +29,137 @@ func _initialize() -> void:
 	quit(0)
 
 
-# ---- 房间规格表 ----
-# entrances: {id: Vector2i 格}；exits: {pos 格(px 中心另算), target_room, target_entrance, side}
-# side: right/left = 侧墙门洞（3 格高）；top = 天花板洞；bottom = 地板洞（坠落）
-# walls_gap / ceiling_gap / floor_gap 由 exits 自动推出；extra_* 为附加结构
+# ---- 房间规格表（紧凑灰盒：40×17，floor_row=12 地面顶行；room_12 为 90×34，floor_row=28）----
+# entrances: {id: Vector2i 格}；exits: {pos, target_room, target_entrance, side}
+# side: right/left = 侧墙门洞（3 格高，*_high 同理只是位置高）；top = 天花板洞；bottom = 地板洞
+# platforms/blocks: Rect2i(格)；ladders: Rect2i(格，竖向)；pits: 地板坑洞；water: 水体积木区域
 func _room_specs() -> Array[Dictionary]:
 	var specs: Array[Dictionary] = []
 
 	specs.append({
 		"id": &"room_01", "label": "Room01",
-		"entrances": {&"default": Vector2i(4, 59)},
-		"exits": [{"pos": Vector2i(119, 58), "target_room": &"room_02", "target_entrance": &"default", "side": "right"}],
+		"entrances": {&"default": Vector2i(3, 12)},
+		"exits": [{"pos": Vector2i(39, 11), "target_room": &"room_02", "target_entrance": &"default", "side": "right"}],
 	})
 	specs.append({
 		"id": &"room_02", "label": "Room02",
-		"entrances": {&"default": Vector2i(4, 59)},
-		"exits": [{"pos": Vector2i(119, 58), "target_room": &"room_03", "target_entrance": &"default", "side": "right"}],
+		"entrances": {&"default": Vector2i(3, 12)},
+		"exits": [{"pos": Vector2i(39, 11), "target_room": &"room_03", "target_entrance": &"default", "side": "right"}],
 	})
 	specs.append({
 		"id": &"room_03", "label": "Room03",
-		"entrances": {&"default": Vector2i(4, 59), &"corridor": Vector2i(6, 7)},
+		"entrances": {&"default": Vector2i(3, 12), &"corridor": Vector2i(5, 5)},
 		"exits": [
 			# 下方出口（策划案：水体下方左侧）→ room_04 顶部落入
-			{"pos": Vector2i(9, 62), "target_room": &"room_04", "target_entrance": &"default", "side": "bottom"},
+			{"pos": Vector2i(9, 14), "target_room": &"room_04", "target_entrance": &"default", "side": "bottom"},
 			# 左上狭长通道（5 格高墙挡首次通过，需二段跳）→ room_11 右端
-			{"pos": Vector2i(2, 7), "target_room": &"room_11", "target_entrance": &"corridor", "side": "left_high"},
+			{"pos": Vector2i(0, 5), "target_room": &"room_11", "target_entrance": &"corridor", "side": "left_high"},
 			# 右上钥匙门 → room_12（终局入口）
-			{"pos": Vector2i(117, 18), "target_room": &"room_12", "target_entrance": &"default", "side": "right_high"},
+			{"pos": Vector2i(39, 5), "target_room": &"room_12", "target_entrance": &"default", "side": "right_high"},
 		],
-		"platforms": [
-			# 左上高台（行 8，通道入口落脚处）
-			Rect2i(2, 8, 7, 1),
-			# 右上钥匙门高台（行 20）
-			Rect2i(100, 20, 19, 1),
-		],
-		# 5 格高墙（行 55..59）：能力门——无靴不可越，策划案 §三(三)"首次无法到达"
-		"blocks": [Rect2i(12, 55, 1, 5)],
-		"ladders": [Rect2i(6, 9, 1, 50), Rect2i(102, 21, 1, 38)],
-		"key_door": Vector2i(117, 18), # 挡在右上出口前
+		"platforms": [Rect2i(2, 6, 7, 1), Rect2i(28, 6, 11, 1)],
+		# 5 格高墙（行 8..12）：能力门——无靴不可越，策划案 §三(三)"首次无法到达"
+		"blocks": [Rect2i(12, 8, 1, 5)],
+		"ladders": [Rect2i(6, 7, 1, 6), Rect2i(30, 7, 1, 6)],
+		"key_door": Vector2i(36, 5), # 挡在右上出口前
 	})
 	specs.append({
 		"id": &"room_04", "label": "Room04",
-		"entrances": {&"default": Vector2i(60, 4), &"secret": Vector2i(31, 55)},
+		"entrances": {&"default": Vector2i(20, 2), &"secret": Vector2i(26, 9)},
 		"exits": [
-			# 左侧出口 → room_05 右侧平台（策划案 §三(四)"左侧有一扇门通往第5房间"）
-			{"pos": Vector2i(0, 58), "target_room": &"room_05", "target_entrance": &"default", "side": "left"},
+			# 左侧出口 → room_05 右侧平台（策划案 §三(四)）
+			{"pos": Vector2i(0, 11), "target_room": &"room_05", "target_entrance": &"default", "side": "left"},
 		],
 		# 顶部落井（承接 room_03 下方出口）
-		"shafts": [Rect2i(59, 0, 3, 60)],
-		"ceiling_gaps": [Vector2i(60, 0)],
+		"shafts": [Rect2i(19, 0, 3, 13)],
+		"ceiling_gaps": [Vector2i(20, 0)],
 		# 秘密水潭（room_05 水体通道回程冒头处）
-		"water": [Rect2i(28, 61, 7, 6)],
-		# 跨房间机关演示：底部狮子头按钮开 room_05 的石门（策划案 §三(五)）
-		"lion_buttons": [{"pos": Vector2i(60, 59), "target_id": &"r05_door2"}],
+		"pits": [Rect2i(24, 13, 5, 4)],
+		"water": [Rect2i(24, 14, 5, 3)],
+		# 跨房间机关演示：狮子头按钮开 room_05 的石门（策划案 §三(五)）
+		"lion_buttons": [{"pos": Vector2i(20, 12), "target_id": &"r05_door2"}],
 	})
 	specs.append({
 		"id": &"room_05", "label": "Room05",
-		"entrances": {&"default": Vector2i(114, 59)},
+		"entrances": {&"default": Vector2i(36, 12)},
 		"exits": [
-			{"pos": Vector2i(0, 58), "target_room": &"room_06", "target_entrance": &"default", "side": "left"},
+			{"pos": Vector2i(0, 11), "target_room": &"room_06", "target_entrance": &"default", "side": "left"},
 			# 水体秘密通道（回程）→ room_04 水潭（策划案 §三(五)）
-			{"pos": Vector2i(91, 62), "target_room": &"room_04", "target_entrance": &"secret", "side": "bottom"},
+			{"pos": Vector2i(31, 14), "target_room": &"room_04", "target_entrance": &"secret", "side": "bottom"},
 		],
 		# 左门洞被石门挡住：listen r05_door2（按钮在 room_04，跨房间联动）
-		"stone_doors": [{"pos": Vector2i(1, 58), "listen_id": &"r05_door2"}],
-		"water": [Rect2i(88, 61, 7, 6)],
+		"stone_doors": [{"pos": Vector2i(1, 11), "listen_id": &"r05_door2"}],
+		"pits": [Rect2i(30, 13, 3, 4)],
+		"water": [Rect2i(30, 14, 3, 3)],
 	})
 	specs.append({
 		"id": &"room_06", "label": "Room06",
-		"entrances": {&"default": Vector2i(114, 59)},
-		"exits": [{"pos": Vector2i(0, 58), "target_room": &"room_07", "target_entrance": &"default", "side": "left"}],
+		"entrances": {&"default": Vector2i(36, 12)},
+		"exits": [{"pos": Vector2i(0, 11), "target_room": &"room_07", "target_entrance": &"default", "side": "left"}],
 	})
 	specs.append({
 		"id": &"room_07", "label": "Room07",
-		"entrances": {&"default": Vector2i(114, 59), &"top": Vector2i(60, 13)},
+		"entrances": {&"default": Vector2i(36, 12), &"top": Vector2i(20, 5)},
 		"exits": [
-			{"pos": Vector2i(0, 58), "target_room": &"room_08", "target_entrance": &"default", "side": "left"},
+			{"pos": Vector2i(0, 11), "target_room": &"room_08", "target_entrance": &"default", "side": "left"},
 			# 顶部梯子 → room_10（策划案 §三(七)）
-			{"pos": Vector2i(60, 1), "target_room": &"room_10", "target_entrance": &"default", "side": "top"},
+			{"pos": Vector2i(20, 1), "target_room": &"room_10", "target_entrance": &"default", "side": "top"},
 		],
-		"platforms": [Rect2i(55, 14, 11, 1)],
-		"ladders": [Rect2i(60, 15, 1, 44)],
-		"ceiling_gaps": [Vector2i(60, 0)],
+		"platforms": [Rect2i(16, 6, 9, 1)],
+		"ladders": [Rect2i(20, 7, 1, 6)],
 	})
 	specs.append({
 		"id": &"room_08", "label": "Room08",
-		"entrances": {&"default": Vector2i(6, 59), &"top": Vector2i(110, 7)},
+		"entrances": {&"default": Vector2i(4, 12), &"top": Vector2i(34, 5)},
 		"exits": [
 			# 右上高台 → room_09（策划案 §三(八)"右上梯子通往第9房间"）
-			{"pos": Vector2i(119, 7), "target_room": &"room_09", "target_entrance": &"default", "side": "right_high"},
+			{"pos": Vector2i(39, 5), "target_room": &"room_09", "target_entrance": &"default", "side": "right_high"},
 		],
-		"platforms": [Rect2i(106, 8, 13, 1)],
-		"ladders": [Rect2i(110, 9, 1, 50)],
-		# 地刺底床（策划案 §三(八)：坠落即失败）
-		"spikes": [Rect2i(30, 59, 60, 1)],
+		"platforms": [Rect2i(30, 6, 9, 1)],
+		"ladders": [Rect2i(34, 7, 1, 6)],
+		# 地刺床（策划案 §三(八)：坠落即失败）；灰盒收窄到 3 格保证可跳过
+		"spikes": [Rect2i(18, 12, 3, 1)],
 	})
 	specs.append({
 		"id": &"room_09", "label": "Room09",
-		"entrances": {&"default": Vector2i(6, 7), &"from_11": Vector2i(112, 59)},
+		"entrances": {&"default": Vector2i(4, 5), &"from_11": Vector2i(36, 12)},
 		"exits": [
 			# 右侧出口 → room_11（策划案 §三(九)）
-			{"pos": Vector2i(119, 58), "target_room": &"room_11", "target_entrance": &"default", "side": "right"},
-			# 左下返回 room_08 右上高台
-			{"pos": Vector2i(2, 7), "target_room": &"room_08", "target_entrance": &"top", "side": "left_high"},
+			{"pos": Vector2i(39, 11), "target_room": &"room_11", "target_entrance": &"default", "side": "right"},
+			# 左上返回 room_08 右上高台
+			{"pos": Vector2i(0, 5), "target_room": &"room_08", "target_entrance": &"top", "side": "left_high"},
 		],
-		"platforms": [Rect2i(2, 8, 8, 1)],
-		"ladders": [Rect2i(6, 9, 1, 50)],
-		# 老鼠窄缝：x=40 墙体只留底行 1 格高通道（能力门：玩家不可过）
-		"blocks": [Rect2i(40, 55, 1, 4)],
-		"pickups": [{"pos": Vector2i(44, 59), "item": &"gem_amber"}], # 窄缝后奖励位（灰盒演示）
+		"platforms": [Rect2i(2, 6, 7, 1)],
+		"ladders": [Rect2i(6, 7, 1, 6)],
+		# 老鼠窄缝：x=20 墙体只留站立行 1 格高通道（能力门：玩家不可过）
+		"blocks": [Rect2i(20, 8, 1, 4)],
+		"pickups": [{"pos": Vector2i(24, 12), "item": &"gem_amber"}], # 窄缝后奖励位（灰盒演示）
 	})
 	specs.append({
 		"id": &"room_10", "label": "Room10",
-		"entrances": {&"default": Vector2i(60, 6)},
+		"entrances": {&"default": Vector2i(20, 4)},
 		"exits": [
 			# 原路返回 room_07 顶部平台（策划案 §三(十)：返回第7房间）
-			{"pos": Vector2i(60, 1), "target_room": &"room_07", "target_entrance": &"top", "side": "top"},
+			{"pos": Vector2i(20, 1), "target_room": &"room_07", "target_entrance": &"top", "side": "top"},
 		],
-		"platforms": [Rect2i(55, 7, 11, 1)],
-		"ladders": [Rect2i(60, 8, 1, 51)],
-		"ceiling_gaps": [Vector2i(60, 0)],
+		"platforms": [Rect2i(16, 5, 9, 1)],
+		"ladders": [Rect2i(20, 6, 1, 7)],
 	})
 	specs.append({
 		"id": &"room_11", "label": "Room11",
-		"entrances": {&"default": Vector2i(4, 59), &"corridor": Vector2i(112, 59)},
+		"entrances": {&"default": Vector2i(3, 12), &"corridor": Vector2i(36, 12)},
 		"exits": [
 			# 右侧狭长通道 → room_03 左上（策划案 §三(十一)"从深处回归"闭环）
-			{"pos": Vector2i(119, 58), "target_room": &"room_03", "target_entrance": &"corridor", "side": "right"},
+			{"pos": Vector2i(39, 11), "target_room": &"room_03", "target_entrance": &"corridor", "side": "right"},
 		],
 	})
 	specs.append({
-		"id": &"room_12", "label": "Room12", "width": 360, # 策划案：5760×1080（360×67 格）
-		"entrances": {&"default": Vector2i(4, 59)},
+		"id": &"room_12", "label": "Room12", "width": 90, "height": 34,
+		"entrances": {&"default": Vector2i(3, 29)},
 		"exits": [], # 结局出口在 M9 实现
 		# 三层结构空壳（策划案 §三(十二)：潜行层/追赶层/宝石层），M9 填充内容
-		"platforms": [Rect2i(30, 45, 300, 1), Rect2i(60, 30, 280, 1), Rect2i(90, 15, 260, 1)],
-		"ladders": [Rect2i(100, 46, 1, 13), Rect2i(200, 31, 1, 14), Rect2i(300, 16, 1, 14)],
+		"platforms": [Rect2i(10, 23, 70, 1), Rect2i(20, 16, 60, 1), Rect2i(30, 9, 55, 1)],
+		"ladders": [Rect2i(25, 24, 1, 6), Rect2i(45, 17, 1, 6), Rect2i(65, 10, 1, 6)],
 	})
 
 	return specs
@@ -171,12 +169,15 @@ func _room_specs() -> Array[Dictionary]:
 
 func _build_room(spec: Dictionary) -> void:
 	# 从零构建（镜像 room_base.tscn 结构）——继承场景 pack 时子节点修改有丢失风险，不用模板实例化
-	_room_w = spec.get("width", 120)
+	_room_w = spec.get("width", 40)
+	_room_h = spec.get("height", 17)
+	_floor_row = _room_h - 4 # 地面顶行（下方 4 行填实）
 	_room = Node2D.new()
 	_room.name = spec["label"]
 	_room.set_script(load("res://scripts/rooms/room_base.gd"))
 	root.add_child(_room)
 	_room.set("room_id", spec["id"])
+	_room.set("game_darkness", GRAYBOX_DARKNESS)
 
 	var dark := CanvasModulate.new()
 	dark.name = "CanvasModulate"
@@ -188,7 +189,7 @@ func _build_room(spec: Dictionary) -> void:
 	bg.name = "Background"
 	bg.z_index = -10
 	bg.offset_right = _room_w * TILE
-	bg.offset_bottom = 1080.0
+	bg.offset_bottom = _room_h * TILE
 	bg.texture = load("res://assets/placeholder/bg_cave.png")
 	bg.stretch_mode = TextureRect.STRETCH_SCALE
 	_room.add_child(bg)
@@ -224,7 +225,7 @@ func _build_room(spec: Dictionary) -> void:
 	cam.limit_left = 0
 	cam.limit_top = 0
 	cam.limit_right = _room_w * int(TILE)
-	cam.limit_bottom = 1080
+	cam.limit_bottom = _room_h * int(TILE)
 	cam.enabled = true
 	_room.add_child(cam)
 	cam.owner = _room
@@ -268,33 +269,29 @@ func _paint_shell(spec: Dictionary) -> void:
 	var w := _room_w
 	# 地面（含顶行草皮）
 	for x in range(0, w):
-		_terrain.set_cell(Vector2i(x, FLOOR_ROW), SRC, EDGE_TOP)
-	_fill(Rect2i(0, FLOOR_ROW + 1, w, 67 - FLOOR_ROW - 1))
+		_terrain.set_cell(Vector2i(x, _floor_row), SRC, EDGE_TOP)
+	_fill(Rect2i(0, _floor_row + 1, w, _room_h - _floor_row - 1))
 	# 左右围墙 + 天花板
-	_fill(Rect2i(0, 0, 1, FLOOR_ROW))
-	_fill(Rect2i(w - 1, 0, 1, FLOOR_ROW))
+	_fill(Rect2i(0, 0, 1, _floor_row))
+	_fill(Rect2i(w - 1, 0, 1, _floor_row))
 	_fill(Rect2i(0, 0, w, 1))
 	# 出口挖洞
 	for exit in spec["exits"]:
 		var p: Vector2i = exit["pos"]
 		match exit["side"]:
-			"right":
+			"right", "right_high":
 				_fill_air(Rect2i(w - 1, p.y - 1, 1, 3))
-			"left":
-				_fill_air(Rect2i(0, p.y - 1, 1, 3))
-			"right_high":
-				_fill_air(Rect2i(w - 1, p.y - 1, 1, 3))
-			"left_high":
+			"left", "left_high":
 				_fill_air(Rect2i(0, p.y - 1, 1, 3))
 			"top":
 				_fill_air(Rect2i(p.x, 0, 1, 1))
 			"bottom":
-				_fill_air(Rect2i(p.x - 1, FLOOR_ROW, 3, 67 - FLOOR_ROW))
+				_fill_air(Rect2i(p.x - 1, _floor_row, 3, _room_h - _floor_row))
 	# 天花板附加洞
 	for gap in spec.get("ceiling_gaps", []):
 		_terrain.erase_cell(gap)
-	# 地板附加洞（刺坑等）
-	for rect in spec.get("floor_gaps_extra", []):
+	# 地板坑洞（水潭等）
+	for rect in spec.get("pits", []):
 		_fill_air(rect)
 
 
@@ -310,7 +307,7 @@ func _paint_structures(spec: Dictionary) -> void:
 	for rect in spec.get("blocks", []):
 		_fill(rect, FILL)
 	for rect in spec.get("shafts", []):
-		# 落井：两侧井壁（中间已在天花板/常规结构留空）
+		# 落井：两侧井壁（中间留空）
 		_fill(Rect2i(rect.position.x - 1, rect.position.y, 1, rect.size.y))
 		_fill(Rect2i(rect.position.x + rect.size.x, rect.position.y, 1, rect.size.y))
 
@@ -362,7 +359,6 @@ func _place_mechanisms(spec: Dictionary) -> void:
 	for rect in spec.get("water", []):
 		var water := (load("res://scenes/interactables/water.tscn") as PackedScene).instantiate() as Node2D
 		water.position = Vector2(rect.position) * TILE
-		# 默认 96×48，按规格拉伸碰撞与视觉
 		var shape_node := water.get_node("CollisionShape2D") as CollisionShape2D
 		var rect_shape := (shape_node.shape as RectangleShape2D).duplicate() as RectangleShape2D
 		rect_shape.size = Vector2(rect.size.x * TILE, rect.size.y * TILE)

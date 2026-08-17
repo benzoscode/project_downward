@@ -152,4 +152,4 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
   - **pcam 钳制同步**（遗留修复）：进房间时把房间 Camera2D 的 limit 写入玩家 pcam 的 `limit_*`——此前 pcam 直写坐标绕过 Camera2D 钳制
 - **房间协议**（策划手册见 building_blocks.md）：房间根 = RoomBase 脚本（`room_id` + `player_input_delay` 房间级致幻配置）；入口 = `Entrance_<id>` Marker2D；出口 = `room_exit.tscn` 积木（`target_room`/`target_entrance` 字符串连线，编辑器内青色描边+目标文字）
 - **钥匙门积木** `key_door.tscn`：`GameState.has_key` 开启（第 4 房间宝箱 → 第 3 房间右上角门 → 12 房）
-- **12 房间灰盒骨架**：`tools/paint_rooms_graybox.gd` 批量生成 `scenes/rooms/room_01..12.tscn`（镜像 room_base 结构；room_12 为 360×67 三层空壳）。连接图：1→2→3→4→5→6→7→8→9→11；7⇄10 梯子；5→4 水体秘密通道；11→狭长通道→3 回环；3 钥匙门→12。能力门结构：3 房 5 格高墙（二段跳）/钥匙门、9 房老鼠窄缝、8 房地刺床。**策划在灰盒上装修，出入口结构不动**
+- **12 房间灰盒骨架**：`tools/paint_rooms_graybox.gd` 批量生成 `scenes/rooms/room_01..12.tscn`（镜像 room_base 结构）。连接图：1→2→3→4→5→6→7→8→9→11；7⇄10 梯子；5→4 水体秘密通道；11→狭长通道→3 回环；3 钥匙门→12。能力门结构：3 房 5 格高墙（二段跳）/钥匙门、9 房老鼠窄缝、8 房地刺床。**尺寸为紧凑测试规格** 40×17 格（room_12 为 90×34 三层空壳），灰盒亮度 0.3 便于观察；策划案正式房间 ≥120×67，装修阶段按出入口相对关系扩建（decisions.md 2026-08-17）。**策划在灰盒上装修，出入口结构不动**
