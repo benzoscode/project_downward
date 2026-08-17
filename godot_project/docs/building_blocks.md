@@ -56,6 +56,24 @@
 
 - `player.input_delay`（秒）：第 9 房间输入延迟。**决策记录**：渲染延迟方案风险过高，按里程碑预案降级为输入延迟。
 
+## 房间搭建协议（M8）
+
+- **房间根节点**：挂 `RoomBase` 脚本（模板 `scenes/templates/room_base.tscn` 复制改名）。`room_id` 必须与 `RoomManager.ROOMS` 注册表一致（`room_01`…`room_12`）；`player_input_delay` 配房间级致幻（第 9 房间 0.8）。
+- **入口**：放 Marker2D 命名 `Entrance_<id>`（如 `Entrance_default`、`Entrance_corridor`）——对面房间的出口会指到这里。进入房间即自动存档（检查点=入口位置）。
+- **出口**：拖 `room_exit.tscn`，配 `target_room`（对面 room_id）+ `target_entrance`（对面入口 id，default 可省略）。编辑器里出口显示青色描边+目标文字。门控（钥匙门/石门）用实体机关挡在出口前，出口积木本身不做条件判断。
+- **玩家**：灰盒房间不放玩家——RoomManager 自动实例化并落位；测试场景自带玩家则被收养。
+- **灰盒装修规则**：room_01–12 骨架由 `tools/paint_rooms_graybox.gd` 生成；策划在其上装修（装饰层/机关/灯光），**出入口位置与能力门结构（高墙/窄缝/钥匙门）不可改动**，否则连通性断言（verify_rooms）会红。
+
+### room_exit.tscn 房间出口
+
+- **用途**：玩家进入触发区 → 切换房间（淡入淡出 0.25s），落到目标房间指定入口。
+- **参数**：`target_room`、`target_entrance`。
+
+### key_door.tscn 钥匙门
+
+- **用途**：持有钥匙（第 4 房间宝箱）才开启的金色门；策划案 §三(三) 第 3 房间右上角→12 房。
+- **连线**：无需配置，监听 `GameState.has_key`；开门动画 0.6s 可调 `tween_duration`。
+
 ## 角色积木（M7）
 
 ### boss.tscn 地底猎食者（scenes/characters/）

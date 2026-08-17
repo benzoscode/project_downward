@@ -63,6 +63,12 @@ func on_mouse_died() -> void:
 	_cooldown = resummon_cooldown
 
 
+## 主动收回（房间切换等）：不进入死亡冷却。RoomManager 转场时调用。
+func force_recall() -> void:
+	if mouse != null:
+		_recall()
+
+
 ## 验证脚本用：直接读冷却剩余
 func get_cooldown() -> float:
 	return _cooldown
