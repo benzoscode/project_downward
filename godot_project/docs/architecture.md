@@ -95,6 +95,7 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 | `tools/verify/verify_double_jump.gd` | M4：无靴 3 格 / 有靴 5 格 / 0.2s 窗口 / 重置水平速度 |
 | `tools/verify/verify_mouse.gd` | M5：召唤/切换/相机/窄缝/0.8s 延迟/双档压力板/死亡冷却/收回（11 项） |
 | `tools/verify/verify_mechanisms2.gd` | M6：交替平台/摇杆平台/双按钮门/滞后/草丛/顺序机关/虚空平台/玩家输入延迟 |
+| `tools/verify/verify_boss.gd` | M7：五状态全部转换路径、老鼠优先级、双扑杀、搜索 10s 超时、环境光暴露、黑暗安全（12 项） |
 | `tools/verify/verify_tileset.gd` | TileSet 五分区、碰撞配置、32px 装饰格 |
 
 运行：`tools/run_verify.ps1`（退出码即结果，人类可一键复验）。需要 Autoload 的验证走 `scenes/test/verify_host.tscn` 宿主（`--script` 模式无 Autoload）。
@@ -126,3 +127,15 @@ TileSet：`assets/tiles/tileset_cave.tres`，图集 4×2 块 16×16，上行 4 �
 
 交替平台 / 摇杆平台 / 双按钮门 / 滞后组件 / 草丛光透 / 水滴顺序机关（color_button + sequence_controller，组 `seq_<id>` 注册）/ 虚空平台。手册见 building_blocks.md。
 综合试验场：`scenes/test/mechanism_lab.tscn`（由 tools/paint_mechanism_lab.gd 生成），长跑道串联全部能力。
+
+## 13. Boss（地底猎食者，M7）
+
+- `scenes/characters/boss.tscn`（class `Boss`，@tool）：CharacterBody2D，128×128 剪影，判定 96×96；碰撞层 4（值 8），mask=1 只与地形碰撞；`KillZone`（Area2D，mask=6）感知玩家/老鼠接触
+- **五状态状态机**（`scripts/characters/boss.gd`，转换条件按策划案 §二(四)2）：巡逻 Patrol → 警戒 Alert → 追击 Chase → 搜索 Search →（超时回巡逻）；警戒/追击/搜索中老鼠 ≤6 格 → 分心 Distracted（老鼠优先，§二(四)3 优先级规则）
+- **感知**：玩家开灯（`LightSystem.is_lamp_on`，不看锥形朝向——"感知范围内有光源存在"即暴露）或暴露于环境光（`LightSystem.is_point_lit_ambient`）；感光判定含 Boss↔目标地形遮挡射线（`LightSystem.has_clear_line`，与遮光层同几何）
+- **扑杀**：CHASE 状态接触玩家 → `player.die()`；DISTRACTED 状态接触老鼠 → `mouse.die()`（5s 冷却复用 ControlManager），随后转搜索；其余状态接触无害（盲眼未察觉）
+- **环境光源积木**：`scenes/interactables/ambient_light.tscn`（熔岩裂缝/荧光苔藓载体），注册到 LightSystem 参与 `is_point_lit_ambient` 判定
+- **移动**：巡逻 1.5 / 警戒 2.5 / 追击 4.5 格/秒（追击必须快于玩家 3 格/秒）；追击 = 直线 + 撞墙/目标在高处时跳 2 格绕障（milestones M7 允许简化，不做完整寻路）；巡逻路径可选 `patrol_route`（Path2D 往返），缺省在出生点 ±`patrol_half_extent_tiles` 内往返
+- **编辑器可视化**：@tool 绘制追击 8 格（红）/警戒 12 格（黄）/分心 6 格（紫）感知圈 + 巡逻路径；触须三态用 modulate 五色占位（未来换正式动画）
+- 试验场 `scenes/test/boss_lab.tscn`（由 tools/paint_boss_lab.gd 生成）；五状态截图工具 `tools/capture_boss_states.gd`（走 verify_host，输出 tools/out/）
+- 注意：Boss 感知查询经组 `player`/`mouse` 与根节点取 LightSystem，**不直接引用 Autoload 名**——--script 模式（无 Autoload）下编译期解析会失败（paint 脚本约束）
