@@ -209,9 +209,13 @@
   <table>
     <tr><th>操作</th><th>效果</th></tr>
     <tr><td><kbd>F6</kbd></td><td>运行当前房间（玩家自动生成在默认入口）</td></tr>
-    <tr><td><kbd>F5</kbd></td><td>从 room_01 开始完整跑（scenes/main.tscn）</td></tr>
+    <tr><td><kbd>F5</kbd></td><td>从 room_01 开始完整跑（入口场景是 <code>scenes/main.tscn</code>）</td></tr>
     <tr><td>一键验证</td><td>godot_project 目录下执行 <code>powershell -File tools/run_verify.ps1</code>，末尾出现 <code>VERIFY PASSED</code> 即全部通过</td></tr>
   </table>
+  <h3>开局位置怎么改</h3>
+  <p>F5 的出生点 = <code>scripts/main.gd</code> 里 <code>goto_room(...)</code> 指定的场景 + 入口标记。
+  想挪位置：打开 room_01.tscn，把 <code>Entrance_default</code> 拖到目标点即可；
+  想换开局房间（比如调试直接进 room_05）：找程序改 main.gd 里那行的路径和入口 id。</p>
   <h3>常见报错</h3>
   <table>
     <tr><th>现象</th><th>原因与处理</th></tr>
