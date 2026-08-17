@@ -60,7 +60,7 @@
 <nav>
   <a href="#flow">工作流程</a><a href="#new-room">新建房间</a><a href="#tile">画 Tile</a>
   <a href="#tree">节点结构</a><a href="#mech">放机关</a><a href="#exit">传送点</a>
-  <a href="#respawn">重生与检查点</a><a href="#chars">角色与灯光</a><a href="#verify">自检运行</a><a href="#rules">红线</a>
+  <a href="#respawn">重生与检查点</a><a href="#verify">自检运行</a><a href="#rules">红线</a>
 </nav>
 
 <div class="card" id="flow">
@@ -203,18 +203,7 @@
   <div class="ok">相机已做瞬移处理：进房间和重生后镜头直接对准玩家，不会有"摇过去"的过程。</div>
 </div>
 
-<h2 id="chars">7. 角色与灯光</h2>
-<div class="card">
-  <table>
-    <tr><th>对象</th><th>说明</th></tr>
-    <tr><td>玩家</td><td><strong>不要放</strong>——RoomManager 自动生成并落到入口（F6 单开房间也一样）</td></tr>
-    <tr><td>老鼠</td><td>也不用放，玩家拿到召唤哨后按 <kbd>Q</kbd> 召唤</td></tr>
-    <tr><td>boss.tscn</td><td>拖入即巡逻。选中它会显示三个感知圈：<span style="color:#e57373">红=追击 8 格</span> / <span style="color:#ffd54f">黄=警戒 12 格</span> / <span style="color:#ba68c8">紫=老鼠分心 6 格</span>。巡逻路线可挂 Path2D（patrol_route），不挂就在出生点两侧 patrol_half_extent_tiles 格内往返。它不会寻路，高台和复杂路线是玩家的生路——摆平台时留意</td></tr>
-    <tr><td>灯光</td><td>玩家灯由 F 开关、跟随鼠标，不用管；房间要常亮区域就放 ambient_light（熔岩缝等），半径按格调</td></tr>
-  </table>
-</div>
-
-<h2 id="verify">8. 自检与运行</h2>
+<h2 id="verify">7. 自检与运行</h2>
 <div class="card">
   <table>
     <tr><th>操作</th><th>效果</th></tr>
@@ -233,7 +222,7 @@
   </table>
 </div>
 
-<h2 id="rules">9. 红线（动了会出事故）</h2>
+<h2 id="rules">8. 红线（动了会出事故）</h2>
 <div class="card">
   <div class="bad">① 灰盒房间的<strong>出入口位置、5 格高墙、老鼠窄缝、钥匙门</strong>不许改——连通性和能力门靠自动测试兜底。</div>
   <div class="bad">② 不要把机关跨房间用节点路径相连（NodePath 拖引用）——跨房间联动只用字符串 ID（MechanismBus 是全局的，4 房按钮开 5 房门就是这么做的）。</div>
