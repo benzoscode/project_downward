@@ -1,12 +1,9 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="1_tileset"]
 [ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="3_room"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_host"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/bg_cave.png" id="5_bg"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_exit"]
-size = Vector2(16, 48)
 
 [node name="RoomBase" type="Node2D"]
 script = ExtResource("3_room")
@@ -39,11 +36,8 @@ tile_set = ExtResource("1_tileset")
 [node name="SpawnPoint" type="Marker2D" parent="." groups=["spawn_point"]]
 position = Vector2(32, 1048)
 
-[node name="ExitTrigger" type="Area2D" parent="."]
-position = Vector2(1904, 1048)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitTrigger"]
-shape = SubResource("RectangleShape2D_exit")
+[node name="Entrance_default" type="Marker2D" parent="."]
+position = Vector2(32, 1048)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(240, 135)

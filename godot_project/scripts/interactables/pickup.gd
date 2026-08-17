@@ -1,11 +1,12 @@
 extends Area2D
 ## 通用道具拾取物：玩家触碰即获得，写入 GameState（策划案 §二(二)：道具永久持有）。
-## item 取值：lamp / boots / whistle / gem_jade / gem_amber / gem_violet。
+## item 取值：lamp / boots / whistle / key / gem_jade / gem_amber / gem_violet。
 
 const ICONS: Dictionary = {
 	&"lamp": preload("res://assets/placeholder/item_lamp.png"),
 	&"boots": preload("res://assets/placeholder/item_boots.png"),
 	&"whistle": preload("res://assets/placeholder/item_whistle.png"),
+	&"key": preload("res://assets/placeholder/item_key.png"),
 	&"gem_jade": preload("res://assets/placeholder/item_gem_jade.png"),
 	&"gem_amber": preload("res://assets/placeholder/item_gem_amber.png"),
 	&"gem_violet": preload("res://assets/placeholder/item_gem_violet.png"),

@@ -105,6 +105,16 @@ New-Png "item_whistle.png" 16 16 {
     Fill-Rect $g 3 4 4 2 (Color 220 215 200)
     Fill-Rect $g 10 7 3 2 (Color 90 85 75)
 }
+New-Png "item_key.png" 16 16 {
+    param($g)
+    # 钥匙（第 4 房间宝箱 → 第 3 房间钥匙门）
+    $brush = New-Object System.Drawing.SolidBrush((Color 240 200 80))
+    $g.FillEllipse($brush, 2, 5, 6, 6)
+    $brush.Dispose()
+    Fill-Rect $g 7 7 7 2 (Color 240 200 80)
+    Fill-Rect $g 11 9 2 3 (Color 240 200 80)
+    Fill-Rect $g 13 9 2 2 (Color 240 200 80)
+}
 foreach ($gem in @(@("jade", 80, 200, 130), @("amber", 230, 170, 60), @("violet", 170, 110, 220))) {
     $name = $gem[0]; $r = [int]$gem[1]; $gg = [int]$gem[2]; $b = [int]$gem[3]
     New-Png "item_gem_$name.png" 16 16 ([scriptblock]::Create(@"

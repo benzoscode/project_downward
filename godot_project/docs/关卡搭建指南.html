@@ -145,10 +145,19 @@
 
 <h2 id="mech">4. 放置机关</h2>
 <div class="card">
+  <h3>积木是什么、怎么放</h3>
+  <p>每个机关都是 <code>scenes/interactables/</code> 下的一个 <strong>.tscn 场景文件</strong>。摆放三步：</p>
+  <ol class="steps">
+    <li>从 FileSystem 把 .tscn <strong>拖进场景树</strong>（挂到 <code>Mechanisms</code> 节点下）或直拖进场景视图。</li>
+    <li>摆好位置。<strong>选中它</strong>，Inspector 里的参数就是给你调的——改的是这个实例，不会影响源文件。</li>
+    <li>触发区要改大小：展开实例下的 <code>CollisionShape2D</code> 子节点改矩形（water / ladder 更省事，直接有 <code>size</code> / <code>height</code> 参数）。</li>
+  </ol>
+  <div class="warn"><strong>不要</strong>右键积木选"在新标签页中打开"去改它内部——那改的是源文件，会影响所有房间。想要新行为找程序。</div>
   <h3>联动规则（唯一要记的）</h3>
   <p>触发源填 <code>target_id</code>，接收方填同名 <code>listen_id</code>，即完成连线。一对多、多对一都可以。
   机关状态全游戏保留：玩家死亡后，开过的门还是开的（这是设计，不是 bug）。</p>
-  <div class="tip">例：想让按钮开门 → 按钮 <code>target_id = door_a</code>，石门 <code>listen_id = door_a</code>。完事。</div>
+  <div class="tip">例：想让按钮开门 → 按钮 <code>target_id = door_a</code>，石门 <code>listen_id = door_a</code>。完事。<br>
+  跨房间联动也一样填 ID（总线是全局的）：灰盒里 room_04 的按钮 <code>target_id = r05_door2</code> 开的就是 room_05 的石门。</div>
 
   <h3>积木速查（scenes/interactables/）</h3>
   <table>

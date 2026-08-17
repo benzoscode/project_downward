@@ -1,17 +1,17 @@
 extends Node
-## M8 房间连通自动断言（方案 D 路径制：无注册表，出口直接存 .tscn 路径）：
-## 静态——出口连线 BFS 全可达、目标入口标记存在、能力门结构（二段跳高墙/老鼠窄缝）；
-## 运行——过渡落位与检查点、出口触发区真实切换、死亡同房间/跨房间重生、钥匙门、pcam 钳制、相机瞬移。
+## M8 房间连通自动断言（方案 D 路径制）。
+## 静态部分**自适应**：策划正在搭房间，房间可能缺失/未接入——断链（出口指到不存在的文件）
+## 和入口缺失算失败；未接入 room_01 主图的房间只报 [INFO]（WIP 期间不算错）。
+## 运行部分用专用样例房间（scenes/test/verify_room_a/b.tscn），与策划的在建房间完全解耦。
 ## 用法（godot_project/ 下）：
 ##   & <godot_console.exe> --headless res://scenes/test/verify_host.tscn -- res://tools/verify/verify_rooms.gd
 
 const EXIT_SCRIPT := "res://scripts/interactables/room_exit.gd"
 const ROOM_DIR := "res://scenes/rooms/"
-const R01 := ROOM_DIR + "room_01.tscn"
-const R02 := ROOM_DIR + "room_02.tscn"
+const RA := "res://scenes/test/verify_room_a.tscn"
+const RB := "res://scenes/test/verify_room_b.tscn"
 const R03 := ROOM_DIR + "room_03.tscn"
 const R09 := ROOM_DIR + "room_09.tscn"
-const R12 := ROOM_DIR + "room_12.tscn"
 
 var _failures: int = 0
 var _passed: int = 0
@@ -28,6 +28,10 @@ func _check(test_name: String, ok: bool, detail: String = "") -> void:
 	else:
 		_failures += 1
 		printerr("[FAIL] ", test_name, " | ", detail)
+
+
+func _skip(test_name: String, reason: String) -> void:
+	print("[SKIP] ", test_name, "（", reason, "）")
 
 
 func _physics_frames(n: int) -> void:
@@ -99,7 +103,7 @@ func _wait_room(scene_path: String, timeout_ms: int = 8000) -> bool:
 func _run_tests() -> void:
 	MechanismBus.reset_all()
 
-	# ---- T1 连通性：BFS 从 room_01 出发全部可达，且每条连线目标入口存在 ----
+	# ---- T1 连通性（自适应）：出口目标文件存在 + 入口标记存在；未接入主图的房间只报 INFO ----
 	var rooms := _list_rooms()
 	var graph := {}
 	var bad_target := ""
@@ -108,77 +112,85 @@ func _run_tests() -> void:
 		var exits := _scan_room_exits(path)
 		graph[path] = exits
 		for exit in exits:
-			if not rooms.has(exit["target_scene"]):
+			if not ResourceLoader.exists(exit["target_scene"]):
 				bad_target += "%s→%s " % [path.get_file(), exit["target_scene"]]
 			elif not _has_entrance(exit["target_scene"], exit["target_entrance"]):
 				missing_entrance += "%s→%s:%s " % [path.get_file(), exit["target_scene"].get_file(), exit["target_entrance"]]
-	var visited := {R01: true}
-	var queue: Array[String] = [R01]
-	while not queue.is_empty():
-		var cur: String = queue.pop_front()
-		for exit in graph.get(cur, []):
-			var nxt: String = exit["target_scene"]
-			if not visited.has(nxt):
-				visited[nxt] = true
-				queue.append(nxt)
-	_check("T1a 12 房间连通（BFS 全可达）", visited.size() == 12,
-		"visited=%d/12" % visited.size())
-	_check("T1b 出口目标文件存在且入口标记存在", bad_target.is_empty() and missing_entrance.is_empty(),
-		"bad=%s missing=%s" % [bad_target, missing_entrance])
+	_check("T1a 出口目标文件均存在（无断链）", bad_target.is_empty(), "bad=%s" % bad_target)
+	_check("T1b 出口目标入口标记均存在", missing_entrance.is_empty(), "missing=%s" % missing_entrance)
+	var start := ROOM_DIR + "room_01.tscn"
+	if rooms.has(start):
+		var visited := {start: true}
+		var queue: Array[String] = [start]
+		while not queue.is_empty():
+			var cur: String = queue.pop_front()
+			for exit in graph.get(cur, []):
+				var nxt: String = exit["target_scene"]
+				if graph.has(nxt) and not visited.has(nxt):
+					visited[nxt] = true
+					queue.append(nxt)
+		var unlinked: Array[String] = []
+		for r in rooms:
+			if not visited.has(r):
+				unlinked.append(r.get_file())
+		print("[INFO] 主图可达 %d/%d 个房间；未接入：%s" % [visited.size(), rooms.size(), ", ".join(unlinked)])
+	else:
+		print("[INFO] room_01 不存在（WIP），跳过主图可达性统计")
 
-	# ---- T2 能力门结构（静态）：room_03 五格高墙（行 8..12）、room_09 老鼠窄缝（行 12 通行）----
-	var wall_solid := true
-	for y in range(8, 13):
-		wall_solid = wall_solid and _terrain_solid(R03, Vector2i(12, y))
-	_check("T2a 二段跳高墙（5 格实心）", wall_solid and not _terrain_solid(R03, Vector2i(12, 7)))
-	var gap_ok := not _terrain_solid(R09, Vector2i(20, 12))
-	for y in range(8, 12):
-		gap_ok = gap_ok and _terrain_solid(R09, Vector2i(20, y))
-	_check("T2b 老鼠窄缝（底行 1 格高通道）", gap_ok)
+	# ---- T2 能力门结构（静态；房间被策划拿走装修则跳过）----
+	if ResourceLoader.exists(R03) and ResourceLoader.exists(R09):
+		var wall_solid := true
+		for y in range(8, 13):
+			wall_solid = wall_solid and _terrain_solid(R03, Vector2i(12, y))
+		_check("T2a 二段跳高墙（5 格实心）", wall_solid and not _terrain_solid(R03, Vector2i(12, 7)))
+		var gap_ok := not _terrain_solid(R09, Vector2i(20, 12))
+		for y in range(8, 12):
+			gap_ok = gap_ok and _terrain_solid(R09, Vector2i(20, y))
+		_check("T2b 老鼠窄缝（底行 1 格高通道）", gap_ok)
+	else:
+		_skip("T2 能力门结构", "room_03/room_09 装修中")
 
-	# ---- T3 过渡与检查点（运行）----
-	RoomManager.goto_room(R01, &"default")
-	var ok := await _wait_room(R01)
+	# ---- T3 过渡与检查点（样例房间 A/B）----
+	RoomManager.goto_room(RA, &"default")
+	var ok := await _wait_room(RA)
 	var player := get_tree().get_first_node_in_group(&"player") as Player
-	var entrance1 := (RoomManager.get_active_room().get_node("Entrance_default") as Marker2D).global_position
-	_check("T3a 初始进 room_01 并落位入口", ok and player != null and player.global_position.distance_to(entrance1) < 8.0,
-		"room=%s player=%s expect=%s" % [RoomManager.current_room_id, player.global_position if player else "null", entrance1])
-	_check("T3b 检查点已记录 room_01", GameState.checkpoint_room == R01,
+	var entrance_a := (RoomManager.get_active_room().get_node("Entrance_default") as Marker2D).global_position
+	_check("T3a 初始进样例 A 并落位入口", ok and player != null and player.global_position.distance_to(entrance_a) < 8.0,
+		"room=%s player=%s expect=%s" % [RoomManager.current_room_id, player.global_position if player else "null", entrance_a])
+	_check("T3b 检查点已记录样例 A", GameState.checkpoint_room == RA,
 		"checkpoint=%s" % GameState.checkpoint_room)
 
-	RoomManager.goto_room(R02, &"default")
-	ok = await _wait_room(R02)
+	RoomManager.goto_room(RB, &"default")
+	ok = await _wait_room(RB)
 	player = get_tree().get_first_node_in_group(&"player") as Player
-	var entrance2 := (RoomManager.get_active_room().get_node("Entrance_default") as Marker2D).global_position
-	_check("T3c 切换 room_02 落位+检查点更新",
-		ok and player.global_position.distance_to(entrance2) < 8.0 and GameState.checkpoint_room == R02,
+	var entrance_b := (RoomManager.get_active_room().get_node("Entrance_default") as Marker2D).global_position
+	_check("T3c 切换样例 B 落位+检查点更新",
+		ok and player.global_position.distance_to(entrance_b) < 8.0 and GameState.checkpoint_room == RB,
 		"room=%s checkpoint=%s" % [RoomManager.current_room_id, GameState.checkpoint_room])
 
-	# ---- T3d 相机瞬移：进房间后镜头直接对准（钳制位），不做阻尼摇镜（2026-08-17 用户反馈）----
-	# room_02 为 40×17：视口半宽 240/半高 135，入口在左下角 → 钳制位 (240, 272-135=137)
-	var cam2 := RoomManager.get_active_room().get_node("Camera2D") as Camera2D
+	# ---- T3d 相机瞬移：进房间后镜头直接对准（钳制位），不做阻尼摇镜 ----
+	# 样例 B 限幅 1440×272：视口半宽 240/半高 135，入口 (56,192) → 钳制位 (240, 272-135=137)
+	var camb := RoomManager.get_active_room().get_node("Camera2D") as Camera2D
 	var expect_cam := Vector2(240, 137)
-	_check("T3d 进房间相机瞬移到钳制位", cam2.global_position.distance_to(expect_cam) < 4.0,
-		"cam=%s expect=%s" % [cam2.global_position, expect_cam])
+	_check("T3d 进房间相机瞬移到钳制位", camb.global_position.distance_to(expect_cam) < 4.0,
+		"cam=%s expect=%s" % [camb.global_position, expect_cam])
 
-	# ---- T4 pcam 钳制同步（遗留修复验证）：room_01 限 640（40 格），room_12 限 1440（90 格）----
+	# ---- T4 pcam 钳制同步：A 限 640，B 限 1440 ----
 	var pcam := player.get_node("PhantomCamera2D")
-	var limit_r1: int = pcam.get("limit_right")
-	RoomManager.goto_room(R12, &"default")
-	ok = await _wait_room(R12)
-	var limit_r12: int = pcam.get("limit_right")
-	_check("T4 相机钳制随房间同步", limit_r1 == 640 and limit_r12 == 1440,
-		"room_01=%d room_12=%d" % [limit_r1, limit_r12])
+	var limit_rb: int = pcam.get("limit_right")
+	RoomManager.goto_room(RA, &"default")
+	ok = await _wait_room(RA)
+	var limit_ra: int = pcam.get("limit_right")
+	_check("T4 相机钳制随房间同步", limit_ra == 640 and limit_rb == 1440,
+		"A=%d B=%d" % [limit_ra, limit_rb])
 
-	# ---- T5 出口触发区真实切换：回 room_01 把玩家放上出口 ----
-	RoomManager.goto_room(R01, &"default")
-	await _wait_room(R01)
+	# ---- T5 出口触发区真实切换：把玩家放上 A 的出口 ----
 	player = get_tree().get_first_node_in_group(&"player") as Player
-	var exit_node := RoomManager.get_active_room().get_node("Exit_to_room_02") as Area2D
+	var exit_node := RoomManager.get_active_room().get_node("Exit_to_b") as Area2D
 	player.global_position = exit_node.global_position
 	player.reset_physics_interpolation()
-	ok = await _wait_room(R02)
-	_check("T5 踩出口触发区切换到 room_02", ok, "room=%s" % RoomManager.current_room_id)
+	ok = await _wait_room(RB)
+	_check("T5 踩出口触发区切换到样例 B", ok, "room=%s" % RoomManager.current_room_id)
 
 	# ---- T6 死亡重生：同房间回检查点 ----
 	player = get_tree().get_first_node_in_group(&"player") as Player
@@ -188,17 +200,13 @@ func _run_tests() -> void:
 	player.die()
 	await _physics_frames(10)
 	_check("T6 同房间死亡回检查点",
-		RoomManager.current_room_id == R02 and player.global_position.distance_to(cp) < 8.0,
+		RoomManager.current_room_id == RB and player.global_position.distance_to(cp) < 8.0,
 		"room=%s pos=%s expect=%s" % [RoomManager.current_room_id, player.global_position, cp])
 
-	# ---- T7 死亡重生：跨房间（检查点在 room_02，死在 room_03）----
-	RoomManager.goto_room(R03, &"default")
-	await _wait_room(R03)
-	player = get_tree().get_first_node_in_group(&"player") as Player
-	# 手动把检查点设回 room_02（模拟之前在 room_02 存过档，当前房间死亡）
-	GameState.set_checkpoint(R02, cp)
+	# ---- T7 死亡重生：跨房间（检查点在 A，死在 B）----
+	GameState.set_checkpoint(RA, cp)
 	player.die()
-	ok = await _wait_room(R02)
+	ok = await _wait_room(RA)
 	player = get_tree().get_first_node_in_group(&"player") as Player
 	_check("T7 跨房间死亡回检查点房间", ok and player.global_position.distance_to(cp) < 8.0,
 		"room=%s pos=%s expect=%s" % [RoomManager.current_room_id, player.global_position, cp])
@@ -218,9 +226,12 @@ func _run_tests() -> void:
 	kd.queue_free()
 
 	# ---- T9 检查点积木：触碰存档、死亡回积木位置 ----
+	RoomManager.goto_room(RB, &"default")
+	await _wait_room(RB)
+	player = get_tree().get_first_node_in_group(&"player") as Player
 	var ck := (load("res://scenes/interactables/checkpoint.tscn") as PackedScene).instantiate() as Area2D
 	var room := RoomManager.get_active_room()
-	var ck_pos := cp + Vector2(96, 0)
+	var ck_pos := GameState.checkpoint_position + Vector2(96, 0)
 	ck.position = ck_pos
 	room.add_child(ck)
 	await _physics_frames(5)
