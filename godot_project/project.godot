@@ -21,9 +21,9 @@ GameState="*res://scripts/autoload/game_state.gd"
 MechanismBus="*res://scripts/autoload/mechanism_bus.gd"
 LightSystem="*res://scripts/autoload/light_system.gd"
 ControlManager="*res://scripts/autoload/control_manager.gd"
-RoomManager="*res://scripts/autoload/room_manager.gd"
 HUD="*res://scripts/autoload/hud.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+RoomManager="*res://scripts/autoload/room_manager.gd"
 
 [display]
 
