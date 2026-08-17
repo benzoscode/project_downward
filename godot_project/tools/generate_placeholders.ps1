@@ -293,4 +293,26 @@ New-Png "prop_button_color.png" 16 16 {
     Fill-Rect $g 4 6 8 8 (Color 235 235 235)
 }
 
+# ---- Boss（地底猎食者）：128×128 剪影（约玩家 8 倍，AGENTS.md §7）----
+New-Png "char_boss_idle.png" 128 128 {
+    param($g)
+    # 躯体：大椭圆甲壳
+    $brush = New-Object System.Drawing.SolidBrush((Color 44 40 52))
+    $g.FillEllipse($brush, 16, 40, 96, 72)
+    $brush.Dispose()
+    # 头部（盲眼，感光斑点点缀）
+    Fill-Rect $g 20 52 28 36 (Color 52 48 62)
+    Fill-Rect $g 24 58 3 3 (Color 120 160 170)
+    Fill-Rect $g 30 66 3 3 (Color 120 160 170)
+    Fill-Rect $g 25 76 3 3 (Color 120 160 170)
+    # 触须（头顶下垂三条）
+    Fill-Rect $g 26 30 3 24 (Color 70 76 96)
+    Fill-Rect $g 34 24 3 30 (Color 70 76 96)
+    Fill-Rect $g 42 32 3 22 (Color 70 76 96)
+    # 步足四对
+    foreach ($x in @(28, 48, 68, 88)) {
+        Fill-Rect $g $x 104 5 20 (Color 56 52 66)
+    }
+}
+
 Write-Output "完成。"
