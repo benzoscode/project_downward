@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《downward》关卡搭建指南</title>
+<style>
+  :root {
+    --bg: #14171d; --panel: #1c212b; --panel2: #232936; --text: #dfe4ec; --dim: #9aa5b5;
+    --accent: #4fc3f7; --gold: #ffd54f; --green: #81c784; --red: #e57373; --purple: #ba68c8;
+    --mono: "Cascadia Code", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font: 15px/1.75 "Microsoft YaHei", "PingFang SC", sans-serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 28px 96px; }
+  header { border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 8px; }
+  header h1 { font-size: 26px; letter-spacing: 1px; }
+  header p { color: var(--dim); margin-top: 6px; font-size: 13.5px; }
+  nav { background: var(--panel); border-radius: 10px; padding: 14px 20px; margin: 22px 0 40px; font-size: 13.5px; }
+  nav a { color: var(--accent); text-decoration: none; margin-right: 14px; white-space: nowrap; }
+  nav a:hover { text-decoration: underline; }
+  h2 { font-size: 20px; margin: 48px 0 14px; padding-left: 12px; border-left: 4px solid var(--accent); }
+  h3 { font-size: 16px; margin: 26px 0 8px; color: var(--gold); }
+  p { margin: 8px 0; }
+  .card { background: var(--panel); border-radius: 10px; padding: 16px 20px; margin: 12px 0; }
+  .steps { counter-reset: s; list-style: none; }
+  .steps li { counter-increment: s; position: relative; padding: 8px 0 8px 44px; }
+  .steps li::before {
+    content: counter(s); position: absolute; left: 0; top: 10px; width: 26px; height: 26px;
+    background: var(--accent); color: #0b0e13; border-radius: 50%; text-align: center;
+    font-weight: 700; line-height: 26px; font-size: 14px;
+  }
+  code { font-family: var(--mono); background: #0e1117; color: #8ce99a; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+  pre { background: #0e1117; border-radius: 8px; padding: 12px 16px; overflow-x: auto; margin: 10px 0; }
+  pre code { background: none; padding: 0; color: #c8d3e0; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13.5px; }
+  th { background: var(--panel2); color: var(--gold); text-align: left; }
+  th, td { padding: 7px 10px; border: 1px solid #2c3444; vertical-align: top; }
+  td:first-child { font-family: var(--mono); font-size: 12.5px; color: var(--accent); white-space: nowrap; }
+  .tip, .warn, .ok { border-radius: 8px; padding: 10px 16px; margin: 12px 0; font-size: 13.5px; }
+  .tip { background: #10293a; border-left: 4px solid var(--accent); }
+  .warn { background: #3a2310; border-left: 4px solid var(--gold); }
+  .ok { background: #10331a; border-left: 4px solid var(--green); }
+  .bad { background: #3a1215; border-left: 4px solid var(--red); border-radius: 8px; padding: 10px 16px; margin: 12px 0; font-size: 13.5px; }
+  .tag { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 10px; margin-left: 8px; vertical-align: 2px; }
+  .tag.t { background: #10331a; color: var(--green); }
+  .tag.d { background: #2a1033; color: var(--purple); }
+  .dim { color: var(--dim); font-size: 13px; }
+  kbd { background: #2c3444; border-radius: 4px; padding: 1px 7px; font-family: var(--mono); font-size: 12.5px; border-bottom: 2px solid #0b0e13; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>《downward》关卡搭建指南</h1>
+  <p>面向策划 · 无需写代码 · 所有联动靠"拖积木 + 填参数"完成 · 配套引擎 Godot 4.7</p>
+</header>
+
+<nav>
+  <a href="#flow">工作流程</a><a href="#new-room">新建房间</a><a href="#tile">画 Tile</a>
+  <a href="#tree">节点结构</a><a href="#mech">放机关</a><a href="#exit">传送点</a>
+  <a href="#respawn">重生与检查点</a><a href="#chars">角色与灯光</a><a href="#verify">自检运行</a><a href="#rules">红线</a>
+</nav>
+
+<div class="card" id="flow">
+  <h3>核心思想：一切都是积木</h3>
+  <p>关卡 = 一个 <code>.tscn</code> 场景。场景之间<strong>完全独立</strong>，靠"出口积木"互相指向就能来往。
+  机关之间用<strong>字符串 ID</strong> 联动（按钮填 <code>target_id</code>，门填同名 <code>listen_id</code> 即开）。
+  你不需要改任何代码，也不需要登记任何清单。</p>
+  <ol class="steps">
+    <li>复制房间模板（或装修灰盒骨架）</li>
+    <li>画地形与装饰 Tile</li>
+    <li>拖入机关积木、填 ID 连线</li>
+    <li>放入口/出口/检查点</li>
+    <li>F6 运行当前场景试玩，跑一键验证</li>
+  </ol>
+</div>
+
+<h2 id="new-room">1. 新建一个房间</h2>
+<div class="card">
+  <ol class="steps">
+    <li>在 FileSystem 里找到 <code>scenes/templates/room_base.tscn</code>，右键 <strong>Duplicate</strong>（复制）。</li>
+    <li>把副本移到 <code>scenes/rooms/</code>，改名为你的房间名，如 <code>room_05.tscn</code>。<strong>不需要</strong>在任何地方登记——其他房间的出口可以直接指到它。</li>
+    <li>双击打开，选中根节点（RoomBase），Inspector 可见参数：
+      <table>
+        <tr><th>参数</th><th>作用</th><th>默认</th></tr>
+        <tr><td>editor_brightness</td><td>编辑器里的显示亮度（只影响搭建时）</td><td>0.45 灰</td></tr>
+        <tr><td>game_darkness</td><td>运行时黑暗程度（越小越黑；灰盒是 0.3，正式洞窟建议 0.05）</td><td>0.05</td></tr>
+        <tr><td>player_input_delay</td><td>玩家输入延迟秒数（第 9 房间致幻机制用 0.8，其他房间 0）</td><td>0</td></tr>
+      </table>
+    </li>
+    <li>选中 <code>Camera2D</code> 节点，把 <code>limit_right / limit_bottom</code> 改成你房间的像素尺寸（宽 = 格数 × 16）。相机会被自动钳在这个范围内。</li>
+  </ol>
+  <div class="tip"><strong>更快的方式</strong>：room_01~12 已有灰盒骨架（40×17 格小房间，结构已含出入口与能力门），直接在灰盒上装修最省事。注意灰盒里<strong>出入口位置和能力门结构（高墙/窄缝/钥匙门）不许动</strong>（见<a href="#rules">红线</a>）。</div>
+</div>
+
+<h2 id="tile">2. 画 Tile（地形与装饰）</h2>
+<div class="card">
+  <p>房间里有三个 TileMapLayer，各画各的，<strong>不要混用</strong>：</p>
+  <table>
+    <tr><th>层</th><th>画什么</th><th>特性</th></tr>
+    <tr><td>TileMapTerrain</td><td>地面、墙、平台——一切会挡住玩家的东西</td><td>带碰撞 + 挡灯光</td></tr>
+    <tr><td>TileMapDecor</td><td>草丛、钟乳石、水晶簇等装饰</td><td>无碰撞，纯好看</td></tr>
+    <tr><td>TileMapMechanismMarkers</td><td>机关占位标记（给自己看的备注格）</td><td>无碰撞</td></tr>
+  </table>
+  <h3>操作</h3>
+  <ol class="steps">
+    <li>选中 <code>TileMapTerrain</code> 节点 → 下方出现 TileMap 面板。</li>
+    <li>面板顶部按 <strong>source</strong> 切换图集（见下表），点选图块后在场景里刷。</li>
+    <li>装饰切到 <code>TileMapDecor</code> 用同样方式画。</li>
+  </ol>
+  <h3>图集速查（source 编号 = TileMap 面板顶部分页）</h3>
+  <table>
+    <tr><th>source</th><th>内容</th><th>碰撞</th></tr>
+    <tr><td>1</td><td>泥土苔藓：苔藓边/拐角/点缀（行0-1）、纯泥土 fill（行2）、脉纹水晶（行3）</td><td>✔</td></tr>
+    <tr><td>2</td><td>石质：石墙/藤蔓墙/石板/石刻面砖</td><td>✔</td></tr>
+    <tr><td>5</td><td>石砖：(0)砖体 (1)砖顶 (2-4)草顶砖 (5-7)裂纹砖</td><td>✔</td></tr>
+    <tr><td>3</td><td>装饰 16px：水晶簇/藤蔓/钟乳石/石笋/岩石/石拱</td><td>✘</td></tr>
+    <tr><td>4</td><td>装饰 32×32：石柱、苔藓石柱</td><td>✘</td></tr>
+    <tr><td>6</td><td>草丛装饰 01~07</td><td>✘</td></tr>
+    <tr><td>7</td><td>水面静态瓦片（只负责好看，水的减速效果靠 water.tscn 积木）</td><td>✘</td></tr>
+    <tr><td>8-11</td><td><strong>水体动画瓦片</strong>：平静 9 帧 / 平静长循环 18 帧 / 波浪 01、02 各 16 帧——刷上自动播放</td><td>✘</td></tr>
+  </table>
+  <div class="warn">source 0 是早期占位图块，新关卡请用 source 1/2/5。</div>
+</div>
+
+<h2 id="tree">3. 房间的节点结构</h2>
+<div class="card">
+<pre><code>RoomBase（根，调亮度和致幻参数）
+├── CanvasModulate        黑暗基底（自动，别动）
+├── Background            洞窟背景图
+├── TileMapTerrain        ← 地形画这里
+├── TileMapDecor          ← 装饰画这里
+├── TileMapMechanismMarkers
+├── Mechanisms            ← 机关积木都放这里
+├── Characters            ← Boss/老鼠等（玩家不用放，自动生成）
+├── Lights                ← ambient_light 环境光源放这里
+├── SpawnPoint            出生点（兼默认入口）
+├── Entrance_default …    入口标记（Marker2D）
+├── Exit_to_xxx           出口积木（room_exit.tscn）
+└── Camera2D              相机边界（limit 四值）</code></pre>
+  <div class="tip">新机关拖进来时<strong>挂到 <code>Mechanisms</code> 下</strong>，保持结构统一，别人接手好找。</div>
+</div>
+
+<h2 id="mech">4. 放置机关</h2>
+<div class="card">
+  <h3>联动规则（唯一要记的）</h3>
+  <p>触发源填 <code>target_id</code>，接收方填同名 <code>listen_id</code>，即完成连线。一对多、多对一都可以。
+  机关状态全游戏保留：玩家死亡后，开过的门还是开的（这是设计，不是 bug）。</p>
+  <div class="tip">例：想让按钮开门 → 按钮 <code>target_id = door_a</code>，石门 <code>listen_id = door_a</code>。完事。</div>
+
+  <h3>积木速查（scenes/interactables/）</h3>
+  <table>
+    <tr><th>积木</th><th>用途</th><th>关键参数</th></tr>
+    <tr><td>lion_button</td><td>狮子头按钮，E 键触发</td><td>target_id；one_shot（一次性/切换）</td></tr>
+    <tr><td>stone_door</td><td>石门（32×48），向上滑开</td><td>listen_id；start_open；tint 调色</td></tr>
+    <tr><td>key_door</td><td>钥匙门（金色），拿到钥匙才开</td><td>免配置（动画 tween_duration 可调）</td></tr>
+    <tr><td>light_crystal</td><td>光敏水晶：灯照 2s 激活广播</td><td>target_id；charge_time</td></tr>
+    <tr><td>pressure_plate</td><td>压力板：踩下触发、离开解除</td><td>target_id；mouse_only（小板仅老鼠）</td></tr>
+    <tr><td>dual_button_door</td><td>双按钮门：全部触发才开</td><td>listen_ids 数组；close_delay</td></tr>
+    <tr><td>trigger_relay</td><td>滞后组件：触发后延迟 N 秒再发</td><td>input_id → output_id；delay</td></tr>
+    <tr><td>color_button + sequence_controller</td><td>顺序机关：按颜色顺序按下才触发</td><td>按钮配 sequence_id+color_id；控制器配 expected 序列+target_id</td></tr>
+    <tr><td>alternating_platform</td><td>交替平台：A/B 组按周期显隐</td><td>period（默认 1.5s）；group_b</td></tr>
+    <tr><td>lever_platform</td><td>摇杆平台：按住 E 平台移动</td><td>move_offset；move_speed；dwell_time</td></tr>
+    <tr><td>fake_platform</td><td>虚空平台：看着能踩，直接穿过</td><td>无</td></tr>
+    <tr><td>grass_cover</td><td>草丛光透：灯照变透明露暗道</td><td>无（纯视觉，通道本来就能走）</td></tr>
+    <tr><td>spikes</td><td>地刺：碰即死回检查点</td><td>无（贴地放，origin 在瓦片中心）</td></tr>
+    <tr><td>water</td><td>水体：减速 50%+半透明</td><td>size（直接拖，origin 左上角）</td></tr>
+    <tr><td>ladder</td><td>梯子：W/S 攀爬，空格翻出</td><td>height（px，origin 在底部；顶端高出平台半格）</td></tr>
+    <tr><td>pickup</td><td>道具拾取：lamp/boots/whistle/三宝石/key</td><td>item（图标自动匹配）</td></tr>
+    <tr><td>chest</td><td>宝箱：E 开启发道具（一次性）</td><td>item</td></tr>
+    <tr><td>ambient_light</td><td>环境光源：熔岩缝/荧光苔，站在里面关灯也会被 Boss 发现</td><td>radius_tiles（格）</td></tr>
+  </table>
+</div>
+
+<h2 id="exit">5. 传送点（出入口）</h2>
+<div class="card">
+  <h3>入口 = 一个 Marker2D</h3>
+  <p>右键根节点 → Add Child Node → <strong>Marker2D</strong> → 命名 <code>Entrance_xxx</code>，摆到落点。
+  约定：<code>Entrance_default</code> 是默认入口（没指名时落这里，再没有就落 SpawnPoint）。</p>
+  <h3>出口 = room_exit 积木</h3>
+  <ol class="steps">
+    <li>把 <code>scenes/interactables/room_exit.tscn</code> 拖进房间（建议挂根节点下），摆到门洞/通道口位置。</li>
+    <li>Inspector 里 <code>target_scene</code> <strong>点文件选择器直接选对面的 .tscn</strong>。</li>
+    <li><code>target_entrance</code> 填对面入口 id（对面是 Entrance_default 就留空 default）。</li>
+    <li>需要触发区更高/更宽：展开它的 <code>CollisionShape2D</code> 调矩形尺寸。编辑器里出口显示青色框 + 目标名，一眼可辨。</li>
+  </ol>
+  <h3>往返</h3>
+  <p>想能走回来，就在对面房间也放一个指回来的出口。<strong>双向靠人肉配对，引擎不强制</strong>——建议每配完一条边立刻试走一个来回。</p>
+  <div class="tip">过渡节奏固定为 0.4s 渐出 + 0.15s 黑场 + 0.4s 渐入，无需配置。想挡住玩家"以后再来"：把石门/钥匙门/高墙放在出口前面，出口本身不做条件判断。</div>
+</div>
+
+<h2 id="respawn">6. 重生点与检查点</h2>
+<div class="card">
+  <table>
+    <tr><th>机制</th><th>行为</th><th>你要做的</th></tr>
+    <tr><td>SpawnPoint</td><td>房间自带的出生标记，兼兜底入口</td><td>摆到出生位置（灰盒已摆好）</td></tr>
+    <tr><td>自动存档</td><td>玩家每进入一个房间，入口即成为检查点</td><td>什么都不用做</td></tr>
+    <tr><td>checkpoint.tscn</td><td>房间中部的存档点：触碰存档，死亡回这里，旗子变金色</td><td>拖一个到刺坑阵前/Boss 房前等位置</td></tr>
+    <tr><td>死亡表现</td><td>同房间死亡：原地回检查点；跨房间死亡：重载检查点所在房间。机关状态保留</td><td>什么都不用做</td></tr>
+  </table>
+  <div class="ok">相机已做瞬移处理：进房间和重生后镜头直接对准玩家，不会有"摇过去"的过程。</div>
+</div>
+
+<h2 id="chars">7. 角色与灯光</h2>
+<div class="card">
+  <table>
+    <tr><th>对象</th><th>说明</th></tr>
+    <tr><td>玩家</td><td><strong>不要放</strong>——RoomManager 自动生成并落到入口（F6 单开房间也一样）</td></tr>
+    <tr><td>老鼠</td><td>也不用放，玩家拿到召唤哨后按 <kbd>Q</kbd> 召唤</td></tr>
+    <tr><td>boss.tscn</td><td>拖入即巡逻。选中它会显示三个感知圈：<span style="color:#e57373">红=追击 8 格</span> / <span style="color:#ffd54f">黄=警戒 12 格</span> / <span style="color:#ba68c8">紫=老鼠分心 6 格</span>。巡逻路线可挂 Path2D（patrol_route），不挂就在出生点两侧 patrol_half_extent_tiles 格内往返。它不会寻路，高台和复杂路线是玩家的生路——摆平台时留意</td></tr>
+    <tr><td>灯光</td><td>玩家灯由 F 开关、跟随鼠标，不用管；房间要常亮区域就放 ambient_light（熔岩缝等），半径按格调</td></tr>
+  </table>
+</div>
+
+<h2 id="verify">8. 自检与运行</h2>
+<div class="card">
+  <table>
+    <tr><th>操作</th><th>效果</th></tr>
+    <tr><td><kbd>F6</kbd></td><td>运行当前房间（玩家自动生成在默认入口）</td></tr>
+    <tr><td><kbd>F5</kbd></td><td>从 room_01 开始完整跑（scenes/main.tscn）</td></tr>
+    <tr><td>一键验证</td><td>godot_project 目录下执行 <code>powershell -File tools/run_verify.ps1</code>，末尾出现 <code>VERIFY PASSED</code> 即全部通过</td></tr>
+  </table>
+  <h3>常见报错</h3>
+  <table>
+    <tr><th>现象</th><th>原因与处理</th></tr>
+    <tr><td>出口不触发</td><td>target_scene 没选文件 / 触发区没盖住通道口</td></tr>
+    <tr><td>落地位置不对</td><td>对面缺 Entrance_xxx 标记，或 target_entrance 填错了 id</td></tr>
+    <tr><td>门不开</td><td>按钮 target_id 和门 listen_id 没对上（区分大小写）</td></tr>
+    <tr><td>VERIFY 变红提到连通性</td><td>动了灰盒的出入口/能力门结构，或出口指向了不存在的文件</td></tr>
+    <tr><td>玩家在房间里不出现</td><td>你自己又放了一个 Player——删掉，玩家是自动的</td></tr>
+  </table>
+</div>
+
+<h2 id="rules">9. 红线（动了会出事故）</h2>
+<div class="card">
+  <div class="bad">① 灰盒房间的<strong>出入口位置、5 格高墙、老鼠窄缝、钥匙门</strong>不许改——连通性和能力门靠自动测试兜底。</div>
+  <div class="bad">② 不要把机关跨房间用节点路径相连（NodePath 拖引用）——跨房间联动只用字符串 ID（MechanismBus 是全局的，4 房按钮开 5 房门就是这么做的）。</div>
+  <div class="bad">③ 不要手改 <code>assets/tiles/</code> 下的图集 PNG 和 tileset_cave.tres——布局由脚本生成，要加瓦片找程序。</div>
+  <div class="bad">④ 不要在房间里放 Player 节点；不要删 CanvasModulate / Camera2D。</div>
+  <div class="ok">除此之外随便折腾：装饰随便画、机关随便组合、参数随便调——所有积木默认值都是能直接跑的。</div>
+</div>
+
+<p class="dim" style="margin-top:40px">《downward》关卡搭建指南 · 对应代码版本：M8 之后（方案 D 无注册表）· 详细参数见 docs/building_blocks.md</p>
+
+</div>
+</body>
+</html>
