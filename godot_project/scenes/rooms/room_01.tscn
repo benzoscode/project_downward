@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="6_jwebg"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="7_10nlv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/light_crystal.tscn" id="8_10nlv"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="9_2owu3"]
 
 [node name="Room01" type="Node2D" unique_id=373696794]
 script = ExtResource("1_yt80c")
@@ -43,11 +44,8 @@ tile_set = ExtResource("3_10nlv")
 position = Vector2(369, 232)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1971755176]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 640
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1534093582]
 process_priority = 300
@@ -71,3 +69,6 @@ listen_id = &"room_1_door"
 
 [node name="LightCrystal" parent="." unique_id=829589508 instance=ExtResource("8_10nlv")]
 position = Vector2(604, 201)
+
+[node name="Chest" parent="." unique_id=1538069417 instance=ExtResource("9_2owu3")]
+position = Vector2(80, 212)

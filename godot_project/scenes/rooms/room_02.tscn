@@ -10,11 +10,12 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/color_button.tscn" id="8_jk4q7"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/sequence_controller.tscn" id="9_ckh05"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="10_ckh05"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/orb_launcher.tscn" id="11_xd78y"]
 
 [node name="Room02" type="Node2D" unique_id=1657679517]
 script = ExtResource("1_vcnne")
 editor_brightness = Color(0.918091, 0.91809106, 0.91809094, 1)
-game_darkness = Color(0.3, 0.3, 0.32, 1)
+game_darkness = Color(0.13456169, 0.13455757, 0.1454739, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=493590334]
 color = Color(0.918091, 0.91809106, 0.91809094, 1)
@@ -65,24 +66,6 @@ target_scene = "res://scenes/rooms/room_03.tscn"
 position = Vector2(192, 224)
 size = Vector2i(400, 48)
 
-[node name="StoneDoor" parent="." unique_id=174888985 instance=ExtResource("7_0e81w")]
-position = Vector2(288.00003, -7.9999995)
-rotation = 1.5684955
-scale = Vector2(0.5, 0.66)
-listen_id = &"room_2_door1"
-
-[node name="StoneDoor2" parent="." unique_id=315411395 instance=ExtResource("7_0e81w")]
-position = Vector2(432, -7.999998)
-rotation = 1.5761507
-scale = Vector2(0.5, 0.66)
-listen_id = &"room_2_door2"
-
-[node name="StoneDoor3" parent="." unique_id=1974311557 instance=ExtResource("7_0e81w")]
-position = Vector2(576, -8)
-rotation = 1.5741633
-scale = Vector2(0.5, 0.66)
-listen_id = &"room_2_door3"
-
 [node name="ColorButton" parent="." unique_id=1437743411 instance=ExtResource("8_jk4q7")]
 position = Vector2(663, 200)
 sequence_id = &"room_2_seq"
@@ -109,12 +92,33 @@ listen_id = &"room_2_door4"
 
 [node name="LionButton" parent="." unique_id=462362827 instance=ExtResource("10_ckh05")]
 position = Vector2(85, 152)
-target_id = &"room_2_door2"
+target_id = &"room_2_orb2"
 
 [node name="LionButton2" parent="." unique_id=1882384636 instance=ExtResource("10_ckh05")]
 position = Vector2(113, 152)
-target_id = &"room_2_door3"
+target_id = &"room_2_orb3"
 
 [node name="LionButton3" parent="." unique_id=594330055 instance=ExtResource("10_ckh05")]
 position = Vector2(141, 152)
-target_id = &"room_2_door1"
+target_id = &"room_2_orb1"
+
+[node name="OrbLauncher" parent="." unique_id=888041118 instance=ExtResource("11_xd78y")]
+position = Vector2(288, -8)
+rotation = 1.5737876
+listen_id = &"room_2_orb1"
+launch_speed = 100.0
+orb_tint = Color(0.9868745, 0.7862896, 0.11042049, 1)
+
+[node name="OrbLauncher2" parent="." unique_id=354480583 instance=ExtResource("11_xd78y")]
+position = Vector2(432, -8)
+rotation = 1.5609701
+listen_id = &"room_2_orb2"
+launch_speed = 100.0
+orb_tint = Color(0.85738695, 0.18487608, 0.25890484, 1)
+
+[node name="OrbLauncher3" parent="." unique_id=1290973852 instance=ExtResource("11_xd78y")]
+position = Vector2(576, -8)
+rotation = 1.5593693
+listen_id = &"room_2_orb3"
+launch_speed = 100.0
+orb_tint = Color(0, 0.48274618, 0.67406046, 1)

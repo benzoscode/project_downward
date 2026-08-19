@@ -1,10 +1,12 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://bb5bcg7fjn2c4"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="1_6sl3v"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/bg_cave.png" id="2_e1vif"]
-[ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="3_ik2oh"]
-[ext_resource type="Script" path="res://scripts/interactables/room_exit.gd" id="6_b7cuq"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
+[ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_6sl3v"]
+[ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_e1vif"]
+[ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_ik2oh"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="6_b7cuq"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="7_gpbp3"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="8_hgwl8"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_m7lh8"]
 
 [node name="Room04" type="Node2D" unique_id=1792942668]
@@ -40,11 +42,8 @@ tile_set = ExtResource("3_ik2oh")
 position = Vector2(281, 84)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=981722934]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 640
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=264114806]
 process_priority = 300
@@ -55,11 +54,22 @@ script = ExtResource("8_d3mn6")
 position = Vector2(281, 41)
 
 [node name="Entrance_secret" type="Marker2D" parent="." unique_id=1337525527]
-position = Vector2(280, 213)
+position = Vector2(280, 248)
 
-[node name="Exit_to_room_05" type="Area2D" parent="." unique_id=887938396 instance=ExtResource("9_m7lh8")]
+[node name="Exit_to_room_05" parent="." unique_id=887938396 instance=ExtResource("9_m7lh8")]
 position = Vector2(8, 201)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("6_b7cuq")
 target_scene = "res://scenes/rooms/room_05.tscn"
+
+[node name="Chest" parent="." unique_id=1518233926 instance=ExtResource("6_b7cuq")]
+position = Vector2(590, 180)
+item = &"key"
+
+[node name="OneWayPlatform" parent="." unique_id=1157689160 instance=ExtResource("7_gpbp3")]
+position = Vector2(280, 233)
+
+[node name="OneWayPlatform2" parent="." unique_id=212114229 instance=ExtResource("7_gpbp3")]
+position = Vector2(280, 267)
+
+[node name="LionButton" parent="." unique_id=1757617325 instance=ExtResource("8_hgwl8")]
+position = Vector2(280, 256)
+target_id = &"room_6_door"
