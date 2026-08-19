@@ -153,33 +153,27 @@ func _run_tests() -> void:
 		"pressed=%s，落地后 vy=%.1f" % [pressed, _player.velocity.y]
 	)
 
-	# T7 Shift 切换奔跑：满速 6 格/秒 = 96px/s；再按一次回到行走 64px/s
+	# T7 按住 Shift 奔跑：满速 6 格/秒 = 96px/s；松开回到行走 64px/s
 	await _settle()
-	_press(&"toggle_run")
-	await physics_frame
-	_release(&"toggle_run")
+	_press(&"hold_run")
 	_press(&"move_right")
 	for i in range(60):
 		await physics_frame
 	var run_speed := absf(_player.velocity.x)
-	_release(&"move_right")
 	_check(
-		"T7 Shift 奔跑 6 格/秒",
+		"T7 按住 Shift 奔跑 6 格/秒",
 		run_speed >= 92.0 and run_speed <= 100.0,
 		"奔跑满速=%.1f，期望 92~100" % run_speed
 	)
-	_press(&"toggle_run")
-	await physics_frame
-	_release(&"toggle_run")
-	_press(&"move_right")
-	for i in range(60):
+	_release(&"hold_run")
+	for i in range(30):
 		await physics_frame
 	var walk_again := absf(_player.velocity.x)
 	_release(&"move_right")
 	_check(
-		"T7b 再按 Shift 切回行走",
+		"T7b 松开 Shift 回行走",
 		walk_again >= 60.0 and walk_again <= 68.0,
-		"切回后满速=%.1f，期望 60~68" % walk_again
+		"松开后满速=%.1f，期望 60~68" % walk_again
 	)
 
 	print("VERIFY RESULT: %d passed, %d failed" % [_passed, _failures])

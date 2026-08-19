@@ -8,7 +8,7 @@ const TILE_SIZE := 16.0
 @export_category("移动")
 ## 行走速度（格/秒）。策划案原值 3，2026-08-17 手感调校为 4（decisions.md）
 @export var move_speed_tiles: float = 4.0
-## 奔跑速度（格/秒）：Shift 切换行走/奔跑，2026-08-17 手感调校新增
+## 奔跑速度（格/秒）：按住 Shift 奔跑，松开回行走（2026-08-18 用户确认为按住式）
 @export var run_speed_tiles: float = 6.0
 ## 起步加速度（px/s²），惯性手感的来源
 @export var acceleration: float = 400.0
@@ -167,9 +167,8 @@ func _physics_process(delta: float) -> void:
 	var interact_just: bool = eff[4] > 0.5
 	var in_water := _water_count > 0
 
-	# 奔跑切换即时生效（不进延迟缓冲，保证手感响应）
-	if control_active and Input.is_action_just_pressed(&"toggle_run"):
-		_running = not _running
+	# 奔跑按住即跑、松开即走（不进延迟缓冲，保证手感响应）
+	_running = control_active and Input.is_action_pressed(&"hold_run")
 
 	if interact_just and _interactable != null:
 		_interactable.interact()
