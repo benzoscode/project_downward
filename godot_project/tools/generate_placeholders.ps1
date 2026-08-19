@@ -303,6 +303,16 @@ New-Png "prop_button_color.png" 16 16 {
     Fill-Rect $g 4 6 8 8 (Color 235 235 235)
 }
 
+# ---- 告示牌 16×16：木牌+立柱，E 查看文字 ----
+New-Png "prop_sign.png" 16 16 {
+    param($g)
+    Fill-Rect $g 2 2 12 8 (Color 122 84 52)
+    Fill-Rect $g 3 3 10 1 (Color 150 105 66)
+    Fill-Rect $g 7 10 2 6 (Color 96 66 42)
+    Fill-Rect $g 4 5 8 1 (Color 70 50 34)
+    Fill-Rect $g 4 7 6 1 (Color 70 50 34)
+}
+
 # ---- Boss（地底猎食者）：128×128 剪影（约玩家 8 倍，AGENTS.md §7）----
 New-Png "char_boss_idle.png" 128 128 {
     param($g)

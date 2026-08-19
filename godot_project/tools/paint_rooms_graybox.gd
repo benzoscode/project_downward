@@ -13,7 +13,7 @@ const SRC := 1 # TileSet source：泥土（带碰撞+遮光）
 const EDGE_TOP := Vector2i(0, 0)
 const FILL := Vector2i(0, 2)
 const TILE := 16.0
-const GRAYBOX_DARKNESS := Color(0.3, 0.3, 0.32, 1)
+const GRAYBOX_DARKNESS := Color(0.10, 0.10, 0.12, 1)
 
 var _terrain: TileMapLayer
 var _room: Node2D
@@ -40,6 +40,11 @@ func _room_specs() -> Array[Dictionary]:
 		"id": &"room_01", "label": "Room01",
 		"entrances": {&"default": Vector2i(3, 12)},
 		"exits": [{"pos": Vector2i(39, 11), "target_room": &"room_02", "target_entrance": &"default", "side": "right"}],
+		# 策划案 §三(一) 教学链：捡灯 → 告示牌提示 → 照水晶 → 门开出房
+		"pickups": [{"pos": Vector2i(6, 12), "item": &"lamp"}],
+		"signs": [{"pos": Vector2i(31, 12), "text": "一块字迹模糊的石碑：\n『以光唤醒宝石，门自会开启。』"}],
+		"crystals": [{"pos": Vector2i(35, 12), "target_id": &"r01_crystal"}],
+		"stone_doors": [{"pos": Vector2i(38, 11), "listen_id": &"r01_crystal"}],
 	})
 	specs.append({
 		"id": &"room_02", "label": "Room02",
@@ -399,3 +404,15 @@ func _place_mechanisms(spec: Dictionary) -> void:
 		item.set("item", pk["item"])
 		mech.add_child(item)
 		item.owner = _room
+	for cr in spec.get("crystals", []):
+		var crystal := (load("res://scenes/interactables/light_crystal.tscn") as PackedScene).instantiate() as Node2D
+		crystal.position = _tile_center(cr["pos"])
+		crystal.set("target_id", cr["target_id"])
+		mech.add_child(crystal)
+		crystal.owner = _room
+	for sg in spec.get("signs", []):
+		var sign := (load("res://scenes/interactables/sign.tscn") as PackedScene).instantiate() as Node2D
+		sign.position = _tile_center(sg["pos"])
+		sign.set("text", sg["text"])
+		mech.add_child(sign)
+		sign.owner = _room

@@ -55,7 +55,8 @@ func _apply_size() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
 		_player = body as Player
-		_player.enter_ladder()
+		# 传入梯子中线 X：攀爬全程锁定（用户反馈 2026-08-17）
+		_player.enter_ladder(global_position.x + WIDTH * 0.5)
 
 
 func _on_body_exited(body: Node2D) -> void:

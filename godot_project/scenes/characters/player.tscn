@@ -302,8 +302,9 @@ animation = &"idle"
 
 [node name="AmbientLight" type="PointLight2D" parent="." unique_id=909054346]
 color = Color(1, 0.98, 0.92, 1)
-energy = 1.2
+energy = 1.0
 texture = ExtResource("5_light")
+texture_scale = 0.75
 
 [node name="GroundProbe" type="RayCast2D" parent="." unique_id=1579456006]
 target_position = Vector2(0, 20)
@@ -313,7 +314,7 @@ script = ExtResource("7_lamp")
 
 [node name="PointLight2D" type="PointLight2D" parent="Lamp" unique_id=624568834]
 color = Color(1, 0.96, 0.85, 1)
-energy = 1.6
+energy = 2.6
 shadow_enabled = true
 texture = ExtResource("8_cone")
 

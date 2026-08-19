@@ -77,8 +77,8 @@ func _run_tests() -> void:
 			break
 	await _physics_frames(20)
 	var water_speed := absf(_player.velocity.x)
-	_check("T1 水中移速减半", water_speed >= 20.0 and water_speed <= 28.0,
-		"水中速度=%.1f，期望 20~28" % water_speed)
+	_check("T1 水中移速减半", water_speed >= 30.0 and water_speed <= 34.0,
+		"水中速度=%.1f，期望 30~34（行走4格/秒×0.5）" % water_speed)
 
 	# T2 水域视觉：在水中精灵半透明，离开后恢复
 	var alpha_in: float = (_player.get_node("AnimatedSprite2D") as CanvasItem).modulate.a
@@ -92,8 +92,8 @@ func _run_tests() -> void:
 	_check("T2 水中半透明/离水恢复", alpha_in < 0.9 and alpha_out > 0.99,
 		"in=%.2f out=%.2f" % [alpha_in, alpha_out])
 
-	# T3 梯子攀爬：按住上持续升高
-	_player.position = Vector2(600, SURFACE_Y - 10.0)
+	# T3 梯子攀爬：按住上持续升高（2026-08-17 调校 3 格/秒）；起步故意偏右 4px 验证中线锁定
+	_player.position = Vector2(604, SURFACE_Y - 10.0)
 	_player.velocity = Vector2.ZERO
 	_player.reset_physics_interpolation()
 	var ladder := _spawn("res://scenes/interactables/ladder.tscn", Vector2(592, SURFACE_Y))
@@ -104,8 +104,10 @@ func _run_tests() -> void:
 	Input.action_press(&"move_up")
 	await _physics_frames(60)
 	var climbed := start_y - _player.position.y
-	_check("T3 梯子持续爬升", climbed > 28.0,
-		"60 帧爬升=%.1fpx，期望 >28（2格/秒）" % climbed)
+	_check("T3 梯子持续爬升", climbed > 40.0,
+		"60 帧爬升=%.1fpx，期望 >40（3格/秒）" % climbed)
+	_check("T3b 攀爬锁定梯子中线", absf(_player.position.x - 600.0) < 0.5,
+		"x=%.2f，期望锁定 600" % _player.position.x)
 
 	# T4 梯上跳：攀爬中按跳获得上升速度
 	Input.action_release(&"move_up")
@@ -150,9 +152,10 @@ func _run_tests() -> void:
 		if _player.position.x < 120.0 and i > 10: # 已回出生点
 			break
 	Input.action_release(&"move_right")
-	var back_home := _player.position.distance_to(SPAWN) < 8.0
+	await _physics_frames(2)
+	var back_home := _player.position.distance_to(SPAWN) < 12.0
 	_check("T5 触刺重生回出生点", back_home,
-		"pos=%s，期望 %s" % [_player.position, SPAWN])
+		"pos=%s，期望 %s（容差12px，高速行走下重生帧有余量）" % [_player.position, SPAWN])
 	_check("T6 死后机关状态保留", MechanismBus.is_triggered(&"persist_test"),
 		"persist_test=%s" % MechanismBus.is_triggered(&"persist_test"))
 
