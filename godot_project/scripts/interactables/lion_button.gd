@@ -5,6 +5,8 @@ extends Area2D
 @export var target_id: StringName
 ## 一次性按钮：触发后不再响应
 @export var one_shot: bool = false
+## 点动模式：每按一次都广播一次 trigger（不切换、不 release），配发射器等"按一次发一次"的机关
+@export var momentary: bool = false
 
 var _pressed: bool = false
 
@@ -25,6 +27,14 @@ func _ready() -> void:
 
 
 func interact() -> void:
+	if momentary:
+		# 点动：每次按都发脉冲（不存状态、不切换），弹起视觉即时恢复
+		MechanismBus.pulse(target_id)
+		_sprite.texture = _tex_down
+		var tween := create_tween()
+		tween.tween_interval(0.12)
+		tween.tween_callback(func() -> void: _sprite.texture = _tex_up)
+		return
 	if one_shot and _pressed:
 		return
 	_pressed = not _pressed

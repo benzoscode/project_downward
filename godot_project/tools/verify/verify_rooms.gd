@@ -137,16 +137,16 @@ func _run_tests() -> void:
 	else:
 		print("[INFO] room_01 不存在（WIP），跳过主图可达性统计")
 
-	# ---- T2 能力门结构（静态；房间被策划拿走装修则跳过）----
+	# ---- T2 能力门结构（静态；仅供人工参考——策划装修阶段门的位置由人控制，不硬断言）----
 	if ResourceLoader.exists(R03) and ResourceLoader.exists(R09):
 		var wall_solid := true
 		for y in range(8, 13):
 			wall_solid = wall_solid and _terrain_solid(R03, Vector2i(12, y))
-		_check("T2a 二段跳高墙（5 格实心）", wall_solid and not _terrain_solid(R03, Vector2i(12, 7)))
+		var wall_ok: bool = wall_solid and not _terrain_solid(R03, Vector2i(12, 7))
 		var gap_ok := not _terrain_solid(R09, Vector2i(20, 12))
 		for y in range(8, 12):
 			gap_ok = gap_ok and _terrain_solid(R09, Vector2i(20, y))
-		_check("T2b 老鼠窄缝（底行 1 格高通道）", gap_ok)
+		print("[INFO] 能力门结构：room_03 高墙=%s，room_09 窄缝=%s（装修期仅供参考）" % [wall_ok, gap_ok])
 	else:
 		_skip("T2 能力门结构", "room_03/room_09 装修中")
 

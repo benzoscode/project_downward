@@ -1,14 +1,15 @@
-[gd_scene format=4 uid="uid://dk2sot7q7do63"]
+[gd_scene format=4]
 
-[ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_6sl3v"]
-[ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_e1vif"]
-[ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_ik2oh"]
-[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
+[ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="1_6sl3v"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/bg_cave.png" id="2_e1vif"]
+[ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="3_ik2oh"]
+[ext_resource type="Script" path="res://scripts/interactables/room_exit.gd" id="6_b7cuq"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_m7lh8"]
 
 [node name="Room04" type="Node2D" unique_id=1792942668]
 script = ExtResource("1_6sl3v")
-game_darkness = Color(0.3, 0.3, 0.32, 1)
+game_darkness = Color(0.1, 0.1, 0.12, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=380342385]
 color = Color(0.45, 0.45, 0.45, 1)
@@ -56,6 +57,9 @@ position = Vector2(281, 41)
 [node name="Entrance_secret" type="Marker2D" parent="." unique_id=1337525527]
 position = Vector2(280, 213)
 
-[node name="Exit_to_room_05" parent="." unique_id=887938396 instance=ExtResource("9_m7lh8")]
+[node name="Exit_to_room_05" type="Area2D" parent="." unique_id=887938396 instance=ExtResource("9_m7lh8")]
 position = Vector2(8, 201)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("6_b7cuq")
 target_scene = "res://scenes/rooms/room_05.tscn"

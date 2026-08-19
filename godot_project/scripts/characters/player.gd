@@ -6,8 +6,10 @@ class_name Player
 const TILE_SIZE := 16.0
 
 @export_category("移动")
-## 水平移动速度（格/秒），策划案 §二(一)2 固定 3 格/秒
-@export var move_speed_tiles: float = 3.0
+## 行走速度（格/秒）。策划案原值 3，2026-08-17 手感调校为 4（decisions.md）
+@export var move_speed_tiles: float = 4.0
+## 奔跑速度（格/秒）：按住 Shift 奔跑，松开回行走（2026-08-18 用户确认为按住式）
+@export var run_speed_tiles: float = 6.0
 ## 起步加速度（px/s²），惯性手感的来源
 @export var acceleration: float = 400.0
 ## 松键减速度（px/s²），略大于加速度让停步更利落
@@ -32,8 +34,8 @@ const TILE_SIZE := 16.0
 @export var double_jump_lockout: float = 0.2
 
 @export_category("攀爬")
-## 梯子攀爬速度（格/秒），刻意慢于平地移动，突出梯子的"安全但慢"
-@export var climb_speed_tiles: float = 2.0
+## 梯子攀爬速度（格/秒），刻意慢于平地行走；2026-08-17 手感调校 2→3
+@export var climb_speed_tiles: float = 3.0
 
 @export_category("水域")
 ## 水中水平移速倍率，策划案 §二(三)：浸入减速
@@ -60,6 +62,8 @@ var _interactable: Node = null # 当前可交互对象，由可交互积木注�
 var _water_count: int = 0
 var _ladder_count: int = 0
 var _climbing: bool = false
+var _ladder_center_x: float = 0.0 # 攀爬锁定中线（用户反馈 2026-08-17：不许在梯子两侧爬）
+var _running: bool = false # Shift 切换的奔跑状态
 ## 操控权标记（M5）：ControlManager 切换老鼠时置 false，玩家静止但保留重力
 var control_active: bool = true
 var _time: float = 0.0
@@ -124,8 +128,9 @@ func exit_water() -> void:
 		_sprite.modulate.a = 1.0
 
 
-func enter_ladder() -> void:
+func enter_ladder(center_x: float) -> void:
 	_ladder_count += 1
+	_ladder_center_x = center_x
 
 
 func exit_ladder() -> void:
@@ -162,6 +167,9 @@ func _physics_process(delta: float) -> void:
 	var interact_just: bool = eff[4] > 0.5
 	var in_water := _water_count > 0
 
+	# 奔跑按住即跑、松开即走（不进延迟缓冲，保证手感响应）
+	_running = control_active and Input.is_action_pressed(&"hold_run")
+
 	if interact_just and _interactable != null:
 		_interactable.interact()
 
@@ -180,13 +188,16 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.y = axis_y * climb_speed_tiles * TILE_SIZE
 			velocity.x = 0.0
+			# 攀爬全程锁在梯子中线
+			global_position.x = _ladder_center_x
 			# 接近地面（探测 20px 内）按左右直接走下梯子；梯顶同理可侧向走上平台。
 			# 纯按左右在半空不会脱手。触地时若非上升中（避免起步帧误判）也退出攀爬。
 			if (is_on_floor() and axis_y >= 0.0) or (_ground_probe.is_colliding() and absf(axis) > 0.01):
 				_climbing = false
 
 	var speed_multiplier := water_speed_multiplier if in_water else 1.0
-	var target_speed := axis * move_speed_tiles * TILE_SIZE * speed_multiplier
+	var speed_tiles := run_speed_tiles if _running else move_speed_tiles
+	var target_speed := axis * speed_tiles * TILE_SIZE * speed_multiplier
 	var rate := acceleration if absf(target_speed) > 0.01 else deceleration
 	# 攀爬中锁水平移动：只能跳+方向跃出，或在近地/平台边按左右走下
 	if not _climbing:
@@ -226,6 +237,8 @@ func _physics_process(delta: float) -> void:
 	if not is_zero_approx(axis):
 		_facing = 1 if axis > 0.0 else -1
 		_sprite.flip_h = _facing < 0
+		# 灯笼在素材手部位置（帧内 14,16 → 本地 (6,2)），朝向翻转时灯位同步镜像
+		_lamp.position.x = 6.0 * _facing
 
 	move_and_slide()
 	_update_animation()

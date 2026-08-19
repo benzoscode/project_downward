@@ -26,6 +26,11 @@ func release(id: StringName) -> void:
 	released.emit(id)
 
 
+## 脉冲触发：只发信号、不存状态（点动按钮/发射器等"按一次发一次"的事件型联动）
+func pulse(id: StringName) -> void:
+	triggered.emit(id)
+
+
 ## 接收方初始化时查询当前状态（门重生后保持开态，见策划案 §一）
 func is_triggered(id: StringName) -> bool:
 	return _states.get(id, false)

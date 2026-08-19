@@ -33,6 +33,8 @@ func _ready() -> void:
 	_toast_icon.custom_minimum_size = Vector2(32, 32)
 	_toast.add_child(_toast_icon)
 	_toast_label = Label.new()
+	_toast_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY # 任意字符换行（中文无空格）
+	_toast_label.custom_minimum_size = Vector2(240, 0) # 限宽自动折行
 	_toast.add_child(_toast_label)
 	add_child(_toast)
 
@@ -42,13 +44,26 @@ func _ready() -> void:
 
 func _on_item_acquired(item: StringName) -> void:
 	_refresh_inventory()
+	_toast.position = Vector2(200, 240)
 	_toast_icon.texture = ICONS.get(item)
 	_toast_label.text = " Got: %s" % item
+	_show_toast(2.0)
+
+
+## 文字提示弹窗（告示牌等积木用，无图标）。多行支持：位置上移 + 自动换行
+func show_message(text: String, duration: float = 3.5) -> void:
+	_toast.position = Vector2(120, 200) # 抬高，给多行留足下方空间（视口高 270）
+	_toast_icon.texture = null
+	_toast_label.text = " " + text
+	_show_toast(duration)
+
+
+func _show_toast(hold: float) -> void:
 	if _toast_tween != null and _toast_tween.is_valid():
 		_toast_tween.kill()
 	_toast_tween = create_tween()
 	_toast.modulate.a = 1.0
-	_toast_tween.tween_interval(2.0)
+	_toast_tween.tween_interval(hold)
 	_toast_tween.tween_property(_toast, "modulate:a", 0.0, 0.5)
 
 

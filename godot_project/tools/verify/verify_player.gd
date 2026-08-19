@@ -75,14 +75,14 @@ func _run_tests() -> void:
 		"2 帧后速度=%.1f，期望 3~45" % early_speed
 	)
 
-	# T2 最高速度：持续按右至 60 帧，应达 3 格/秒 = 48px/s
+	# T2 最高速度：持续按右至 60 帧，应达行走 4 格/秒 = 64px/s（2026-08-17 调校）
 	for i in range(58):
 		await physics_frame
 	var max_speed := absf(_player.velocity.x)
 	_check(
-		"T2 移动速度 3 格/秒",
-		max_speed >= 44.0 and max_speed <= 52.0,
-		"满速=%.1f，期望 44~52" % max_speed
+		"T2 行走速度 4 格/秒",
+		max_speed >= 60.0 and max_speed <= 68.0,
+		"满速=%.1f，期望 60~68" % max_speed
 	)
 
 	# T3 松手减速：应在 3~15 帧内停下（有惯性但不拖沓）
@@ -151,6 +151,29 @@ func _run_tests() -> void:
 		"T6 跳跃缓冲生效",
 		pressed and _player.velocity.y < -150.0,
 		"pressed=%s，落地后 vy=%.1f" % [pressed, _player.velocity.y]
+	)
+
+	# T7 按住 Shift 奔跑：满速 6 格/秒 = 96px/s；松开回到行走 64px/s
+	await _settle()
+	_press(&"hold_run")
+	_press(&"move_right")
+	for i in range(60):
+		await physics_frame
+	var run_speed := absf(_player.velocity.x)
+	_check(
+		"T7 按住 Shift 奔跑 6 格/秒",
+		run_speed >= 92.0 and run_speed <= 100.0,
+		"奔跑满速=%.1f，期望 92~100" % run_speed
+	)
+	_release(&"hold_run")
+	for i in range(30):
+		await physics_frame
+	var walk_again := absf(_player.velocity.x)
+	_release(&"move_right")
+	_check(
+		"T7b 松开 Shift 回行走",
+		walk_again >= 60.0 and walk_again <= 68.0,
+		"松开后满速=%.1f，期望 60~68" % walk_again
 	)
 
 	print("VERIFY RESULT: %d passed, %d failed" % [_passed, _failures])

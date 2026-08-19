@@ -162,7 +162,9 @@
   <h3>积木速查（scenes/interactables/）</h3>
   <table>
     <tr><th>积木</th><th>用途</th><th>关键参数</th></tr>
-    <tr><td>lion_button</td><td>狮子头按钮，E 键触发</td><td>target_id；one_shot（一次性/切换）</td></tr>
+    <tr><td>lion_button</td><td>狮子头按钮，E 键触发</td><td>target_id；one_shot（一次性/切换）；momentary（点动：每按一次发一次，配发射器）</td></tr>
+    <tr><td>one_way_platform</td><td>单向平台：下方跳上可站，按 S 也不掉（无下落键）</td><td>width_tiles（宽度格数，拖动即所见）</td></tr>
+    <tr><td>orb_launcher</td><td>光球发射器：被触发即沿朝向射出发光球，1s 冷却可连发；光球缓降、10s 消散</td><td>listen_id；launch_speed；cooldown；orb_lifetime；orb_tint。<strong>旋转节点即调发射方向</strong>（编辑器有箭头）</td></tr>
     <tr><td>stone_door</td><td>石门（32×48），向上滑开</td><td>listen_id；start_open；tint 调色</td></tr>
     <tr><td>key_door</td><td>钥匙门（金色），拿到钥匙才开</td><td>免配置（动画 tween_duration 可调）</td></tr>
     <tr><td>light_crystal</td><td>光敏水晶：灯照 2s 激活广播</td><td>target_id；charge_time</td></tr>
@@ -179,6 +181,8 @@
     <tr><td>ladder</td><td>梯子：W/S 攀爬，空格翻出</td><td>height（px，origin 在底部；顶端高出平台半格）</td></tr>
     <tr><td>pickup</td><td>道具拾取：lamp/boots/whistle/三宝石/key</td><td>item（图标自动匹配）</td></tr>
     <tr><td>chest</td><td>宝箱：E 开启发道具（一次性）</td><td>item</td></tr>
+    <tr><td>checkpoint</td><td>检查点：触碰存档，死亡回这里</td><td>免配置</td></tr>
+    <tr><td>sign</td><td>告示牌：E 查看文字提示（如"用灯照宝石"）</td><td>text（多行）</td></tr>
     <tr><td>ambient_light</td><td>环境光源：熔岩缝/荧光苔，站在里面关灯也会被 Boss 发现</td><td>radius_tiles（格）</td></tr>
   </table>
 </div>

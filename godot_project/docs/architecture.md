@@ -53,6 +53,7 @@ TileSet：`assets/tiles/tileset_cave.tres`，12 个 source（0 占位 / 1 泥土
 | `move_left` / `move_right` | A/D、方向键 | 十字键左右、左摇杆 X 轴 |
 | `move_up` / `move_down` | W/S、方向键 | 十字键上下、左摇杆 Y 轴 |
 | `jump` | 空格 | A（南键） |
+| `hold_run` | Shift（按住奔跑 6 格/秒，松开回行走 4 格） | — |
 | `interact` | E | X（西键） |
 | `toggle_lamp` | F | Y（北键） |
 | `whistle` | Q | LB |
