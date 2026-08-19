@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/one_way_platform.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="shape_platform"]
+size = Vector2(48, 6)
+
+[node name="OneWayPlatform" type="StaticBody2D"]
+collision_layer = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+one_way_collision = true
+shape = SubResource("shape_platform")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -24.0
+offset_top = -3.0
+offset_right = 24.0
+offset_bottom = 3.0
+color = Color(0.45, 0.65, 0.75, 1)

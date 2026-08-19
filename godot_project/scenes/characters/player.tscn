@@ -310,6 +310,7 @@ texture_scale = 0.75
 target_position = Vector2(0, 20)
 
 [node name="Lamp" type="Node2D" parent="." unique_id=784734457]
+position = Vector2(6, 2)
 script = ExtResource("7_lamp")
 
 [node name="PointLight2D" type="PointLight2D" parent="Lamp" unique_id=624568834]

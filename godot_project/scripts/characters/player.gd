@@ -237,6 +237,8 @@ func _physics_process(delta: float) -> void:
 	if not is_zero_approx(axis):
 		_facing = 1 if axis > 0.0 else -1
 		_sprite.flip_h = _facing < 0
+		# 灯笼在素材手部位置（帧内 14,16 → 本地 (6,2)），朝向翻转时灯位同步镜像
+		_lamp.position.x = 6.0 * _facing
 
 	move_and_slide()
 	_update_animation()

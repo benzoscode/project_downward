@@ -9,6 +9,10 @@ var _lamp: Node2D
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute("res://tools/out/")
+	# 黑暗基底：灯光效果才能显现
+	var dark := CanvasModulate.new()
+	dark.color = Color(0.08, 0.08, 0.1, 1)
+	add_child(dark)
 	var floor_body := StaticBody2D.new()
 	var shape := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
@@ -49,7 +53,11 @@ func _run() -> void:
 	await _frames(30)
 	await _shot("idle")
 	_lamp.call("set_lamp_on", true)
+	_lamp.call("lock_aim_to", _player.global_position + Vector2(80, -10)) # 向右平瞄
 	await _frames(20)
+	var light := _lamp.get_node("PointLight2D") as PointLight2D
+	print("lamp_on=", _lamp.get("lamp_on"), " visible=", light.visible, " energy=", light.energy,
+		" scale=", light.texture_scale, " rot=", _lamp.global_rotation, " tex=", light.texture)
 	await _shot("idle_lamp")
 	# 模拟走路：给水平速度并关掉减速（headless 无输入，减速会立刻刹停）
 	_player.set("deceleration", 0.0)

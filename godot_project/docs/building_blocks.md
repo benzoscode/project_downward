@@ -19,8 +19,25 @@
 - **用途**：踩下触发 `target_id`，离开解除。
 - **参数**：`mouse_only`（true=小型仅老鼠 / false=大型人鼠皆可）。
 
-## 机关积木（M6 第二批）
+## 机关积木（第三批，2026-08-18）
 
+### one_way_platform.tscn 单向平台
+
+- **用途**：下方/侧面自由穿越，只能站顶面；**没有下落键**——按 S 也不会掉（与常见单向平台不同，用户需求）。
+- **参数**：`width_tiles`（宽度格数，@tool 拖动即所见）。
+
+### orb_launcher.tscn 光球发射器 + light_orb.tscn 光球
+
+- **用途**：收到触发即沿朝向射出发光球（初速沿方向，之后受衰减重力**缓降**，到时消散）；冷却 1s 可连发。典型搭配：狮子头按钮开 `momentary` 点动模式 → `target_id` 指发射器 `listen_id`。
+- **参数**：`listen_id`；`launch_speed`（默认 120px/s）；`cooldown`（1s）；`orb_lifetime`（10s）；`orb_tint`（光球颜色）。
+- **方向**：旋转发射器节点即调发射方向（编辑器内 +X 箭头可视化）。
+- **总线补充**：`MechanismBus.pulse(id)` 脉冲触发——只发信号不存状态，事件型联动（发射/连按）专用；`trigger()` 仍是状态型（重复触发同 id 不会重复发信号）。
+
+### lion_button 增配
+
+- `momentary`（点动）：每按一次发一次脉冲，不做开/关切换。
+
+## 机关积木（M6 第二批）
 ### alternating_platform.tscn 交替平台
 
 - **用途**：A/B 两组按周期交替显隐（半透明+撤碰撞），全房间时间同步。
