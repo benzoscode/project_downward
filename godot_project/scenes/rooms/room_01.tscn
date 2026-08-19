@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="5_mpjxv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="6_jwebg"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="7_10nlv"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/light_crystal.tscn" id="8_10nlv"]
 
 [node name="Room01" type="Node2D" unique_id=373696794]
 script = ExtResource("1_yt80c")
@@ -67,3 +68,6 @@ target_id = &"room_1_door"
 [node name="StoneDoor" parent="." unique_id=1776176717 instance=ExtResource("7_10nlv")]
 position = Vector2(176, 201)
 listen_id = &"room_1_door"
+
+[node name="LightCrystal" parent="." unique_id=829589508 instance=ExtResource("8_10nlv")]
+position = Vector2(604, 201)
