@@ -176,6 +176,28 @@ func _run_tests() -> void:
 		"trigger 次数=%d，期望 2" % trigger_count[0])
 	button.queue_free()
 
+	# ---- T8 摇杆平台：摇杆与平台分离摆放（platform_offset），按住 E 平台移向终点 ----
+	var lever := (load("res://scenes/interactables/lever_platform.tscn") as PackedScene).instantiate() as Node2D
+	lever.position = Vector2(800, SURFACE_Y - 8.0)
+	lever.set("platform_offset", Vector2(0, -64)) # 平台在摇杆正上方 4 格
+	lever.set("move_offset", Vector2(96, 0))
+	lever.set("move_speed", 96.0)
+	add_child(lever)
+	await _physics_frames(3)
+	var pf := lever.get_node("Platform") as AnimatableBody2D
+	var start_ok := pf.global_position.distance_to(lever.global_position + Vector2(0, -64)) < 2.0
+	_player.global_position = lever.global_position
+	_player.velocity = Vector2.ZERO
+	_player.reset_physics_interpolation()
+	await _physics_frames(5)
+	Input.action_press(&"interact")
+	await _physics_frames(80) # 1s+，96px 位移应走完
+	Input.action_release(&"interact")
+	var moved := pf.global_position.distance_to(lever.global_position + Vector2(96, -64)) < 6.0
+	_check("T8 摇杆平台分离摆放+按 E 移动", start_ok and moved,
+		"start_ok=%s moved=%s platform=%s" % [start_ok, moved, pf.global_position])
+	lever.queue_free()
+
 	print("VERIFY RESULT: %d passed, %d failed" % [_passed, _failures])
 	get_tree().quit(1 if _failures > 0 else 0)
 

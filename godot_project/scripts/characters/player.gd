@@ -42,6 +42,10 @@ const TILE_SIZE := 16.0
 @export_range(0.1, 1.0) var water_speed_multiplier: float = 0.5
 ## 水中重力倍率，略小于 1 制造浮力感
 @export_range(0.1, 1.0) var water_gravity_multiplier: float = 0.6
+## 入水瞬间垂直速度保留比例（0.3 = 砍掉七成下坠冲量，2026-08-18 用户反馈落水减速不明显）
+@export_range(0.0, 1.0) var water_entry_damp: float = 0.3
+## 水中坠落终速上限（格/秒），缓沉手感
+@export var water_max_fall_tiles: float = 2.5
 
 @export_category("致幻（第 9 房间）")
 ## 输入延迟（秒）：第 9 房间致幻机制。M6 决策：渲染延迟方案风险高，降级为输入延迟
@@ -120,6 +124,8 @@ func clear_interactable(node: Node) -> void:
 func enter_water() -> void:
 	_water_count += 1
 	_sprite.modulate.a = 0.65
+	# 入水瞬间砍掉大部分下坠冲量（落水缓冲）
+	velocity.y *= water_entry_damp
 
 
 func exit_water() -> void:
@@ -215,6 +221,9 @@ func _physics_process(delta: float) -> void:
 			if in_water:
 				gravity *= water_gravity_multiplier
 			velocity.y += gravity * delta
+			# 水中坠落限速（缓沉）
+			if in_water:
+				velocity.y = minf(velocity.y, water_max_fall_tiles * TILE_SIZE)
 
 		if jump_just:
 			_buffer_timer = jump_buffer
@@ -245,12 +254,13 @@ func _physics_process(delta: float) -> void:
 
 
 func _update_animation() -> void:
-	# 正式素材（2026-08-17 实装）：每个状态分无灯/有灯两版，跳跃暂用走路第 1 帧
+	# 正式素材（2026-08-17 实装）：每个状态分无灯/有灯两版
+	# 跳跃上升/下落分图（2026-08-20 实装）：攀爬沿用上 Rising 姿势
 	var base: StringName
 	if _climbing:
-		base = &"jump"
+		base = &"jump_rise"
 	elif not is_on_floor():
-		base = &"jump"
+		base = &"jump_rise" if velocity.y < 0.0 else &"jump_fall"
 	elif absf(velocity.x) > 4.0:
 		base = &"run"
 	else:

@@ -3,6 +3,14 @@ extends Node2D
 ## 摇杆平台（M6）：玩家站上摇杆区按住 E，平台沿 move_offset 移动；松开/离开则复位。
 ## 路径在编辑器内可视化（虚线）。策划案 §三(五)。
 
+## 平台起始位置（相对摇杆的偏移，px）——摇杆与平台可分开摆放（2026-08-18 用户需求）
+@export var platform_offset: Vector2 = Vector2(64, 0):
+	set(value):
+		platform_offset = value
+		if is_node_ready():
+			_platform.position = value
+			_platform_home = value
+		queue_redraw()
 ## 平台移动偏移（px），从起点到终点
 @export var move_offset: Vector2 = Vector2(96, 0):
 	set(value):
@@ -23,7 +31,8 @@ var _dwell_left: float = 0.0 # 松手后剩余停留时间
 
 
 func _ready() -> void:
-	_platform_home = $Platform.position
+	_platform.position = platform_offset
+	_platform_home = platform_offset
 	if Engine.is_editor_hint():
 		return
 	_lever_area.body_entered.connect(_on_body_entered)
@@ -50,9 +59,11 @@ func _physics_process(delta: float) -> void:
 
 func _draw() -> void:
 	if Engine.is_editor_hint():
-		# 路径可视化：平台中心起点的移动轨迹
-		var from: Vector2 = $Platform.position + Vector2(24, 4)
-		draw_dashed_line(from, from + move_offset, Color(0.4, 0.8, 1.0), 1.0, 4.0)
+		# 路径可视化：平台起点/终点幽灵框 + 移动轨迹虚线
+		var from: Vector2 = platform_offset + Vector2(24, 4)
+		var to := from + move_offset
+		draw_dashed_line(from, to, Color(0.4, 0.8, 1.0), 1.0, 4.0)
+		draw_rect(Rect2(to - Vector2(24, 4), Vector2(48, 8)), Color(0.4, 0.8, 1.0, 0.35), false, 1.0)
 
 
 func _on_body_entered(body: Node2D) -> void:

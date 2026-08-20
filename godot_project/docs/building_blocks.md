@@ -45,8 +45,8 @@
 
 ### lever_platform.tscn 摇杆平台
 
-- **用途**：玩家在摇杆旁**按住 E**，平台沿 `move_offset` 移动；松开后在终点停留 `dwell_time` 再复位。编辑器内虚线显示路径。
-- **参数**：`move_offset`（px）；`move_speed`（px/秒）；`dwell_time`（默认 0.5s，难度调节项）。
+- **用途**：玩家在摇杆旁**按住 E**，平台沿 `move_offset` 移动；松开后在终点停留 `dwell_time` 再复位。编辑器内虚线显示路径 + 终点幽灵框。
+- **参数**：`platform_offset`（平台起点相对摇杆的偏移——**摇杆与平台可分开摆放**）；`move_offset`（px）；`move_speed`（px/秒）；`dwell_time`（默认 0.5s，难度调节项）。
 
 ### dual_button_door.tscn 双按钮门
 
@@ -164,8 +164,8 @@
 
 ### water.tscn 水体
 
-- **用途**：浸入减速 50% + 半透明；编辑器内直接拖 `size`。
-- **参数**：`size`（px，origin 左上角）；玩家侧 `water_speed_multiplier`/`water_gravity_multiplier` 可调。
+- **用途**：浸入减速 50% + 半透明；入水瞬间砍掉大部分下坠冲量（落水缓冲），水中缓沉（坠落限速 2.5 格/秒）；编辑器内直接拖 `size`。
+- **参数**：`size`（px，origin 左上角）；玩家侧 `water_speed_multiplier`/`water_gravity_multiplier`/`water_entry_damp`/`water_max_fall_tiles` 可调。
 
 ### ladder.tscn 梯子
 

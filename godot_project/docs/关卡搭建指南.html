@@ -173,11 +173,11 @@
     <tr><td>trigger_relay</td><td>滞后组件：触发后延迟 N 秒再发</td><td>input_id → output_id；delay</td></tr>
     <tr><td>color_button + sequence_controller</td><td>顺序机关：按颜色顺序按下才触发</td><td>按钮配 sequence_id+color_id；控制器配 expected 序列+target_id</td></tr>
     <tr><td>alternating_platform</td><td>交替平台：A/B 组按周期显隐</td><td>period（默认 1.5s）；group_b</td></tr>
-    <tr><td>lever_platform</td><td>摇杆平台：按住 E 平台移动</td><td>move_offset；move_speed；dwell_time</td></tr>
+    <tr><td>lever_platform</td><td>摇杆平台：按住 E 平台移动；摇杆与平台可分开摆放</td><td>platform_offset（平台相对摇杆位置）；move_offset；move_speed；dwell_time</td></tr>
     <tr><td>fake_platform</td><td>虚空平台：看着能踩，直接穿过</td><td>无</td></tr>
     <tr><td>grass_cover</td><td>草丛光透：灯照变透明露暗道</td><td>无（纯视觉，通道本来就能走）</td></tr>
     <tr><td>spikes</td><td>地刺：碰即死回检查点</td><td>无（贴地放，origin 在瓦片中心）</td></tr>
-    <tr><td>water</td><td>水体：减速 50%+半透明</td><td>size（直接拖，origin 左上角）</td></tr>
+    <tr><td>water</td><td>水体：减速 50%+半透明；落水有缓冲、水中缓沉</td><td>size（直接拖，origin 左上角）</td></tr>
     <tr><td>ladder</td><td>梯子：W/S 攀爬，空格翻出</td><td>height（px，origin 在底部；顶端高出平台半格）</td></tr>
     <tr><td>pickup</td><td>道具拾取：lamp/boots/whistle/三宝石/key</td><td>item（图标自动匹配）</td></tr>
     <tr><td>chest</td><td>宝箱：E 开启发道具（一次性）</td><td>item</td></tr>

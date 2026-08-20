@@ -159,5 +159,18 @@ func _run_tests() -> void:
 	_check("T6 死后机关状态保留", MechanismBus.is_triggered(&"persist_test"),
 		"persist_test=%s" % MechanismBus.is_triggered(&"persist_test"))
 
+	# T8 落水缓冲：高处坠入水体，入水后下坠速度被砍（2026-08-18 调校）
+	# 注意：入水帧是过渡帧（先衰减再限速），测深水区（y > 水面+16）的稳态速度
+	_player.position = Vector2(220, SURFACE_Y - 160.0) # 10 格高度自由落体入水
+	_player.velocity = Vector2.ZERO
+	_player.reset_physics_interpolation()
+	var max_fall_in_water := 0.0
+	for i in range(90):
+		await get_tree().physics_frame
+		if _player.position.y > SURFACE_Y - 32.0:
+			max_fall_in_water = maxf(max_fall_in_water, _player.velocity.y)
+	_check("T8 落水缓冲（水中下坠 ≤2.5格/秒）", max_fall_in_water > 1.0 and max_fall_in_water <= 41.0,
+		"水中最大下坠=%.1f，期望 1~41" % max_fall_in_water)
+
 	print("VERIFY RESULT: %d passed, %d failed" % [_passed, _failures])
 	get_tree().quit(1 if _failures > 0 else 0)
