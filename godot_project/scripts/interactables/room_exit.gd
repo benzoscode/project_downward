@@ -43,7 +43,12 @@ func _draw() -> void:
 	var rect := Rect2(-half, half * 2.0)
 	draw_rect(rect, Color(0.3, 0.9, 1.0, 0.15), true)
 	draw_rect(rect, Color(0.3, 0.9, 1.0, 0.8), false, 1.5)
-	var label := "→ " + target_scene.get_file().get_basename()
+	var scene_label := target_scene
+	if scene_label.begins_with("uid://"): # 编辑器可能存 uid 引用，显示时解析回文件名
+		var uid: int = ResourceUID.text_to_id(scene_label)
+		if ResourceUID.has_id(uid):
+			scene_label = ResourceUID.get_id_path(uid)
+	var label := "→ " + scene_label.get_file().get_basename()
 	if target_entrance != &"default":
 		label += ":" + String(target_entrance)
 	draw_string(ThemeDB.fallback_font, Vector2(-half.x, -half.y - 6.0),

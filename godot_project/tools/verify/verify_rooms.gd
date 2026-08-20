@@ -62,11 +62,21 @@ func _scan_room_exits(scene_path: String) -> Array[Dictionary]:
 func _collect_exits(node: Node, out: Array[Dictionary]) -> void:
 	if node.get_script() != null and (node.get_script() as Script).resource_path == EXIT_SCRIPT:
 		out.append({
-			"target_scene": node.get("target_scene"),
+			"target_scene": _resolve_target(node.get("target_scene")),
 			"target_entrance": node.get("target_entrance"),
 		})
 	for child in node.get_children():
 		_collect_exits(child, out)
+
+
+## 4.6+ 编辑器可能把文件导出存成 uid:// 引用，解析回路径再校验
+func _resolve_target(target: String) -> String:
+	if target.begins_with("uid://"):
+		var id: int = ResourceUID.text_to_id(target)
+		if ResourceUID.has_id(id):
+			return ResourceUID.get_id_path(id)
+		return "" # 悬空 uid 视为断链
+	return target
 
 
 func _has_entrance(scene_path: String, entrance: StringName) -> bool:

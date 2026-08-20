@@ -1,6 +1,6 @@
 extends CharacterBody2D
 class_name Mouse
-## 老鼠控制器（M5）：5.2 格/秒、2 格跳 + 1.5 格二段跳、6×6 判定、可过 1 格窄缝。
+## 老鼠控制器（M5）：5.2 格/秒、2 格跳 + 1.5 格二段跳、16×8 判定（2026-08-20 正式素材 27×9/帧，判定取身体不含尾巴）、可过 1 格窄缝。
 ## 策划案 §二(二)3。input_delay 为第 9 房间"0.8s 操控延迟"机制，0 表示无延迟。
 
 const TILE_SIZE := 16.0
@@ -26,7 +26,7 @@ var _time: float = 0.0
 # 输入采样环形缓冲：[时间, 横轴, 跳按下(0/1)]，供延迟回放
 var _samples: Array[Vector3] = []
 
-@onready var _sprite: Sprite2D = $Sprite2D
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _pcam: Node2D = $PhantomCamera2D
 
 

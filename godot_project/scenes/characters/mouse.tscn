@@ -1,11 +1,103 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/characters/mouse.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/char_mouse_idle.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/characters/char_mouse_idle.png" id="2_tex"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="3_pcam"]
 
 [sub_resource type="RectangleShape2D" id="shape_mouse"]
-size = Vector2(6, 6)
+size = Vector2(16, 8)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 9, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 18, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 27, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_4"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 36, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_5"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 45, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_6"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 54, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_7"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 63, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_8"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 72, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_9"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 81, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_10"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 90, 27, 9)
+
+[sub_resource type="AtlasTexture" id="atlas_idle_11"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 99, 27, 9)
+
+[sub_resource type="SpriteFrames" id="frames_mouse"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_idle_11")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
 
 [node name="Mouse" type="CharacterBody2D" groups=["mouse"]]
 collision_layer = 4
@@ -14,8 +106,10 @@ script = ExtResource("1_script")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("shape_mouse")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("frames_mouse")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 unique_name_in_owner = true
