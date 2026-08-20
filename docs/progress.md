@@ -1,59 +1,58 @@
 # 进度与计划 — 《downward》
 
-> 交接文档：新对话从这里恢复上下文。最后更新：2026-08-17（M8 合入后）。
+> 交接文档：新对话从这里恢复上下文。最后更新：2026-08-18（机关三批/tilebuild 合入后）。
 > 详细规范见根目录 `AGENTS.md`；架构细节见 `godot_project/docs/architecture.md`。
 
 ## 1. 当前状态快照
 
-- **分支**：所有已验收工作均在 `develop`（本地）。远程推送因网络问题待补（见 §5）。
-- **里程碑**：M0/M1 已验收；M2-M7 内容完成并通过基础验收（`[~]` 待归档）；**M8（房间连通）内容完成并通过基础验收**，标 `[~]`。
-- **自动验证**：`tools/run_verify.ps1` 一键复验，当前 **67 项全绿**（玩家 6 / 相机 2 / 机关 5 / 穿越 7 / 光照 4 / 二段跳 4 / 老鼠 11 / 机关二批 8 / Boss 12 / 房间 12）。
+- **分支**：本地与远程 `develop`、`tilebuild` 均已同步到最新（推送已恢复，远程无残留分支）。
+- **里程碑**：M0/M1 已验收；M2-M8 **内容全部完成并通过基础验收**（`[~]` 待最终归档）。M9（结局关卡）未开始；M10（打磨）可裁剪。
+- **自动验证**：`tools/run_verify.ps1` 一键复验，当前 **88 项全绿**（玩家 8 / 相机 2 / TileSet / 机关 5 / 穿越 8 / 光照 4 / 二段跳 4 / 老鼠 11 / 机关二批 8 / 机关三批 7 / Boss 12 / 房间 12）。
 - **可玩入口**：
-  - `scenes/main.tscn`（主场景，F5）：从 room_01 开局，12 房间灰盒骨架可流通（M8）
-  - `scenes/rooms/demo_room.tscn`（F6）：M2/M3 全链路演示
-  - `scenes/test/mechanism_lab.tscn`（F6）：M4-M6 全能力试验场
-  - `scenes/test/boss_lab.tscn`（F6）：M7 Boss 试验场
+  - `scenes/main.tscn`（F5）：从 room_01 开局，12 房间灰盒可流通
+  - `scenes/test/boss_lab.tscn` / `mechanism_lab.tscn` / `demo_room.tscn`（F6 单开）
+- **策划协作**：`tilebuild` 分支进行中（room_01/03/04 已有搭建稿并合入）；搭建指南 `godot_project/docs/关卡搭建指南.html`。
 
 ## 2. 已实现机制速查
 
 | 系统 | 入口 | 要点 |
 |---|---|---|
-| 玩家控制器 | `scripts/characters/player.gd` | 3格/秒、3格跳、二段跳5格（靴）、攀爬、水域、死亡重生、`input_delay`（致幻） |
+| 玩家控制器 | `scripts/characters/player.gd` | 行走4/奔跑6(按住Shift)/跳3格/二段跳5格(靴)/攀爬3格锁梯子中线/水域/检查点重生/`input_delay`（致幻） |
 | 老鼠 | `scripts/characters/mouse.gd` + `ControlManager` | 5.2格/秒、2+1.5格跳、6×6判定、窄缝、0.8s 延迟参数 |
-| 灯光 | `scripts/characters/lamp.gd` + `LightSystem` | F 开关、60°/6格、鼠标跟随、`is_point_lit`/`is_point_lit_ambient`/`has_clear_line` API |
-| Boss | `scripts/characters/boss.gd`（M7） | 五状态机（巡逻/警戒/追击/搜索/分心）、老鼠优先、接触扑杀、搜索10s超时；手册见 building_blocks.md |
-| 机关通信 | `MechanismBus` | `trigger/release/is_triggered`，StringName ID，状态跨重生保留 |
-| 房间连通 | `RoomManager`（M8） | `goto_room` 淡入淡出、入口落位、检查点重生（可跨房间）、玩家托管、pcam 钳制同步；协议见 architecture.md §14 |
-| 积木 16 个 | `scenes/interactables/` | 手册：`godot_project/docs/building_blocks.md`（每个积木的参数与连线） |
-| TileSet | `assets/tiles/tileset_cave.tres` | 12 源（1 泥土/2 石质/5 石砖带碰撞+遮光，3/4/6 装饰，7 水面，8-11 水体动画瓦片）；布局改动走 `tools/build_tileset.gd` |
-| HUD | `scripts/autoload/hud.gd` | 占位：拾取弹窗+持有图标栏，M10 重做 |
+| 灯光 | `scripts/characters/lamp.gd` + `LightSystem` | F 开关（灯口对齐素材灯笼位）、60°/6格、鼠标跟随、`is_point_lit`/`is_point_lit_ambient`/`has_clear_line` |
+| Boss | `scripts/characters/boss.gd`（M7） | 五状态机、老鼠优先、接触扑杀、搜索10s超时；手感待迭代（见 §5） |
+| 机关通信 | `MechanismBus` | `trigger/release/pulse`（脉冲=事件型连发）+ `is_triggered`，StringName ID，状态跨重生保留 |
+| 房间连通 | `RoomManager`（M8，方案 D 无注册表） | 出口直存 .tscn 路径、检查点（入口自动存档+checkpoint 积木）、相机钳制同步+瞬移 |
+| 积木 21 个 | `scenes/interactables/` | 手册：`docs/building_blocks.md`；图文指南：`docs/关卡搭建指南.html` |
+| TileSet | `assets/tiles/tileset_cave.tres` | 12 源（1 泥土/2 石质/5 石砖带碰撞遮光，3/4/6 装饰，7 水面，8-11 水体动画瓦片）；改动走 `tools/build_tileset.gd` |
+| 主角素材 | `assets/characters/` | 正式素材：待机/走路×无灯/有灯 8 帧；跳跃=走路首帧（待补画） |
+| HUD | `scripts/autoload/hud.gd` | 占位：拾取弹窗+图标栏+`show_message` 文字弹窗（多行），M10 重做 |
 
 ## 3. 下一步计划（按依赖顺序）
 
-1. ~~M7 Boss AI~~（2026-08-17 完成；手感待迭代，见 §5）
-2. ~~M8 房间连通~~（2026-08-17 完成：RoomManager/检查点/12 房间灰盒/能力门/pcam 钳制修复，分支 `feat/m8-rooms`）
-3. **策划人工环节**：在 12 房间灰盒上装修（协议见 building_blocks.md「房间搭建协议」：出入口与能力门结构不动）
-4. **M9 结局关卡**（AI 灰盒，第 12 房间三层结构+Boss 追赶路径记录/光敏屏障，见策划案 §三(十二) 与阶段三清单；顺带在真实关卡中迭代 Boss 手感）→ **M10 打磨**（可裁剪）
+1. **M9 第 12 房间整合与结局**（下一个开发任务，AI 灰盒）：三层结构（潜行→追赶+三项操作→老鼠诱敌+宝石嵌入+冲刺结局）；Boss 追赶路径记录回放、光敏屏障 60s 四档减弱、房间内检查点（第二层入口）、Boss 重置；**顺带在真实关卡里迭代 Boss 手感**（§5 遗留）。新分支 `feat/m9-finale`。
+2. **策划人工环节**（并行）：room_01~11 正式搭建（灰盒装修/扩建到全尺寸），tilebuild 分支协作。
+3. **M10 打磨**（可裁剪）：HUD 重做、音效、粒子、结局演出精修。
 
 ## 4. 关键设计决策（勿轻易推翻，详见 decisions.md）
 
-- 渲染：480×270 原生 + 整数倍缩放 + **亚像素渲染**（不开像素吸附！低速移动抖动根源）+ 全局物理插值
-- 灯光：鼠标实时跟随（策划案原设定，可指任意角度；朝向跟随方案试过已回退）
-- 致幻：渲染延迟降级为**输入延迟**（`player.input_delay`），里程碑预案允许
-- 人鼠碰撞分层：地形/门=层1、玩家=层2、老鼠=层3、交互区 mask=6；Boss=层4（值8）仅撞地形
-- Boss 感知补充规则（警戒封顶 12 格/开灯不看锥向/搜索态也可被分心/扑杀仅限攻击态）见 decisions.md 2026-08-17
-- 草丛光透=纯视觉遮盖（秘密通道本来就能走）
-- 关卡由策划用积木搭建，AI 不交付成品关卡（M9 灰盒除外）
+- 渲染：480×270 原生 + 整数倍缩放 + **亚像素渲染**（不开像素吸附！）+ 全局物理插值
+- 手感调校（2026-08-17/18 用户拍板，覆盖策划案）：行走 4 格/秒、按住 Shift 奔跑 6 格、攀爬 3 格、能见度收窄（自发光 1.5 格+灰盒 0.10）、灯 energy 2.6、攀爬锁梯子中线
+- 灯光：鼠标实时跟随；灯口对齐素材灯笼位（本地 (6,2)，随朝向镜像）
+- 致幻：输入延迟（`player.input_delay`）
+- 碰撞分层：地形/门=层1、玩家=层2、老鼠=层3、Boss=层4（值8）、交互区 mask=6
+- 房间系统：方案 D 无注册表，出口直存场景路径；检查点=入口/检查点积木
+- 灰盒房间为紧凑测试尺寸（40×17，room_12 为 90×34），正式房间装修时可扩建
 
 ## 5. 遗留问题
 
-- [ ] **push 到 origin**（代理关闭后 GitHub 连不上；恢复后 `git push origin develop`，并删除远程残留的 `feat/m3-mechanisms` 分支——若已删请忽略）
+- [ ] **Boss 手感未达预期**（用户反馈，暂缓）——M9 在真实关卡上下文中迭代
+- [ ] 重生时敌人不复位（同房间死亡 Boss 保持原位/状态）——用户拍板暂缓，M9 视需要再议
 - [ ] 光敏水晶在黑暗中难发现（可加微弱自发光轮廓，用户暂缓）
 - [ ] 灯光朝向混合方案（朝向+鼠标自动切换）备选未做
-- [ ] ~~相机边界：pcam 直写坐标会绕过 Camera2D limit 钳制~~（M8 已修：进房间同步 limit 到 pcam，verify_camera 断言更新）
-- [ ] paint/capture 工具走 `--script` 模式无 Autoload，引用 Autoload 的脚本（M5 起）在其中编译失败——场景能画出但脚本不运行；重生成 mechanism_lab 等需改造走宿主模式（decisions.md 2026-08-17）
-- [ ] Boss 追击为直线+跳跃绕障简化版；第 12 房间"沿玩家路径追赶/屏障阻挡"在 M9 专项实现（策划案阶段三清单）
-- [ ] **Boss 实际体验未达预期**（用户反馈 2026-08-17，暂缓）——M9 整合进 12 房间时在真实关卡上下文中迭代手感（速度曲线/感知反馈/预警演出）
+- [ ] 跳跃/攀爬动画待补画（当前跳跃=走路首帧）
+- [ ] paint/capture 工具 `--script` 模式无 Autoload，含 Autoload 引用的脚本在其中编译失败——重生成 mechanism_lab 等需走宿主模式（decisions.md 2026-08-17）
+- [ ] 策划同事环境是 Godot 4.6，本仓库用 4.7.1——建议统一，否则 project.godot features 标记会反复被改
 
 ## 6. 常用命令（godot_project/ 下）
 
@@ -61,5 +60,5 @@
 $godot = "C:\softwares\godot\4.7.1\Godot_v4.7.1-stable_win64_console.exe"
 & $godot --headless --import                                    # 静态检查
 powershell -ExecutionPolicy Bypass -File tools/run_verify.ps1   # 全部机制断言（应 VERIFY PASSED）
-& $godot --headless --quit-after 120 res://scenes/rooms/demo_room.tscn  # 冒烟
+& $godot --headless --quit-after 120 res://scenes/main.tscn     # 冒烟
 ```
