@@ -71,7 +71,7 @@ script = ExtResource("8_ynyqh")
 position = Vector2(463, 134)
 
 [node name="Entrance_from_10" type="Marker2D" parent="." unique_id=1660209543]
-position = Vector2(295, 51)
+position = Vector2(297, -56)
 
 [node name="Exit_to_room_11" parent="." unique_id=82675807 instance=ExtResource("9_k2h2b")]
 position = Vector2(8, 135)
