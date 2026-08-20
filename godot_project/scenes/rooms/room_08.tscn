@@ -45,7 +45,7 @@ position = Vector2(551, 149)
 position = Vector2(240, 135)
 limit_left = 0
 limit_top = 0
-limit_right = 640
+limit_right = 576
 limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1927205989]
