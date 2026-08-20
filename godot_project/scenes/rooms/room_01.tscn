@@ -1,26 +1,19 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://b8gkask7738di"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="1_yt80c"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/bg_cave.png" id="2_jwebg"]
-[ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="3_10nlv"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_2owu3"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="4_havci"]
+[ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_yt80c"]
+[ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_jwebg"]
+[ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_10nlv"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_2owu3"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="5_mpjxv"]
-[ext_resource type="Script" path="res://scripts/interactables/pickup.gd" id="5_rr2m5"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/sign.tscn" id="6_8bevx"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="6_jwebg"]
-[ext_resource type="Script" path="res://scripts/interactables/room_exit.gd" id="6_mpjxv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="7_10nlv"]
-[ext_resource type="Script" path="res://scripts/interactables/sign.gd" id="7_qhp48"]
-[ext_resource type="Script" path="res://scripts/interactables/lion_button.gd" id="8_t1qwn"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/light_crystal.tscn" id="8_vyfj4"]
-[ext_resource type="Script" path="res://scripts/interactables/light_crystal.gd" id="9_860ca"]
-[ext_resource type="Script" path="res://scripts/interactables/stone_door.gd" id="10_8fqiy"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/light_crystal.tscn" id="8_10nlv"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="9_2owu3"]
 
-[node name="@Node2D@2" type="Node2D" unique_id=373696794]
+[node name="Room01" type="Node2D" unique_id=373696794]
 script = ExtResource("1_yt80c")
 editor_brightness = Color(1, 1, 1, 1)
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+game_darkness = Color(0.074763484, 0.07476277, 0.0824618, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=375365177]
 
@@ -43,29 +36,6 @@ tile_set = ExtResource("3_10nlv")
 
 [node name="Mechanisms" type="Node2D" parent="." unique_id=1067220923]
 
-[node name="TeachLamp" type="Area2D" parent="Mechanisms" unique_id=565023186 instance=ExtResource("4_havci")]
-position = Vector2(104, 200)
-collision_mask = 6
-script = ExtResource("5_rr2m5")
-
-[node name="TeachSign" type="Area2D" parent="Mechanisms" unique_id=70268706 instance=ExtResource("6_8bevx")]
-position = Vector2(504, 200)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("7_qhp48")
-text = "一块字迹模糊的石碑：
-『以光唤醒宝石，门自会开启。』"
-
-[node name="TeachCrystal" type="Node2D" parent="Mechanisms" unique_id=1346209576 instance=ExtResource("8_vyfj4")]
-position = Vector2(568, 200)
-script = ExtResource("9_860ca")
-target_id = &"r01_crystal"
-
-[node name="TeachDoor" type="AnimatableBody2D" parent="Mechanisms" unique_id=1066996469 instance=ExtResource("7_10nlv")]
-position = Vector2(616, 184)
-script = ExtResource("10_8fqiy")
-listen_id = &"r01_crystal"
-
 [node name="Characters" type="Node2D" parent="." unique_id=311279674]
 
 [node name="Lights" type="Node2D" parent="." unique_id=677228460]
@@ -74,11 +44,8 @@ listen_id = &"r01_crystal"
 position = Vector2(369, 232)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1971755176]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 640
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1534093582]
 process_priority = 300
@@ -88,20 +55,20 @@ script = ExtResource("4_2owu3")
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=187821451]
 position = Vector2(369, 232)
 
-[node name="Exit_to_room_02" type="Area2D" parent="." unique_id=932976385 instance=ExtResource("5_mpjxv")]
+[node name="Exit_to_room_02" parent="." unique_id=932976385 instance=ExtResource("5_mpjxv")]
 position = Vector2(632, 184)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("6_mpjxv")
 target_scene = "res://scenes/rooms/room_02.tscn"
 
-[node name="LionButton" type="Area2D" parent="." unique_id=124186701 instance=ExtResource("6_jwebg")]
+[node name="LionButton" parent="." unique_id=124186701 instance=ExtResource("6_jwebg")]
 position = Vector2(472, 56)
-collision_mask = 6
-script = ExtResource("8_t1qwn")
 target_id = &"room_1_door"
 
-[node name="StoneDoor" type="AnimatableBody2D" parent="." unique_id=1776176717 instance=ExtResource("7_10nlv")]
+[node name="StoneDoor" parent="." unique_id=1776176717 instance=ExtResource("7_10nlv")]
 position = Vector2(176, 201)
-script = ExtResource("10_8fqiy")
 listen_id = &"room_1_door"
+
+[node name="LightCrystal" parent="." unique_id=829589508 instance=ExtResource("8_10nlv")]
+position = Vector2(604, 201)
+
+[node name="Chest" parent="." unique_id=1538069417 instance=ExtResource("9_2owu3")]
+position = Vector2(80, 212)
