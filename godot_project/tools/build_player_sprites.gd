@@ -22,7 +22,8 @@ func _initialize() -> void:
 	_add_strip(frames, &"run", "char_player_run.png", 10, Vector2i(16, 24), 12.0, true)
 	_add_strip(frames, &"run_lamp", "char_player_run_lamp.png", 10, Vector2i(16, 24), 12.0, true)
 	# 攀爬 12 帧纵向条带（上爬序列，下爬由 player.gd 倒放；无灯光差分）
-	_add_strip(frames, &"climb", "char_player_climb.png", 12, Vector2i(16, 24), 10.0, true)
+	# 16fps：配合 3 格/秒爬速的观感调校（2026-08-20 用户反馈 10fps 太卡）
+	_add_strip(frames, &"climb", "char_player_climb.png", 12, Vector2i(16, 24), 16.0, true)
 	# 跳跃上升/下落（单帧，2026-08-20 素材）
 	_add_strip(frames, &"jump_rise", "char_player_jump_rise.png", 1, Vector2i(16, 26), 5.0)
 	_add_strip(frames, &"jump_rise_lamp", "char_player_jump_rise_lamp.png", 1, Vector2i(16, 26), 5.0)

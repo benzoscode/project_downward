@@ -255,11 +255,18 @@ func _physics_process(delta: float) -> void:
 
 func _update_animation() -> void:
 	# 正式素材（2026-08-17 实装）：每个状态分无灯/有灯两版
-	# 跳跃上升/下落分图（2026-08-20 实装）：攀爬沿用上 Rising 姿势
-	var base: StringName
+	# 跳跃上升/下落分图（2026-08-20 实装）；攀爬独立序列帧（无灯光差分）
 	if _climbing:
-		base = &"jump_rise"
-	elif not is_on_floor():
+		# 攀爬素材为上爬序列（2026-08-20）：下爬倒放，静止时停在当前帧
+		if velocity.y > 0.01:
+			_sprite.play_backwards(&"climb")
+		elif velocity.y < -0.01:
+			_sprite.play(&"climb")
+		else:
+			_sprite.pause()
+		return
+	var base: StringName
+	if not is_on_floor():
 		base = &"jump_rise" if velocity.y < 0.0 else &"jump_fall"
 	elif absf(velocity.x) > 4.0:
 		base = &"run"

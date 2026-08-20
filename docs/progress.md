@@ -18,14 +18,14 @@
 | 系统 | 入口 | 要点 |
 |---|---|---|
 | 玩家控制器 | `scripts/characters/player.gd` | 行走4/奔跑6(按住Shift)/跳3格/二段跳5格(靴)/攀爬3格锁梯子中线/水域/检查点重生/`input_delay`（致幻） |
-| 老鼠 | `scripts/characters/mouse.gd` + `ControlManager` | 5.2格/秒、2+1.5格跳、6×6判定、窄缝、0.8s 延迟参数 |
+| 老鼠 | `scripts/characters/mouse.gd` + `ControlManager` | 5.2格/秒、2+1.5格跳、16×8判定（正式素材 27×9×12帧）、窄缝、0.8s 延迟参数 |
 | 灯光 | `scripts/characters/lamp.gd` + `LightSystem` | F 开关（灯口对齐素材灯笼位）、60°/6格、鼠标跟随、`is_point_lit`/`is_point_lit_ambient`/`has_clear_line` |
 | Boss | `scripts/characters/boss.gd`（M7） | 五状态机、老鼠优先、接触扑杀、搜索10s超时；手感待迭代（见 §5） |
 | 机关通信 | `MechanismBus` | `trigger/release/pulse`（脉冲=事件型连发）+ `is_triggered`，StringName ID，状态跨重生保留 |
 | 房间连通 | `RoomManager`（M8，方案 D 无注册表） | 出口直存 .tscn 路径、检查点（入口自动存档+checkpoint 积木）、相机钳制同步+瞬移 |
 | 积木 21 个 | `scenes/interactables/` | 手册：`docs/building_blocks.md`；图文指南：`docs/关卡搭建指南.html` |
 | TileSet | `assets/tiles/tileset_cave.tres` | 12 源（1 泥土/2 石质/5 石砖带碰撞遮光，3/4/6 装饰，7 水面，8-11 水体动画瓦片）；改动走 `tools/build_tileset.gd` |
-| 主角素材 | `assets/characters/` | 正式素材：待机/走路×无灯/有灯 8 帧；跳跃=走路首帧（待补画） |
+| 主角素材 | `assets/characters/` | 正式素材：待机 8 帧、奔跑 10 帧纵向（×无灯/有灯）、跳跃上升/下落单帧（×无灯/有灯）、攀爬 12 帧纵向（上爬，下爬倒放）；鼠鼠待机 4 帧（27×27）已完全替换占位 |
 | HUD | `scripts/autoload/hud.gd` | 占位：拾取弹窗+图标栏+`show_message` 文字弹窗（多行），M10 重做 |
 
 ## 3. 下一步计划（按依赖顺序）
@@ -50,7 +50,7 @@
 - [ ] 重生时敌人不复位（同房间死亡 Boss 保持原位/状态）——用户拍板暂缓，M9 视需要再议
 - [ ] 光敏水晶在黑暗中难发现（可加微弱自发光轮廓，用户暂缓）
 - [ ] 灯光朝向混合方案（朝向+鼠标自动切换）备选未做
-- [ ] 跳跃/攀爬动画待补画（当前跳跃=走路首帧）
+- [x] ~~跳跃/攀爬动画待补画~~（2026-08-20 已实装：跳跃上升/下落单帧、攀爬 12 帧上爬序列下爬倒放）
 - [ ] paint/capture 工具 `--script` 模式无 Autoload，含 Autoload 引用的脚本在其中编译失败——重生成 mechanism_lab 等需走宿主模式（decisions.md 2026-08-17）
 - [ ] 策划同事环境是 Godot 4.6，本仓库用 4.7.1——建议统一，否则 project.godot features 标记会反复被改
 

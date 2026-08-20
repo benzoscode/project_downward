@@ -40,7 +40,7 @@ position = Vector2(561, 256)
 [node name="RoomExit" parent="Mechanisms" unique_id=1794262846 instance=ExtResource("7_d0g4v")]
 position = Vector2(568, 168)
 rotation = 1.5707964
-target_scene = "uid://bb5bcg7fjn2c4"
+target_scene = "res://scenes/rooms/room_04.tscn"
 target_entrance = &"secret"
 
 [node name="Characters" type="Node2D" parent="." unique_id=892712160]
