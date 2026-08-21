@@ -86,9 +86,9 @@ rotation = -1.5778733
 target_scene = "uid://cjok813m8e0ax"
 target_entrance = &"from_room_3"
 
-[node name="Exit_to_room_12" parent="." unique_id=794282016 instance=ExtResource("9_jygcb")]
+[node name="Exit_to_room_boss" parent="." unique_id=794282016 instance=ExtResource("9_jygcb")]
 position = Vector2(574, 40)
-target_scene = "res://scenes/rooms/room_12.tscn"
+target_scene = "res://scenes/rooms/room_boss.tscn"
 
 [node name="Water" parent="." unique_id=1491540097 instance=ExtResource("9_e8wg7")]
 position = Vector2(144, 204)

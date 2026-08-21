@@ -1,11 +1,10 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://bwmctf623cpup"]
 
-[ext_resource type="Script" path="res://scripts/rooms/room_base.gd" id="1_kreq2"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/bg_cave.png" id="2_xjnbp"]
-[ext_resource type="TileSet" path="res://assets/tiles/tileset_cave.tres" id="3_vqrhr"]
+[ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_kreq2"]
+[ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_xjnbp"]
+[ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_vqrhr"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="4_ihp6o"]
-[ext_resource type="Script" path="res://scripts/interactables/ladder.gd" id="5_16v1c"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_1r00p"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_1r00p"]
 
 [node name="Room12" type="Node2D" unique_id=288183477]
 script = ExtResource("1_kreq2")
@@ -32,20 +31,14 @@ tile_set = ExtResource("3_vqrhr")
 
 [node name="Mechanisms" type="Node2D" parent="." unique_id=1610922015]
 
-[node name="Ladder" type="Area2D" parent="Mechanisms" unique_id=453857006 instance=ExtResource("4_ihp6o")]
+[node name="Ladder" parent="Mechanisms" unique_id=453857006 instance=ExtResource("4_ihp6o")]
 position = Vector2(400, 480)
-collision_mask = 6
-script = ExtResource("5_16v1c")
 
-[node name="@Area2D@6" type="Area2D" parent="Mechanisms" unique_id=2096557307 instance=ExtResource("4_ihp6o")]
+[node name="@Area2D@6" parent="Mechanisms" unique_id=2096557307 instance=ExtResource("4_ihp6o")]
 position = Vector2(720, 368)
-collision_mask = 6
-script = ExtResource("5_16v1c")
 
-[node name="@Area2D@7" type="Area2D" parent="Mechanisms" unique_id=101833661 instance=ExtResource("4_ihp6o")]
+[node name="@Area2D@7" parent="Mechanisms" unique_id=101833661 instance=ExtResource("4_ihp6o")]
 position = Vector2(1040, 256)
-collision_mask = 6
-script = ExtResource("5_16v1c")
 
 [node name="Characters" type="Node2D" parent="." unique_id=834528898]
 
@@ -62,6 +55,8 @@ limit_right = 1440
 limit_bottom = 544
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=29756198]
+process_priority = 300
+process_physics_priority = 300
 script = ExtResource("6_1r00p")
 
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=1707756096]
