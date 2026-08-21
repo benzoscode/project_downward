@@ -49,6 +49,10 @@ position = Vector2(23, 148)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=580889952]
 top_level = true
 position = Vector2(240, 135)
+limit_left = 0
+limit_top = 0
+limit_right = 768
+limit_bottom = 288
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=692995456]
 process_priority = 300
