@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactables/light_orb.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="2_radial"]
+[ext_resource type="Texture2D" path="res://assets/props/orb_yellow.png" id="2_orb"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="3_glow"]
 
 [sub_resource type="RectangleShape2D" id="shape_orb"]
 size = Vector2(6, 6)
@@ -14,14 +15,10 @@ script = ExtResource("1_script")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("shape_orb")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
-color = Color(0.6, 0.85, 1, 1)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_orb")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 energy = 1.4
-texture = ExtResource("2_radial")
+texture = ExtResource("3_glow")
 texture_scale = 1.2

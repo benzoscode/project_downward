@@ -11,8 +11,9 @@ var _charge: float = 0.0
 var _activated: bool = false
 
 @onready var _sprite: Sprite2D = $Sprite2D
-@onready var _tex_off: Texture2D = preload("res://assets/placeholder/prop_crystal_off.png")
-@onready var _tex_on: Texture2D = preload("res://assets/placeholder/prop_crystal_on.png")
+# 正式素材仅一张（2026-08-20）：激活态靠辉光 + 满亮度区分，不换图
+@onready var _tex_off: Texture2D = preload("res://assets/props/crystal_light.png")
+@onready var _tex_on: Texture2D = _tex_off
 @onready var _glow: PointLight2D = $Glow
 
 

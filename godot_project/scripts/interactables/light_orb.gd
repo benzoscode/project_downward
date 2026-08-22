@@ -13,7 +13,13 @@ var life_time: float = 10.0
 var _age: float = 0.0
 
 @onready var _light: PointLight2D = $PointLight2D
-@onready var _visual: ColorRect = $ColorRect
+@onready var _visual: Sprite2D = $Sprite2D
+
+const ORB_TEX: Dictionary = {
+	&"red": preload("res://assets/props/orb_red.png"),
+	&"blue": preload("res://assets/props/orb_blue.png"),
+	&"yellow": preload("res://assets/props/orb_yellow.png"),
+}
 
 
 func setup(initial_velocity: Vector2, tint: Color, life: float) -> void:
@@ -25,9 +31,16 @@ func setup(initial_velocity: Vector2, tint: Color, life: float) -> void:
 		ready.connect(_apply_tint.bind(tint), CONNECT_ONE_SHOT)
 
 
+## 按主色调映射到正式光球贴图（红/蓝/黄，2026-08-20 素材）；灯色保留 tint
 func _apply_tint(tint: Color) -> void:
 	_light.color = tint
-	_visual.color = tint
+	var key: StringName = &"yellow"
+	if tint.r > tint.b * 1.6 and tint.r > tint.g * 1.6:
+		key = &"red"
+	elif tint.b > tint.r * 1.6 and tint.b > tint.g * 1.6:
+		key = &"blue"
+	_visual.texture = ORB_TEX[key]
+	_visual.modulate = Color.WHITE
 
 
 func _physics_process(delta: float) -> void:
