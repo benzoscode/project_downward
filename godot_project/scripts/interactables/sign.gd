@@ -4,15 +4,15 @@ extends Area2D
 
 ## 告示内容（支持多行）
 @export_multiline var text: String = ""
-## 牌子外观（2026-08-20：木牌/石碑两套正式素材，默认木牌）
-@export var sign_texture: Texture2D = preload("res://assets/props/sign_wood.png")
+## 牌子外观（2026-08-20：木牌/石碑两套正式素材；场景可在 Inspector 指定，缺省木牌）
+@export var sign_texture: Texture2D
 
 @onready var _prompt: Label = $Prompt
 @onready var _sprite: Sprite2D = $Sprite2D
 
 
 func _ready() -> void:
-	_sprite.texture = sign_texture
+	_sprite.texture = sign_texture if sign_texture != null else preload("res://assets/props/sign_wood.png")
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 
