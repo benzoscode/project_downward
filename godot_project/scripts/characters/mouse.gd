@@ -100,3 +100,16 @@ func _physics_process(delta: float) -> void:
 		_sprite.flip_h = _facing < 0
 
 	move_and_slide()
+	_update_animation()
+
+
+func _update_animation() -> void:
+	# 正式素材（2026-08-20 实装）：空中分上升/下降整图，与主角跳跃同规则
+	var anim: StringName
+	if not is_on_floor():
+		anim = &"jump_rise" if velocity.y < 0.0 else &"jump_fall"
+	elif absf(velocity.x) > 4.0:
+		anim = &"run"
+	else:
+		anim = &"idle"
+	_sprite.play(anim)
