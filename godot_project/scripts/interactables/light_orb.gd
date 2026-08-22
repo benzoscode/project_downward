@@ -16,9 +16,9 @@ var _age: float = 0.0
 @onready var _visual: Sprite2D = $Sprite2D
 
 const ORB_TEX: Dictionary = {
-	&"red": preload("res://assets/props/orb_red.png"),
-	&"blue": preload("res://assets/props/orb_blue.png"),
-	&"yellow": preload("res://assets/props/orb_yellow.png"),
+	&"red": {"tex": preload("res://assets/props/orb_red.png"), "color": Color(0.9, 0.3, 0.3)},
+	&"blue": {"tex": preload("res://assets/props/orb_blue.png"), "color": Color(0.3, 0.5, 0.95)},
+	&"yellow": {"tex": preload("res://assets/props/orb_yellow.png"), "color": Color(0.95, 0.8, 0.3)},
 }
 
 
@@ -31,16 +31,18 @@ func setup(initial_velocity: Vector2, tint: Color, life: float) -> void:
 		ready.connect(_apply_tint.bind(tint), CONNECT_ONE_SHOT)
 
 
-## 按主色调映射到正式光球贴图（红/蓝/黄，2026-08-20 素材）；灯色保留 tint
+## 按主色调映射到正式光球贴图（红/蓝/黄，2026-08-20 素材）；
+## 发光颜色改为与正式图一致（用户拍板 2026-08-20），不再用传入 tint
 func _apply_tint(tint: Color) -> void:
-	_light.color = tint
 	var key: StringName = &"yellow"
 	if tint.r > tint.b * 1.6 and tint.r > tint.g * 1.6:
 		key = &"red"
 	elif tint.b > tint.r * 1.6 and tint.b > tint.g * 1.6:
 		key = &"blue"
-	_visual.texture = ORB_TEX[key]
+	var info: Dictionary = ORB_TEX[key]
+	_visual.texture = info["tex"]
 	_visual.modulate = Color.WHITE
+	_light.color = info["color"]
 
 
 func _physics_process(delta: float) -> void:
