@@ -62,12 +62,12 @@ func _run_tests() -> void:
 	await _physics_frames(40)
 	var both_open: bool = door.call("is_open")
 	MechanismBus.release(&"plate_a")
-	await _physics_frames(30) # 0.5s < 1s 宽限，仍开
+	await _physics_frames(30) # 立即关（close_delay=0），30 帧后必已关闭
 	var grace_open: bool = door.call("is_open")
-	await _physics_frames(90) # 累计超 1s
+	await _physics_frames(90)
 	var closed_later: bool = not door.call("is_open")
 	MechanismBus.release(&"plate_b")
-	_check("T1 双压力板门逻辑", single_closed and both_open and grace_open and closed_later,
+	_check("T1 双压力板门逻辑", single_closed and both_open and not grace_open and closed_later,
 		"single=%s both=%s grace=%s later=%s" % [single_closed, both_open, grace_open, closed_later])
 	door.queue_free()
 

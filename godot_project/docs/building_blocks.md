@@ -74,7 +74,7 @@
 
 ### dual_plate_door.tscn 双压力板门
 
-- **用途**：两块压力板**同时踩下**才开门；任一松开后延迟 `close_delay` 秒关闭（默认 1s，比双按钮门更紧）。
+- **用途**：两块压力板**同时踩下**才开门；任一松开**立即关闭**（`close_delay`=0，2026-08-20 用户拍板；策划案只对双按钮门写 2s 延迟）。
 - **连线**：两块 `pressure_plate.tscn` 的 `target_id` 分别设为 `plate_a`/`plate_b`（或在门上改 `listen_ids` 对齐自定义 ID）。
 
 ### lever_drawbridge.tscn 摇杆吊桥

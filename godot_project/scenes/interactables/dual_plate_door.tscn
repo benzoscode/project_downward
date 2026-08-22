@@ -9,7 +9,7 @@ size = Vector2(16, 48)
 [node name="DualPlateDoor" type="AnimatableBody2D"]
 script = ExtResource("1_script")
 listen_ids = Array[StringName]([&"plate_a", &"plate_b"])
-close_delay = 1.0
+close_delay = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("shape_door")
