@@ -3,12 +3,12 @@ extends CanvasLayer
 ## 占位 UI，M10 视听打磨时整体重做。
 
 const ICONS: Dictionary = {
-	&"lamp": preload("res://assets/placeholder/item_lamp.png"),
-	&"boots": preload("res://assets/placeholder/item_boots.png"),
-	&"whistle": preload("res://assets/placeholder/item_whistle.png"),
-	&"gem_jade": preload("res://assets/placeholder/item_gem_jade.png"),
-	&"gem_amber": preload("res://assets/placeholder/item_gem_amber.png"),
-	&"gem_violet": preload("res://assets/placeholder/item_gem_violet.png"),
+	&"lamp": preload("res://assets/props/item_lamp.png"),
+	&"boots": preload("res://assets/props/item_boots.png"),
+	&"whistle": preload("res://assets/props/item_whistle.png"),
+	&"gem_jade": preload("res://assets/props/item_gem_jade.png"),
+	&"gem_amber": preload("res://assets/props/item_gem_amber.png"),
+	&"gem_violet": preload("res://assets/props/item_gem_violet.png"),
 }
 
 var _inventory: HBoxContainer
