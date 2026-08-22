@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactables/dual_button_door.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/door_question.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/door_stone_idle_3.png" id="2_tex"]
 
 [sub_resource type="RectangleShape2D" id="shape_door"]
-size = Vector2(32, 48)
+size = Vector2(16, 48)
 
 [node name="DualButtonDoor" type="AnimatableBody2D"]
 script = ExtResource("1_script")
@@ -13,5 +13,4 @@ script = ExtResource("1_script")
 shape = SubResource("shape_door")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0.85, 0.55, 1)
 texture = ExtResource("2_tex")
