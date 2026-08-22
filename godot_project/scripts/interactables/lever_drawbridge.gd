@@ -29,6 +29,7 @@ const BRIDGE_HALF_W := 16.0
 
 var _player_in_range: bool = false
 var _progress: float = 0.0 # 0=起始（放下） 1=升起终点
+var _was_holding: bool = false
 var _bridge_home: Vector2
 
 @onready var _bridge: AnimatableBody2D = $Bridge
@@ -53,7 +54,11 @@ func _physics_process(delta: float) -> void:
 	var length := raise_offset.length()
 	if length < 0.01:
 		return
-	if _player_in_range and Input.is_action_pressed(&"interact"):
+	var holding := _player_in_range and Input.is_action_pressed(&"interact")
+	if holding and not _was_holding:
+		Sfx.play(&"lever")
+	_was_holding = holding
+	if holding:
 		_progress = move_toward(_progress, 1.0, raise_speed * delta / length)
 	else:
 		# 停止互动立即缓慢下降，直至回到起始位置（无停留窗口，与摇杆平台区分）

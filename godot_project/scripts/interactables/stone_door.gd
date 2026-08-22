@@ -57,3 +57,4 @@ func _apply_open_state(open: bool, instant: bool) -> void:
 		_tween.tween_property(self, "position:y", target_y, tween_duration)
 	# 开门后关碰撞；关门动画开始就恢复碰撞，防止玩家卡进门缝
 	_collision.set_deferred("disabled", open)
+	Sfx.play(&"door_open" if open else &"door_close")

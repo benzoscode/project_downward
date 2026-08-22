@@ -44,6 +44,7 @@ func _activate(instant: bool) -> void:
 	_glow.visible = true
 	if not instant:
 		MechanismBus.trigger(target_id)
+		Sfx.play(&"crystal_activate")
 	else:
 		# 重生恢复：只补视觉，总线状态已存在，不重复发信号
 		pass

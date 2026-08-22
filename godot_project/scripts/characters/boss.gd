@@ -293,6 +293,9 @@ func _change_state(new_state: State) -> void:
 	var old := _state
 	_state = new_state
 	_apply_state_visual()
+	# 进入追击/分心时低吼，提示玩家被盯上
+	if new_state in [State.CHASE, State.DISTRACTED]:
+		Sfx.play(&"boss_roar")
 	state_changed.emit(old, new_state)
 
 

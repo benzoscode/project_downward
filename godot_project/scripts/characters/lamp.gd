@@ -33,6 +33,7 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed(&"toggle_lamp") and GameState.has_lamp:
 		lamp_on = not lamp_on
 		_light.visible = lamp_on
+		Sfx.play(&"lamp_on" if lamp_on else &"lamp_off")
 	if not aim_locked:
 		global_rotation = (get_global_mouse_position() - global_position).angle()
 

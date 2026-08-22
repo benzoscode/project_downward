@@ -22,6 +22,7 @@ func interact() -> void:
 	_opened = true
 	_sprite.texture = _tex_open
 	_prompt.visible = false
+	Sfx.play(&"chest_open")
 	GameState.acquire_item(item)
 
 

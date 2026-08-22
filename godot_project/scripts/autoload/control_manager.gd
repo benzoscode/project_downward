@@ -30,10 +30,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed(&"whistle") and GameState.has_whistle:
 		if mouse == null and _cooldown <= 0.0:
 			_summon()
+			Sfx.play(&"whistle")
 		elif mouse != null:
 			_recall()
+			Sfx.play(&"whistle")
 	if Input.is_action_just_pressed(&"switch_control") and mouse != null:
 		_switch()
+		Sfx.play(&"switch_control")
 
 
 func _summon() -> void:

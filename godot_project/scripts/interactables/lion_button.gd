@@ -32,6 +32,7 @@ func interact() -> void:
 	if momentary:
 		# 点动：每次按都发脉冲（不存状态、不切换），弹起视觉即时恢复
 		MechanismBus.pulse(target_id)
+		Sfx.play(&"interact")
 		_sprite.texture = _tex_down
 		_sprite.modulate = Color(0.7, 0.7, 0.7)
 		var tween := create_tween()
@@ -47,6 +48,7 @@ func interact() -> void:
 		MechanismBus.trigger(target_id)
 	else:
 		MechanismBus.release(target_id)
+	Sfx.play(&"interact")
 	_sprite.texture = _tex_down if _pressed else _tex_up
 	_sprite.modulate = Color(0.7, 0.7, 0.7) if _pressed else Color.WHITE
 	if one_shot and _pressed:

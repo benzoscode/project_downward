@@ -40,6 +40,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if _pressers == 1:
 		MechanismBus.trigger(target_id)
 		_sprite.texture = _tex_down
+		Sfx.play(&"plate_press")
 
 
 func _on_body_exited(body: Node2D) -> void:

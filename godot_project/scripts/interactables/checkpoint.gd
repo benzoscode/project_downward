@@ -25,6 +25,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if not _activated:
 		_activated = true
 		_pole.color = ACTIVATED_TINT
+		Sfx.play(&"checkpoint")
 
 
 func _draw() -> void:

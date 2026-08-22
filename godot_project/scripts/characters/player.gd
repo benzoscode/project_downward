@@ -62,6 +62,7 @@ var _facing: int = 1
 var _air_time: float = 0.0
 var _press_air_time: float = -1.0 # 本次跳跃缓冲按下时的空中时长（防误触窗口按按键时刻判定）
 var _can_double_jump: bool = false
+var _was_airborne: bool = false
 
 var _interactable: Node = null # 当前可交互对象，由可交互积木注册/注销
 var _water_count: int = 0
@@ -103,6 +104,7 @@ func _recalculate_jump() -> void:
 ## 死亡重生：回最近检查点（M8 起由 RoomManager 处理，可跨房间；
 ## 机关状态由 MechanismBus 保留，策划案 §一）
 func die() -> void:
+	Sfx.play(&"player_die")
 	RoomManager.respawn()
 
 
@@ -237,12 +239,14 @@ func _physics_process(delta: float) -> void:
 				velocity.y = -_jump_velocity
 				_buffer_timer = 0.0
 				_coyote_timer = 0.0
+				Sfx.play(&"jump")
 			elif _can_double_jump and _press_air_time >= double_jump_lockout and GameState.has_boots:
 				# 二段跳：重置空中水平速度为当前输入方向（策划案 §二(二)2）
 				velocity.y = -_double_jump_velocity
 				velocity.x = axis * move_speed_tiles * TILE_SIZE
 				_can_double_jump = false
 				_buffer_timer = 0.0
+				Sfx.play(&"double_jump")
 				# 羽翎靴外观：脚下拖出气流粒子（策划案 §二(二)2）
 				var puff := (preload("res://scenes/effects/airflow_puff.tscn") as PackedScene).instantiate() as Node2D
 				puff.global_position = global_position + Vector2(0, 10)
@@ -255,6 +259,9 @@ func _physics_process(delta: float) -> void:
 		_lamp.position.x = 6.0 * _facing
 
 	move_and_slide()
+	if is_on_floor() and _was_airborne:
+		Sfx.play(&"land")
+	_was_airborne = not is_on_floor()
 	_update_animation()
 
 

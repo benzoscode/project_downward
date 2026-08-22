@@ -42,3 +42,4 @@ func _apply_open(instant: bool) -> void:
 		_tween = create_tween()
 		_tween.tween_property(self, "position:y", target_y, tween_duration)
 	_collision.set_deferred("disabled", true)
+	Sfx.play(&"door_open")

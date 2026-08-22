@@ -19,6 +19,7 @@ func _ready() -> void:
 
 ## 玩家 E 交互时调用（player._interactable 协议）
 func interact() -> void:
+	Sfx.play(&"interact")
 	if not text.is_empty():
 		HUD.show_message(text)
 

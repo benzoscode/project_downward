@@ -36,6 +36,7 @@ func _on_triggered(id: StringName) -> void:
 	if id != listen_id or _cooldown_left > 0.0:
 		return
 	_cooldown_left = cooldown
+	Sfx.play(&"orb_launch")
 	var orb := (load(ORB_SCENE) as PackedScene).instantiate() as LightOrb
 	orb.setup(Vector2.RIGHT.rotated(global_rotation) * launch_speed, orb_tint, orb_lifetime)
 	# 挂到当前场景根（房间/main 皆在原点，先入树再设全局坐标避免父级变换干扰）

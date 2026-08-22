@@ -35,5 +35,6 @@ func _update_icon() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group(&"player"):
+		Sfx.play(&"pickup")
 		GameState.acquire_item(item)
 		queue_free()

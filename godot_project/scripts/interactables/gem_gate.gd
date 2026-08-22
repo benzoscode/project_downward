@@ -67,11 +67,12 @@ func interact() -> void:
 			continue
 		if GameState.gems.has(GEM_NAMES[gem]):
 			_embed(i, gem)
-			if _all_filled():
-				_apply_open_state(true, false)
-				if open_emit_id != &"":
-					MechanismBus.trigger(open_emit_id)
-			return
+	if _all_filled():
+		_apply_open_state(true, false)
+		Sfx.play(&"gate_open")
+		if open_emit_id != &"":
+			MechanismBus.trigger(open_emit_id)
+		return
 
 
 func _socket_id(i: int) -> StringName:
@@ -94,6 +95,7 @@ func _embed(i: int, gem: StringName) -> void:
 	MechanismBus.trigger(_socket_id(i))
 	GameState.gems.erase(GEM_NAMES[gem])
 	_apply_socket(i, gem)
+	Sfx.play(&"gem_embed")
 
 
 func _apply_socket(i: int, gem: StringName) -> void:
