@@ -6,19 +6,23 @@
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_nwivn"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/alternating_platform.tscn" id="5_m1e0a"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="6_s45o2"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="7_fyxi0"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="8_nwivn"]
 
 [node name="Room11" type="Node2D" unique_id=1015282822]
 script = ExtResource("1_s45o2")
 editor_brightness = Color(0.93262476, 0.9326248, 0.93262476, 1)
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+game_darkness = Color(0.065976605, 0.06573276, 0.081925385, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1567035916]
 color = Color(0.93262476, 0.9326248, 0.93262476, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1676579384]
 z_index = -10
-offset_right = 640.0
-offset_bottom = 272.0
+offset_left = 64.0
+offset_top = -111.0
+offset_right = 611.0
+offset_bottom = 273.0
 texture = ExtResource("2_tqk6v")
 
 [node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=267561213]
@@ -26,6 +30,7 @@ tile_map_data = PackedByteArray("AAAeAA0AAQAAAAAAAAAfAA0AAQAAAAAAAAAgAA0AAQAAAAA
 tile_set = ExtResource("3_fyxi0")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=361421183]
+tile_map_data = PackedByteArray("AAAlAAoAAwABAAEAAAAkAAcAAwABAAAAAAAgAAIAAwABAAEAAAAhAAIAAwAEAAEAAAAjAAIAAwAEAAEAAAAkAAIAAwADAAEAAAAeAAAAAwAFAAAAAAAfAAwAAwADAAMAAAAJAAYAAwAAAAAAAAAGAAYAAwADAAAAAAAHAAkAAwABAAEAAAAGAAkAAwADAAEAAAAIAAkAAwAEAAEAAAAIAPz/AwAEAAEAAAAJAPz/AwADAAEAAAANAPz/AwAAAAEAAAARAPr/AwACAAEAAAAUAPr/AwAEAAEAAAAVAPr/AwADAAEAAAAWAPr/AwABAAEAAAAaAPr/AwAGAAAAAAAdAPr/AwAEAAEAAAAeAPr/AwADAAEAAAAhAAwABgABAAAAAAAhAP//BgAAAAAAAAAiAP//BgACAAAAAAAkAPv/AwABAAAAAAAFAAAAAwACAAAAAAA=")
 tile_set = ExtResource("3_fyxi0")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=360426810]
@@ -125,3 +130,58 @@ position = Vector2(232, 232)
 
 [node name="Spikes11" parent="." unique_id=1766101198 instance=ExtResource("6_s45o2")]
 position = Vector2(248, 232)
+
+[node name="Spikes12" parent="." unique_id=1590044327 instance=ExtResource("6_s45o2")]
+position = Vector2(264, 232)
+
+[node name="Spikes13" parent="." unique_id=1434804572 instance=ExtResource("6_s45o2")]
+position = Vector2(280, 232)
+
+[node name="Spikes14" parent="." unique_id=816924086 instance=ExtResource("6_s45o2")]
+position = Vector2(296, 232)
+
+[node name="Spikes15" parent="." unique_id=737364575 instance=ExtResource("6_s45o2")]
+position = Vector2(312, 232)
+
+[node name="Spikes16" parent="." unique_id=938470943 instance=ExtResource("6_s45o2")]
+position = Vector2(328, 232)
+
+[node name="Spikes17" parent="." unique_id=270367001 instance=ExtResource("6_s45o2")]
+position = Vector2(343, 232)
+
+[node name="Spikes18" parent="." unique_id=1599303608 instance=ExtResource("6_s45o2")]
+position = Vector2(359, 232)
+
+[node name="Spikes19" parent="." unique_id=1527263822 instance=ExtResource("6_s45o2")]
+position = Vector2(375, 232)
+
+[node name="Spikes20" parent="." unique_id=2060131873 instance=ExtResource("6_s45o2")]
+position = Vector2(391, 232)
+
+[node name="Spikes21" parent="." unique_id=1501352309 instance=ExtResource("6_s45o2")]
+position = Vector2(407, 232)
+
+[node name="Spikes22" parent="." unique_id=1676720097 instance=ExtResource("6_s45o2")]
+position = Vector2(423, 232)
+
+[node name="Spikes23" parent="." unique_id=1836097 instance=ExtResource("6_s45o2")]
+position = Vector2(439, 232)
+
+[node name="Spikes24" parent="." unique_id=299581810 instance=ExtResource("6_s45o2")]
+position = Vector2(455, 232)
+
+[node name="Ladder" parent="." unique_id=68256498 instance=ExtResource("7_fyxi0")]
+position = Vector2(544, -17)
+
+[node name="RoomExit" parent="." unique_id=938806402 instance=ExtResource("8_nwivn")]
+position = Vector2(553, -104)
+rotation = -1.5707964
+target_scene = "res://scenes/rooms/room_12.tscn"
+
+[node name="Entrance_from_12" type="Marker2D" parent="." unique_id=947209985]
+position = Vector2(551, -87)
+
+[node name="RoomExit2" parent="." unique_id=1762220476 instance=ExtResource("8_nwivn")]
+position = Vector2(608, 184)
+target_scene = "uid://saiicpxgnnu0"
+target_entrance = &"from_room_11"

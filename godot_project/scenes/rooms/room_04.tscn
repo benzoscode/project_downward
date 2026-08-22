@@ -7,14 +7,16 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="7_gpbp3"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="8_hgwl8"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="9_hgwl8"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_m7lh8"]
 
 [node name="Room04" type="Node2D" unique_id=1792942668]
 script = ExtResource("1_6sl3v")
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+editor_brightness = Color(0.9384497, 0.9384497, 0.9384497, 1)
+game_darkness = Color(0.14064944, 0.14027354, 0.16491938, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=380342385]
-color = Color(0.45, 0.45, 0.45, 1)
+color = Color(0.9384497, 0.9384497, 0.9384497, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1338040042]
 z_index = -10
@@ -27,6 +29,7 @@ tile_map_data = PackedByteArray("AAAAAA4AAQAAAAAAAAAAAA8AAQAAAAIAAAABAA4AAQAAAAA
 tile_set = ExtResource("3_ik2oh")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1642766787]
+tile_map_data = PackedByteArray("AAARAAcAAwAGAAAAAAASAAcAAwAAAAEAAAAQAAcAAwADAAEAAAAWAAwAAwACAAEAAAAVAAwAAwADAAEAAAAZAAwAAwADAAEAAAAaAAwAAwABAAEAAAAeAAwAAwAEAAEAAAAdAAwAAwADAAEAAAADAAcAAwADAAEAAAAEAAcAAwABAAEAAAAGAAcAAwAAAAEAAAABAAkAAwACAAAAAAAHAAUAAwAEAAAAAAAKAAMAAwABAAEAAAAPAAMAAwABAAEAAAANAAMAAwAAAAEAAAAMAAMAAwAEAAEAAAAJAAMAAwAEAAEAAAAaAAMAAwACAAEAAAAWAAMAAwABAAEAAAAVAAMAAwAAAAEAAAAXAAMAAwADAAEAAAAfAAMAAwADAAEAAAAeAAMAAwADAAEAAAAdAAMAAwAEAAEAAAAhAAQAAwABAAAAAAAkAAYAAwABAAEAAAAlAAYAAwADAAEAAAAmAAgAAwAFAAAAAAAIAA0ABgABAAAAAAADAA0ABgAAAAAAAAAEAA0ABgACAAAAAAAMAA0ABgACAAAAAAANAA0ABgAAAAAAAAAKAA0AAwACAAMAAAAiAAsAAwADAAMAAAAgAA0ABgAAAAAAAAAhAA0ABgACAAAAAAA=")
 tile_set = ExtResource("3_ik2oh")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=2063995473]
@@ -44,6 +47,10 @@ position = Vector2(281, 84)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=981722934]
 top_level = true
 position = Vector2(240, 135)
+limit_left = 0
+limit_top = 0
+limit_right = 640
+limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=264114806]
 process_priority = 300
@@ -59,6 +66,7 @@ position = Vector2(280, 248)
 [node name="Exit_to_room_05" parent="." unique_id=887938396 instance=ExtResource("9_m7lh8")]
 position = Vector2(8, 201)
 target_scene = "res://scenes/rooms/room_05.tscn"
+target_entrance = &"from_room_4"
 
 [node name="Chest" parent="." unique_id=1518233926 instance=ExtResource("6_b7cuq")]
 position = Vector2(590, 180)
@@ -73,3 +81,39 @@ position = Vector2(280, 267)
 [node name="LionButton" parent="." unique_id=1757617325 instance=ExtResource("8_hgwl8")]
 position = Vector2(280, 256)
 target_id = &"room_6_door"
+
+[node name="Spikes" parent="." unique_id=732006860 instance=ExtResource("9_hgwl8")]
+position = Vector2(345, 216)
+
+[node name="Spikes2" parent="." unique_id=1134731183 instance=ExtResource("9_hgwl8")]
+position = Vector2(361, 216)
+
+[node name="Spikes3" parent="." unique_id=1438637244 instance=ExtResource("9_hgwl8")]
+position = Vector2(377, 216)
+
+[node name="Spikes4" parent="." unique_id=57865423 instance=ExtResource("9_hgwl8")]
+position = Vector2(393, 216)
+
+[node name="Spikes5" parent="." unique_id=744794720 instance=ExtResource("9_hgwl8")]
+position = Vector2(409, 216)
+
+[node name="Spikes6" parent="." unique_id=2101135713 instance=ExtResource("9_hgwl8")]
+position = Vector2(425, 216)
+
+[node name="Spikes7" parent="." unique_id=1857596391 instance=ExtResource("9_hgwl8")]
+position = Vector2(441, 216)
+
+[node name="Spikes8" parent="." unique_id=716570921 instance=ExtResource("9_hgwl8")]
+position = Vector2(457, 216)
+
+[node name="Spikes9" parent="." unique_id=602510935 instance=ExtResource("9_hgwl8")]
+position = Vector2(473, 216)
+
+[node name="Spikes10" parent="." unique_id=1637483623 instance=ExtResource("9_hgwl8")]
+position = Vector2(489, 216)
+
+[node name="Spikes11" parent="." unique_id=43257923 instance=ExtResource("9_hgwl8")]
+position = Vector2(505, 216)
+
+[node name="Entrance_from_room_5" type="Marker2D" parent="." unique_id=2143853972]
+position = Vector2(34, 213)

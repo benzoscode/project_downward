@@ -1,0 +1,89 @@
+[gd_scene format=4 uid="uid://c4k222x6yq746"]
+
+[ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_w0jk3"]
+[ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_t3hg5"]
+[ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_u7ejs"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_bidwo"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="5_t3hg5"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="6_u7ejs"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="7_bidwo"]
+
+[node name="Room14" type="Node2D" unique_id=922036725]
+script = ExtResource("1_w0jk3")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1483225795]
+color = Color(0.45, 0.45, 0.45, 1)
+
+[node name="Background" type="TextureRect" parent="." unique_id=644321021]
+z_index = -10
+offset_right = 832.0
+offset_bottom = 270.0
+texture = ExtResource("2_t3hg5")
+stretch_mode = 1
+
+[node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=779977143]
+tile_map_data = PackedByteArray("AAAAAAAAAQAFAAAAAAAAAAEAAQAFAAAAAAAAAAIAAQAFAAAAAAAAAAMAAQAFAAEAAAABAAMAAQAAAAAAAAACAAMAAQAAAAAAAAADAAMAAQAAAAAAAAAEAAMAAQAAAAAAAAAFAAMAAQAAAAAAAAAGAAMAAQAAAAAAAAAHAAMAAQAAAAAAAAAIAAMAAQAAAAAAAAAJAAMAAQAAAAAAAAAKAAMAAQAAAAAAAAALAAMAAQAAAAAAAAAMAAMAAQAAAAAAAAANAAMAAQAAAAAAAAAOAAMAAQAAAAAAAAAPAAMAAQAAAAAAAAAQAAMAAQAAAAAAAAARAAMAAQAAAAAAAAASAAMAAQAAAAAAAAATAAMAAQAAAAAAAAAUAAMAAQAAAAAAAAAVAAMAAQAAAAAAAAAWAAMAAQAAAAAAAAAXAAMAAQAAAAAAAAAYAAMAAQAAAAAAAAAZAAMAAQAAAAAAAAAaAAMAAQAAAAAAAAAbAAMAAQAAAAAAAAAcAAMAAQAAAAAAAAAdAAMAAQAAAAAAAAAeAAMAAQAAAAAAAAAfAAMAAQAAAAAAAAAgAAMAAQAAAAAAAAAhAAMAAQAAAAAAAAAiAAMAAQAAAAAAAAAjAAMAAQAAAAAAAAAkAAMAAQAAAAAAAAAlAAMAAQAAAAAAAAAmAAMAAQAAAAAAAAAnAAMAAQAAAAAAAAAoAAMAAQAAAAAAAAApAAMAAQAAAAAAAAAqAAMAAQAAAAAAAAArAAMAAQAAAAAAAAAsAAMAAQAAAAAAAAAtAAMAAQAAAAAAAAAuAAMAAQAAAAAAAAAvAAMAAQAAAAAAAAAwAAMAAQAAAAAAAAAxAAMAAQAAAAAAAAAyAAMAAQAAAAAAAAAzAAMAAQAAAAAAAAADAAAAAQACAAEAAAAEAAAAAQADAAAAAAAFAAAAAQADAAAAAAAGAAAAAQADAAAAAAAHAAAAAQADAAAAAAAIAAAAAQADAAAAAAAJAAAAAQADAAAAAAAKAAAAAQADAAAAAAALAAAAAQADAAAAAAAMAAAAAQADAAAAAAANAAAAAQADAAAAAAAOAAAAAQADAAAAAAAPAAAAAQADAAAAAAAQAAAAAQADAAAAAAARAAAAAQADAAAAAAASAAAAAQADAAAAAAATAAAAAQADAAAAAAAUAAAAAQADAAAAAAAVAAAAAQADAAAAAAAWAAAAAQADAAAAAAAXAAAAAQADAAAAAAAYAAAAAQADAAAAAAAZAAAAAQADAAAAAAAaAAAAAQADAAAAAAAbAAAAAQADAAAAAAAcAAAAAQADAAAAAAAdAAAAAQADAAAAAAAeAAAAAQADAAAAAAAfAAAAAQADAAAAAAAgAAAAAQADAAAAAAAhAAAAAQADAAAAAAAiAAAAAQADAAAAAAAjAAAAAQADAAAAAAAkAAAAAQADAAAAAAAlAAAAAQADAAAAAAAmAAAAAQADAAAAAAAnAAAAAQADAAAAAAAoAAAAAQADAAAAAAApAAAAAQADAAAAAAAqAAAAAQADAAAAAAArAAAAAQADAAAAAAAsAAAAAQADAAAAAAAtAAAAAQADAAAAAAAuAAAAAQADAAAAAAAvAAAAAQADAAEAAAA0AAMAAQAEAAEAAAA0AAIAAQAEAAAAAAA0AAEAAQAEAAAAAAA0AAAAAQAEAAAAAAA=")
+tile_set = ExtResource("3_u7ejs")
+
+[node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1505851144]
+tile_map_data = PackedByteArray("AAABAAEAAwACAAAAAAAzAAEAAwAFAAAAAAAtAAEAAwACAAEAAAATAAEAAwAGAAAAAAAHAAEAAwAAAAEAAAAXAAEAAwAAAAEAAAAiAAEAAwAAAAEAAAAdAAEAAwABAAEAAAApAAEAAwABAAEAAAAMAAEAAwABAAEAAAAIAAEAAwADAAEAAAAJAAEAAwADAAEAAAAPAAEAAwADAAEAAAAYAAEAAwADAAEAAAAeAAEAAwADAAEAAAAjAAEAAwADAAEAAAAqAAEAAwADAAEAAAAKAAEAAwAEAAEAAAAOAAEAAwAEAAEAAAAWAAEAAwAEAAEAAAAcAAEAAwAEAAEAAAAkAAEAAwAEAAEAAAAoAAEAAwAEAAEAAAAFAAIAAwAAAAAAAAAQAAIAAwADAAAAAAASAAIAAwACAAMAAAAbAAIAAwADAAMAAAAKAAIABgABAAAAAAAMAAIABgACAAAAAAAVAAIABgACAAAAAAAiAAIABgACAAAAAAAnAAIABgACAAAAAAAsAAIABgACAAAAAAAtAAIABgAAAAAAAAAwAAIABgAAAAAAAAAlAAIABgAAAAAAAAAeAAIABgAAAAAAAAALAAIABgAAAAAAAAA=")
+tile_set = ExtResource("3_u7ejs")
+
+[node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=1128652735]
+tile_set = ExtResource("3_u7ejs")
+
+[node name="Mechanisms" type="Node2D" parent="." unique_id=1016120576]
+
+[node name="Characters" type="Node2D" parent="." unique_id=1196148415]
+
+[node name="Lights" type="Node2D" parent="." unique_id=466574178]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=361577332]
+position = Vector2(240, 135)
+limit_left = 0
+limit_top = 0
+limit_right = 832
+limit_bottom = 64
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=2096958735]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("4_bidwo")
+
+[node name="Ladder" parent="." unique_id=1538894115 instance=ExtResource("5_t3hg5")]
+position = Vector2(32, 48)
+height = 48
+
+[node name="Ladder2" parent="." unique_id=444478578 instance=ExtResource("5_t3hg5")]
+position = Vector2(801, 48)
+height = 48
+
+[node name="Exit_to_room_131" parent="." unique_id=1061161946 instance=ExtResource("6_u7ejs")]
+position = Vector2(32, -3)
+rotation = -1.5707964
+scale = Vector2(1, 0.66)
+target_scene = "uid://cjok813m8e0ax"
+target_entrance = &"from_room_141"
+
+[node name="RoomExit" parent="." unique_id=1141901116 instance=ExtResource("6_u7ejs")]
+position = Vector2(800, -1)
+rotation = -1.5707964
+scale = Vector2(1, 1.25)
+target_scene = "uid://cjok813m8e0ax"
+target_entrance = &"from_room_142"
+
+[node name="Entrance_from_room_131" type="Marker2D" parent="." unique_id=2023643455]
+position = Vector2(41, 10)
+
+[node name="Entrance_from_room_132" type="Marker2D" parent="." unique_id=97009044]
+position = Vector2(809, 8)
+
+[node name="Chest" parent="." unique_id=230267493 instance=ExtResource("7_bidwo")]
+position = Vector2(395, 36)
+item = &"amber"
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1047515801 groups=["spawn_point"]]
+position = Vector2(62, 37)
+
+[node name="Entrance_default" type="Marker2D" parent="." unique_id=464617887]
+position = Vector2(62, 37)

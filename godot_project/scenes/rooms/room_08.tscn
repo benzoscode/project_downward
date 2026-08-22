@@ -17,7 +17,7 @@ color = Color(0.8891468, 0.8891468, 0.88914675, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1481373393]
 z_index = -10
-offset_right = 640.0
+offset_right = 576.0
 offset_bottom = 272.0
 texture = ExtResource("2_rpi6y")
 
@@ -45,7 +45,7 @@ position = Vector2(551, 149)
 position = Vector2(240, 135)
 limit_left = 0
 limit_top = 0
-limit_right = 640
+limit_right = 576
 limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1927205989]
@@ -63,3 +63,11 @@ target_scene = "res://scenes/rooms/room_09.tscn"
 [node name="Chest" parent="." unique_id=1693757502 instance=ExtResource("6_ouiua")]
 position = Vector2(280, 228)
 item = &"jade"
+
+[node name="RoomExit" parent="." unique_id=2123149621 instance=ExtResource("9_lxqfm")]
+position = Vector2(579, 136)
+target_scene = "uid://dx4msig0qn6fx"
+target_entrance = &"from_room_8"
+
+[node name="Entrance_from_room_9" type="Marker2D" parent="." unique_id=2011962145]
+position = Vector2(32, 148)
