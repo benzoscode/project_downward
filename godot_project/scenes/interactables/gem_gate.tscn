@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/gem_gate.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/props/door_gem_jade_empty.png" id="2_jade"]
+[ext_resource type="Texture2D" path="res://assets/props/door_gem_amber_empty.png" id="3_amber"]
+[ext_resource type="Texture2D" path="res://assets/props/door_gem_violet_empty.png" id="4_violet"]
+
+[sub_resource type="RectangleShape2D" id="shape_gate"]
+size = Vector2(48, 48)
+
+[sub_resource type="RectangleShape2D" id="shape_zone"]
+size = Vector2(72, 56)
+
+[node name="GemGate" type="AnimatableBody2D"]
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("shape_gate")
+
+[node name="InteractZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone"]
+shape = SubResource("shape_zone")
+
+[node name="Sockets" type="Node2D" parent="."]
+
+[node name="SocketJade" type="Sprite2D" parent="Sockets"]
+position = Vector2(-16, -24)
+texture = ExtResource("2_jade")
+
+[node name="SocketAmber" type="Sprite2D" parent="Sockets"]
+position = Vector2(0, -24)
+texture = ExtResource("3_amber")
+
+[node name="SocketViolet" type="Sprite2D" parent="Sockets"]
+position = Vector2(16, -24)
+texture = ExtResource("4_violet")
+
+[node name="Prompt" type="Label" parent="."]
+visible = false
+offset_left = -8.0
+offset_top = -60.0
+offset_right = 16.0
+offset_bottom = -48.0
+theme_override_font_sizes/font_size = 8
+text = "E"
+horizontal_alignment = 1
