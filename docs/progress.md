@@ -18,7 +18,7 @@
 | 系统 | 入口 | 要点 |
 |---|---|---|
 | 玩家控制器 | `scripts/characters/player.gd` | 行走4/奔跑6(按住Shift)/跳3格/二段跳5格(靴)/攀爬3格锁梯子中线/水域/检查点重生/`input_delay`（致幻） |
-| 老鼠 | `scripts/characters/mouse.gd` + `ControlManager` | 5.2格/秒、2+1.5格跳、16×8判定（正式素材 idle12帧/run9帧/跳跃上下单帧）、窄缝、0.8s 延迟参数 |
+| 老鼠 | `scripts/characters/mouse.gd` + `ControlManager` | 5.2格/秒、2+1.5格跳、20×8判定（正式素材 idle12帧/run9帧/跳跃上下单帧）、窄缝、0.8s 延迟参数 |
 | 灯光 | `scripts/characters/lamp.gd` + `LightSystem` | F 开关（灯口对齐素材灯笼位）、60°/6格、鼠标跟随、`is_point_lit`/`is_point_lit_ambient`/`has_clear_line` |
 | Boss | `scripts/characters/boss.gd`（M7） | 五状态机、老鼠优先、接触扑杀、搜索10s超时；手感待迭代（见 §5） |
 | 机关通信 | `MechanismBus` | `trigger/release/pulse`（脉冲=事件型连发）+ `is_triggered`，StringName ID，状态跨重生保留 |

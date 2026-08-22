@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_4o5sa"]
 
 [sub_resource type="RectangleShape2D" id="shape_mouse"]
-size = Vector2(16, 8)
+size = Vector2(20, 8)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4cllh"]
 atlas = ExtResource("2_tex")
