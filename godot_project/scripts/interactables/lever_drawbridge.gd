@@ -21,6 +21,11 @@ extends Node2D
 @export var raise_speed: float = 48.0
 ## 下降速度（px/秒），刻意慢于升起制造紧张感
 @export var lower_speed: float = 20.0
+## 吊绳顶端锚点（相对摇杆根节点，本地 y；默认桥上 4 格）
+@export var rope_anchor_y: float = -64.0
+
+## 吊桥左侧宽度的一半（绳挂在桥角），默认桥宽 32/2
+const BRIDGE_HALF_W := 16.0
 
 var _player_in_range: bool = false
 var _progress: float = 0.0 # 0=起始（放下） 1=升起终点
@@ -28,6 +33,8 @@ var _bridge_home: Vector2
 
 @onready var _bridge: AnimatableBody2D = $Bridge
 @onready var _lever_area: Area2D = $LeverArea
+@onready var _rope_left: TextureRect = $RopeLeft
+@onready var _rope_right: TextureRect = $RopeRight
 
 
 func _ready() -> void:
@@ -37,6 +44,7 @@ func _ready() -> void:
 		return
 	_lever_area.body_entered.connect(_on_body_entered)
 	_lever_area.body_exited.connect(_on_body_exited)
+	_update_ropes()
 
 
 func _physics_process(delta: float) -> void:
@@ -51,6 +59,22 @@ func _physics_process(delta: float) -> void:
 		# 停止互动立即缓慢下降，直至回到起始位置（无停留窗口，与摇杆平台区分）
 		_progress = move_toward(_progress, 0.0, lower_speed * delta / length)
 	_bridge.position = _bridge_home + raise_offset * _progress
+	_update_ropes()
+
+
+## 绳端顶部固定于 rope_anchor_y（本地），长度随吊桥升降伸缩（平铺绳段）
+func _update_ropes() -> void:
+	var bridge_top := _bridge.global_position.y - 4.0
+	var anchor_y := to_global(Vector2(0, rope_anchor_y)).y
+	var len := maxf(0.0, bridge_top - anchor_y) + 4.0
+	var bridge_cx := _bridge.global_position.x
+	for side: float in [-1.0, 1.0]:
+		var rope: TextureRect = _rope_left if side < 0.0 else _rope_right
+		var x: float = bridge_cx + side * BRIDGE_HALF_W
+		# 世界坐标 → 本节点局部
+		var local := to_local(Vector2(x, anchor_y))
+		rope.position = local
+		rope.size = Vector2(16.0, len)
 
 
 func _draw() -> void:
