@@ -9,14 +9,8 @@ enum State { PATROL, ALERT, CHASE, SEARCH, DISTRACTED }
 
 const TILE_SIZE := 16.0
 const STATE_NAMES: Array[String] = ["Patrol", "Alert", "Chase", "Search", "Distracted"]
-# 触须状态占位配色（低垂/竖起/展开/摆动/转向），未来由正式动画替换
-const STATE_COLORS: Array[Color] = [
-	Color(0.55, 0.60, 0.70), # 巡逻：触须低垂
-	Color(1.00, 0.85, 0.40), # 警戒：触须竖起
-	Color(1.00, 0.35, 0.30), # 追击：触须完全展开
-	Color(1.00, 0.60, 0.30), # 搜索：触须摆动
-	Color(0.85, 0.50, 1.00), # 分心：转向老鼠
-]
+# 正式动画映射（2026-08-20）：巡逻/警戒/搜索=idle，追击/分心=move；attack 预留（接触扑杀无攻击动作）
+const STATE_ANIMS: Array[StringName] = [&"idle", &"idle", &"move", &"idle", &"move"]
 
 @export_category("感知（策划案 §二(四)2/4）")
 ## 追击距离（格）：开灯或暴露于环境光的玩家在此距离内立即被追击
@@ -66,7 +60,7 @@ var _jump_velocity: float
 # LightSystem 运行期缓存：经根节点查询而非直引用 Autoload 名，--script 模式（无 Autoload）下编译期解析会失败
 var _light_system: Node = null
 
-@onready var _sprite: Sprite2D = $Sprite2D
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _kill_zone: Area2D = $KillZone
 
 
@@ -304,7 +298,7 @@ func _change_state(new_state: State) -> void:
 
 func _apply_state_visual() -> void:
 	if _sprite != null:
-		_sprite.modulate = STATE_COLORS[_state]
+		_sprite.play(STATE_ANIMS[_state])
 
 
 # ---- 扑杀 ----
