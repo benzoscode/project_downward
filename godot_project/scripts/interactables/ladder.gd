@@ -14,7 +14,7 @@ const WIDTH := 16
 var _player: Player = null
 
 @onready var _collision: CollisionShape2D = $CollisionShape2D
-@onready var _visual: ColorRect = $ColorRect
+@onready var _visual: TextureRect = $TextureRect
 @onready var _prompt_top: Label = $PromptTop
 @onready var _prompt_bottom: Label = $PromptBottom
 

@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://scripts/interactables/lever_drawbridge.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/placeholder/prop_lever.png" id="2_lever"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_platform_red.png" id="3_bridge"]
+[ext_resource type="Texture2D" path="res://assets/props/drawbridge.png" id="3_bridge"]
 
 [sub_resource type="RectangleShape2D" id="shape_lever"]
 size = Vector2(24, 24)
 
 [sub_resource type="RectangleShape2D" id="shape_bridge"]
-size = Vector2(48, 8)
+size = Vector2(32, 8)
 
 [node name="LeverDrawbridge" type="Node2D"]
 script = ExtResource("1_script")
@@ -29,7 +29,6 @@ position = Vector2(96, 0)
 shape = SubResource("shape_bridge")
 
 [node name="Sprite2D" type="Sprite2D" parent="Bridge"]
-modulate = Color(0.75, 0.55, 0.35, 1)
 centered = false
-position = Vector2(-24, -4)
+position = Vector2(-16, -8)
 texture = ExtResource("3_bridge")

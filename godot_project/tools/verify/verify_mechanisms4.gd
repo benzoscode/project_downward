@@ -94,7 +94,7 @@ func _run_tests() -> void:
 	# ---- T3 梯子渲染层级：梯子视觉必须在角色之下（攀爬不再被遮挡）----
 	var ladder := _spawn("res://scenes/interactables/ladder.tscn", Vector2(700, SURFACE_Y))
 	await _physics_frames(3)
-	var ladder_visual := ladder.get_node("ColorRect") as CanvasItem
+	var ladder_visual := ladder.get_node("TextureRect") as CanvasItem
 	_check("T3 梯子视觉层低于角色", ladder_visual.z_index < _player.z_index,
 		"ladder_z=%d player_z=%d" % [ladder_visual.z_index, _player.z_index])
 	ladder.queue_free()

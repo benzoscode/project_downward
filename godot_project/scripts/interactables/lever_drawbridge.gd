@@ -56,10 +56,10 @@ func _physics_process(delta: float) -> void:
 func _draw() -> void:
 	if Engine.is_editor_hint():
 		# 路径可视化：吊桥起点/终点幽灵框 + 升降轨迹虚线
-		var from: Vector2 = bridge_offset + Vector2(24, 4)
+		var from: Vector2 = bridge_offset + Vector2(16, 4)
 		var to := from + raise_offset
 		draw_dashed_line(from, to, Color(1.0, 0.75, 0.3), 1.0, 4.0)
-		draw_rect(Rect2(to - Vector2(24, 4), Vector2(48, 8)), Color(1.0, 0.75, 0.3, 0.35), false, 1.0)
+		draw_rect(Rect2(to - Vector2(16, 4), Vector2(32, 8)), Color(1.0, 0.75, 0.3, 0.35), false, 1.0)
 
 
 func _on_body_entered(body: Node2D) -> void:

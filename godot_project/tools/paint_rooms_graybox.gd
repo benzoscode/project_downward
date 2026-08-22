@@ -355,9 +355,9 @@ func _place_mechanisms(spec: Dictionary) -> void:
 				rect_shape.size = Vector2(16, seg * TILE)
 				shape_node.shape = rect_shape
 				shape_node.position = Vector2(8, -seg * TILE / 2.0)
-				var visual := ladder.get_node("ColorRect") as ColorRect
-				visual.offset_top = -seg * TILE
-				visual.offset_bottom = 0.0
+				var visual := ladder.get_node("TextureRect") as TextureRect
+				visual.size = Vector2(16, seg * TILE)
+				visual.position = Vector2(0, -seg * TILE)
 			mech.add_child(ladder)
 			ladder.owner = _room
 			placed += seg
