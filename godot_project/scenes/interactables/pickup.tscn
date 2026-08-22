@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/interactables/pickup.gd" id="1_script"]
 
 [sub_resource type="RectangleShape2D" id="shape_pickup"]
-size = Vector2(12, 12)
+size = Vector2(16, 16)
 
 [node name="Pickup" type="Area2D"]
 collision_mask = 6
