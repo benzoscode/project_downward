@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/effects/airflow_puff.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/fx/fx_airflow.png" id="2_tex"]
+
+[sub_resource type="AtlasTexture" id="atlas_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_4"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_5"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="atlas_6"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="frames_puff"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_6")
+}],
+"loop": false,
+"name": &"puff",
+"speed": 14.0
+}]
+
+[node name="AirflowPuff" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("frames_puff")
+animation = &"puff"

@@ -243,6 +243,10 @@ func _physics_process(delta: float) -> void:
 				velocity.x = axis * move_speed_tiles * TILE_SIZE
 				_can_double_jump = false
 				_buffer_timer = 0.0
+				# 羽翎靴外观：脚下拖出气流粒子（策划案 §二(二)2）
+				var puff := (preload("res://scenes/effects/airflow_puff.tscn") as PackedScene).instantiate() as Node2D
+				puff.global_position = global_position + Vector2(0, 10)
+				get_parent().add_child(puff)
 
 	if not is_zero_approx(axis):
 		_facing = 1 if axis > 0.0 else -1
