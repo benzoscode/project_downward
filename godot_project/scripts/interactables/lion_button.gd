@@ -12,8 +12,9 @@ var _pressed: bool = false
 
 @onready var _sprite: Sprite2D = $Sprite2D
 @onready var _prompt: Label = $Prompt
-@onready var _tex_up: Texture2D = preload("res://assets/placeholder/prop_button_up.png")
-@onready var _tex_down: Texture2D = preload("res://assets/placeholder/prop_button_down.png")
+@onready var _tex_up: Texture2D = preload("res://assets/props/button_base.png")
+# 正式素材无按下差分（2026-08-20），按下态=同图+压暗
+@onready var _tex_down: Texture2D = _tex_up
 
 
 func _ready() -> void:
@@ -24,6 +25,7 @@ func _ready() -> void:
 	if one_shot and MechanismBus.is_triggered(target_id):
 		_pressed = true
 		_sprite.texture = _tex_down
+		_sprite.modulate = Color(0.7, 0.7, 0.7)
 
 
 func interact() -> void:
@@ -31,9 +33,12 @@ func interact() -> void:
 		# 点动：每次按都发脉冲（不存状态、不切换），弹起视觉即时恢复
 		MechanismBus.pulse(target_id)
 		_sprite.texture = _tex_down
+		_sprite.modulate = Color(0.7, 0.7, 0.7)
 		var tween := create_tween()
 		tween.tween_interval(0.12)
-		tween.tween_callback(func() -> void: _sprite.texture = _tex_up)
+		tween.tween_callback(func() -> void:
+			_sprite.texture = _tex_up
+			_sprite.modulate = Color.WHITE)
 		return
 	if one_shot and _pressed:
 		return
@@ -43,6 +48,7 @@ func interact() -> void:
 	else:
 		MechanismBus.release(target_id)
 	_sprite.texture = _tex_down if _pressed else _tex_up
+	_sprite.modulate = Color(0.7, 0.7, 0.7) if _pressed else Color.WHITE
 	if one_shot and _pressed:
 		_prompt.visible = false
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactables/lion_button.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_button_up.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/props/button_base.png" id="2_tex"]
 
 [sub_resource type="RectangleShape2D" id="shape_button"]
 size = Vector2(28, 20)

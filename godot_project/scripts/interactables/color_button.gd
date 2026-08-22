@@ -16,6 +16,12 @@ const COLORS: Dictionary = {
 	&"blue": Color(0.35, 0.55, 0.95),
 	&"amber": Color(0.95, 0.75, 0.3),
 }
+# 正式按钮素材（2026-08-20）：红/蓝/黄有独立贴图，琥珀用黄图；无图颜色（绿）回退基础图+调色
+const TEXTURES: Dictionary = {
+	&"red": preload("res://assets/props/button_red.png"),
+	&"blue": preload("res://assets/props/button_blue.png"),
+	&"amber": preload("res://assets/props/button_yellow.png"),
+}
 
 @onready var _sprite: Sprite2D = $Sprite2D
 @onready var _prompt: Label = $Prompt
@@ -30,7 +36,11 @@ func _ready() -> void:
 func _apply_tint() -> void:
 	if not is_node_ready():
 		return
-	_sprite.modulate = COLORS.get(color_id, Color.WHITE)
+	if TEXTURES.has(color_id):
+		_sprite.texture = TEXTURES[color_id]
+		_sprite.modulate = Color.WHITE
+	else:
+		_sprite.modulate = COLORS.get(color_id, Color.WHITE)
 
 
 func interact() -> void:
