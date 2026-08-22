@@ -20,8 +20,9 @@ const TILE_SIZE := 16.0
 @export var jump_height_tiles: float = 3.0
 ## 起跳到顶点的时间（秒），与跳跃高度共同决定重力/初速度
 @export var jump_time_to_apex: float = 0.35
-## 下落重力倍率（>1 让下落比上升快，平台跳跃更干脆）
-@export var fall_gravity_multiplier: float = 1.4
+## 下落重力倍率（>1 让下落比上升快）。2026-08-20 用户反馈坠落太快：1.4→0.7（减半）；
+## 上升段不受影响，跳跃到顶高度保持 3 格不变
+@export var fall_gravity_multiplier: float = 0.7
 ## 土狼时间（秒）：走出平台边缘后仍可起跳的宽限
 @export var coyote_time: float = 0.1
 ## 跳跃缓冲（秒）：落地前提前按跳也生效的宽限

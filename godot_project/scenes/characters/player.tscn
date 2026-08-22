@@ -459,7 +459,7 @@ position = Vector2(6, 2)
 script = ExtResource("7_lamp")
 
 [node name="PointLight2D" type="PointLight2D" parent="Lamp" unique_id=624568834]
-color = Color(1, 0.96, 0.85, 1)
+color = Color(1, 0.68, 0.32, 1)
 energy = 2.6
 shadow_enabled = true
 texture = ExtResource("8_cone")

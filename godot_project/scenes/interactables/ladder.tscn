@@ -14,6 +14,7 @@ position = Vector2(8, -48)
 shape = SubResource("shape_ladder")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
 offset_right = 16.0
 offset_top = -96.0
 color = Color(0.55, 0.4, 0.22, 0.85)
