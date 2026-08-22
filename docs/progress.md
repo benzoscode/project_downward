@@ -25,7 +25,7 @@
 | 房间连通 | `RoomManager`（M8，方案 D 无注册表） | 出口直存 .tscn 路径、检查点（入口自动存档+checkpoint 积木）、相机钳制同步+瞬移 |
 | 积木 21 个 | `scenes/interactables/` | 手册：`docs/building_blocks.md`；图文指南：`docs/关卡搭建指南.html` |
 | TileSet | `assets/tiles/tileset_cave.tres` | 12 源（1 泥土/2 石质/5 石砖带碰撞遮光，3/4/6 装饰，7 水面，8-11 水体动画瓦片）；改动走 `tools/build_tileset.gd` |
-| 主角素材 | `assets/characters/` + `assets/props/` | 正式素材：主角待机/奔跑/跳跃/攀爬全状态（2026-08-20）；鼠鼠 idle/run/跳跃；门/按钮/梯子/吊桥/交替平台/压力板/水晶/光球/物品图标 |
+| 主角素材 | `assets/characters/` + `assets/props/` | 正式素材：主角待机/奔跑/跳跃/攀爬全状态（2026-08-20）；鼠鼠 idle/run/跳跃；Boss idle/move/attack；门/按钮/梯子/吊桥/交替平台/压力板/水晶/光球/物品/告示牌图标 |
 | HUD | `scripts/autoload/hud.gd` | 占位：拾取弹窗+图标栏+`show_message` 文字弹窗（多行），M10 重做 |
 
 ## 3. 下一步计划（按依赖顺序）
