@@ -17,9 +17,9 @@ var _pressers: int = 0
 func _ready() -> void:
 	var size := Vector2(8, 6) if mouse_only else Vector2(16, 6)
 	(_collision.shape as RectangleShape2D).size = size
-	# 正式素材单尺寸 16×16（2026-08-20）：小型板缩小显示，碰撞不变
+	# 正式素材单尺寸 16×16（2026-08-20）：小型板不缩放，仅判定更小（用户拍板）
 	_sprite.texture = _tex_up
-	_sprite.scale = Vector2(0.6, 0.6) if mouse_only else Vector2.ONE
+	_sprite.scale = Vector2.ONE
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	# 死亡重生不重置：总线已触发则保持按下视觉
