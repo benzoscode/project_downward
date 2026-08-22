@@ -18,8 +18,9 @@ color = Color(0.9007046, 0.90070456, 0.90070456, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1876136786]
 z_index = -10
-offset_right = 640.0
-offset_bottom = 272.0
+offset_top = -80.0
+offset_right = 480.0
+offset_bottom = 271.0
 texture = ExtResource("2_rnte2")
 
 [node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=635665029]
@@ -58,7 +59,7 @@ position = Vector2(463, 134)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=463166276]
 position = Vector2(240, 135)
 limit_left = 0
-limit_top = -81
+limit_top = -80
 limit_right = 480
 limit_bottom = 271
 
