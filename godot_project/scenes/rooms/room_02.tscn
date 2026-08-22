@@ -22,8 +22,8 @@ color = Color(0.918091, 0.91809106, 0.91809094, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1505680382]
 z_index = -10
-offset_right = 640.0
-offset_bottom = 272.0
+offset_right = 768.0
+offset_bottom = 288.0
 texture = ExtResource("2_0e81w")
 
 [node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=1117034072]
@@ -71,11 +71,11 @@ position = Vector2(192, 224)
 size = Vector2i(400, 48)
 
 [node name="ColorButton" parent="." unique_id=1437743411 instance=ExtResource("8_jk4q7")]
-position = Vector2(663, 200)
+position = Vector2(644, 200)
 sequence_id = &"room_2_seq"
 
 [node name="ColorButton2" parent="." unique_id=1916598643 instance=ExtResource("8_jk4q7")]
-position = Vector2(691, 200)
+position = Vector2(683, 200)
 color_id = &"yellow"
 sequence_id = &"room_2_seq"
 
@@ -95,15 +95,15 @@ position = Vector2(751, 184)
 listen_id = &"room_2_door4"
 
 [node name="LionButton" parent="." unique_id=462362827 instance=ExtResource("10_ckh05")]
-position = Vector2(85, 152)
+position = Vector2(74, 152)
 target_id = &"room_2_orb2"
 
 [node name="LionButton2" parent="." unique_id=1882384636 instance=ExtResource("10_ckh05")]
-position = Vector2(113, 152)
+position = Vector2(111, 152)
 target_id = &"room_2_orb3"
 
 [node name="LionButton3" parent="." unique_id=594330055 instance=ExtResource("10_ckh05")]
-position = Vector2(141, 152)
+position = Vector2(149, 152)
 target_id = &"room_2_orb1"
 
 [node name="OrbLauncher" parent="." unique_id=888041118 instance=ExtResource("11_xd78y")]
@@ -126,3 +126,11 @@ rotation = 1.5593693
 listen_id = &"room_2_orb3"
 launch_speed = 100.0
 orb_tint = Color(0, 0.48274618, 0.67406046, 1)
+
+[node name="RoomExit" parent="." unique_id=653681491 instance=ExtResource("5_ckh05")]
+position = Vector2(-7, 135)
+target_scene = "uid://b8gkask7738di"
+target_entrance = &"from_room_2"
+
+[node name="Entrance_from_room_3" type="Marker2D" parent="." unique_id=1576956799]
+position = Vector2(729, 198)

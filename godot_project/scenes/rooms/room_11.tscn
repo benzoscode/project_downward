@@ -19,8 +19,10 @@ color = Color(0.93262476, 0.9326248, 0.93262476, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1676579384]
 z_index = -10
-offset_right = 640.0
-offset_bottom = 272.0
+offset_left = 64.0
+offset_top = -111.0
+offset_right = 611.0
+offset_bottom = 273.0
 texture = ExtResource("2_tqk6v")
 
 [node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=267561213]
@@ -178,3 +180,8 @@ target_scene = "res://scenes/rooms/room_12.tscn"
 
 [node name="Entrance_from_12" type="Marker2D" parent="." unique_id=947209985]
 position = Vector2(551, -87)
+
+[node name="RoomExit2" parent="." unique_id=1762220476 instance=ExtResource("8_nwivn")]
+position = Vector2(608, 184)
+target_scene = "uid://saiicpxgnnu0"
+target_entrance = &"from_room_11"

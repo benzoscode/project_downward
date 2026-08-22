@@ -5,8 +5,10 @@
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_ppcur"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="5_lyarj"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="6_on8db"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/lever_platform.tscn" id="8_5l3iw"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_q012h"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_1cqa5"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="9_vmiug"]
 
 [node name="Room05" type="Node2D" unique_id=1359627143]
 script = ExtResource("1_rhna8")
@@ -18,8 +20,10 @@ color = Color(0.9064933, 0.9064934, 0.9064934, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1832525971]
 z_index = -10
-offset_right = 640.0
-offset_bottom = 272.0
+offset_left = 1.0
+offset_top = -15.0
+offset_right = 641.0
+offset_bottom = 289.0
 texture = ExtResource("2_psb2t")
 
 [node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=743655783]
@@ -62,9 +66,68 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("8_q012h")
 
-[node name="Entrance_default" type="Marker2D" parent="." unique_id=902308663]
+[node name="Entrance_from_room_4" type="Marker2D" parent="." unique_id=902308663]
 position = Vector2(617, 229)
 
 [node name="Exit_to_room_06" parent="." unique_id=151145637 instance=ExtResource("9_1cqa5")]
 position = Vector2(7, 184)
 target_scene = "res://scenes/rooms/room_06.tscn"
+
+[node name="Exit_to_room_4" parent="." unique_id=624565772 instance=ExtResource("9_1cqa5")]
+position = Vector2(643, 215)
+target_scene = "uid://bb5bcg7fjn2c4"
+target_entrance = &"from_room_5"
+
+[node name="LeverPlatform" parent="." unique_id=1716963205 instance=ExtResource("8_5l3iw")]
+position = Vector2(541, 233)
+platform_offset = Vector2(-262, -32)
+move_offset = Vector2(300, 0)
+move_speed = 64.0
+
+[node name="Spikes" parent="." unique_id=181072844 instance=ExtResource("9_vmiug")]
+position = Vector2(264, 264)
+
+[node name="Spikes2" parent="." unique_id=748200886 instance=ExtResource("9_vmiug")]
+position = Vector2(280, 264)
+
+[node name="Spikes3" parent="." unique_id=686683180 instance=ExtResource("9_vmiug")]
+position = Vector2(296, 264)
+
+[node name="Spikes4" parent="." unique_id=318734635 instance=ExtResource("9_vmiug")]
+position = Vector2(312, 264)
+
+[node name="Spikes5" parent="." unique_id=159539853 instance=ExtResource("9_vmiug")]
+position = Vector2(328, 264)
+
+[node name="Spikes6" parent="." unique_id=1489296585 instance=ExtResource("9_vmiug")]
+position = Vector2(344, 264)
+
+[node name="Spikes7" parent="." unique_id=600063398 instance=ExtResource("9_vmiug")]
+position = Vector2(360, 264)
+
+[node name="Spikes8" parent="." unique_id=1784974579 instance=ExtResource("9_vmiug")]
+position = Vector2(376, 264)
+
+[node name="Spikes9" parent="." unique_id=89767404 instance=ExtResource("9_vmiug")]
+position = Vector2(392, 264)
+
+[node name="Spikes10" parent="." unique_id=1186727721 instance=ExtResource("9_vmiug")]
+position = Vector2(408, 264)
+
+[node name="Spikes11" parent="." unique_id=70822846 instance=ExtResource("9_vmiug")]
+position = Vector2(424, 264)
+
+[node name="Spikes12" parent="." unique_id=1255305250 instance=ExtResource("9_vmiug")]
+position = Vector2(440, 264)
+
+[node name="Spikes13" parent="." unique_id=1003053584 instance=ExtResource("9_vmiug")]
+position = Vector2(456, 264)
+
+[node name="Spikes14" parent="." unique_id=2043493511 instance=ExtResource("9_vmiug")]
+position = Vector2(472, 264)
+
+[node name="Spikes15" parent="." unique_id=2042193282 instance=ExtResource("9_vmiug")]
+position = Vector2(488, 264)
+
+[node name="Entrance_from_room_6" type="Marker2D" parent="." unique_id=1535457993]
+position = Vector2(42, 196)

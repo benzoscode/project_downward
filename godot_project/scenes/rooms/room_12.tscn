@@ -17,8 +17,8 @@ color = Color(0.9007046, 0.90070456, 0.90070456, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1106323039]
 z_index = -10
-offset_right = 1920.0
-offset_bottom = 1080.0
+offset_right = 560.0
+offset_bottom = 400.0
 texture = ExtResource("2_xjnbp")
 stretch_mode = 1
 
@@ -74,3 +74,6 @@ target_entrance = &"from_12"
 [node name="Exit_to_room_13" parent="." unique_id=1455452142 instance=ExtResource("7_xjnbp")]
 position = Vector2(554, 217)
 target_scene = "res://scenes/rooms/room_13.tscn"
+
+[node name="Entrance_from_room_13" type="Marker2D" parent="." unique_id=104043198]
+position = Vector2(527, 229)

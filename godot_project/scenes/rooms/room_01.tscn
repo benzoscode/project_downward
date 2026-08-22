@@ -60,19 +60,27 @@ script = ExtResource("4_2owu3")
 position = Vector2(369, 232)
 
 [node name="Exit_to_room_02" parent="." unique_id=932976385 instance=ExtResource("5_mpjxv")]
-position = Vector2(632, 184)
+position = Vector2(639, 183)
 target_scene = "res://scenes/rooms/room_02.tscn"
 
 [node name="LionButton" parent="." unique_id=124186701 instance=ExtResource("6_jwebg")]
 position = Vector2(472, 56)
-target_id = &"room_1_door"
+target_id = &"room_1_door1"
 
 [node name="StoneDoor" parent="." unique_id=1776176717 instance=ExtResource("7_10nlv")]
 position = Vector2(176, 201)
-listen_id = &"room_1_door"
+listen_id = &"room_1_door1"
 
 [node name="LightCrystal" parent="." unique_id=829589508 instance=ExtResource("8_10nlv")]
 position = Vector2(604, 201)
+target_id = &"room_1_door2"
 
 [node name="Chest" parent="." unique_id=1538069417 instance=ExtResource("9_2owu3")]
 position = Vector2(80, 212)
+
+[node name="StoneDoor2" parent="." unique_id=707338031 instance=ExtResource("7_10nlv")]
+position = Vector2(632, 184)
+listen_id = &"room_1_door2"
+
+[node name="Entrance_from_room_2" type="Marker2D" parent="." unique_id=1702661152]
+position = Vector2(590, 197)

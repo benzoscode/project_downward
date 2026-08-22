@@ -77,3 +77,11 @@ position = Vector2(297, -56)
 [node name="Exit_to_room_11" parent="." unique_id=82675807 instance=ExtResource("9_k2h2b")]
 position = Vector2(8, 135)
 target_scene = "res://scenes/rooms/room_11.tscn"
+
+[node name="RoomExit" parent="." unique_id=1561571121 instance=ExtResource("9_k2h2b")]
+position = Vector2(482, 120)
+target_scene = "uid://claxs6ncwpkpi"
+target_entrance = &"from_room_9"
+
+[node name="Entrance_from_room_11" type="Marker2D" parent="." unique_id=1357127639]
+position = Vector2(31, 150)

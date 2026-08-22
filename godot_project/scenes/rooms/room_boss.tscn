@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/pressure_plate.tscn" id="9_de644"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/key_door.tscn" id="10_3ktgn"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="10_de644"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="11_3ktgn"]
 
 [node name="RoomBoss" type="Node2D" unique_id=288183477]
 script = ExtResource("1_kreq2")
@@ -21,8 +22,9 @@ color = Color(0.9007046, 0.90070456, 0.90070456, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=1826610106]
 z_index = -10
-offset_right = 1440.0
-offset_bottom = 544.0
+offset_top = -48.0
+offset_right = 816.0
+offset_bottom = 222.0
 texture = ExtResource("2_xjnbp")
 
 [node name="TileMapTerrain" type="TileMapLayer" parent="." unique_id=2135630499]
@@ -96,3 +98,8 @@ target_id = &"room_boss_door2"
 
 [node name="KeyDoor" parent="." unique_id=580661196 instance=ExtResource("10_3ktgn")]
 position = Vector2(500, 137)
+
+[node name="RoomExit" parent="." unique_id=1941535865 instance=ExtResource("11_3ktgn")]
+position = Vector2(0, 168)
+target_scene = "uid://e8nf3m8v7fpx"
+target_entrance = &"from_room_boss"

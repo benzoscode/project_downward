@@ -21,6 +21,7 @@ color = Color(0.9297146, 0.9297147, 0.9297146, 1)
 
 [node name="Background" type="TextureRect" parent="." unique_id=441369130]
 z_index = -10
+offset_top = -48.0
 offset_right = 640.0
 offset_bottom = 272.0
 texture = ExtResource("2_aypa0")
