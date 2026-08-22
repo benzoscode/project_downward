@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/lever_drawbridge.tscn" id="2_bridge"]
+
+[sub_resource type="RectangleShape2D" id="shape_floor"]
+size = Vector2(480, 32)
+
+[node name="DrawbridgeTest" type="Node2D"]
+scale = Vector2(1, 1)
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(240, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("shape_floor")
+
+[node name="Bridge" parent="." instance=ExtResource("2_bridge")]
+position = Vector2(160, 240)
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(140, 234)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(140, 234)
