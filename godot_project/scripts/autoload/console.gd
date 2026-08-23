@@ -105,11 +105,12 @@ func _run(text: String) -> void:
 			_toggle()
 		&"help":
 			_print("命令说明")
-			_print("get_item <道具>  道具(灯/靴/哨/钥匙/翡翠/琥珀/紫金)")
-			_print("give_all 获得全部   clear_items 清空   items 查看持有")
-			_print("goto <房间号|名> 传送   pos <x> <y> 瞬移")
-			_print("lamp <on/off> 开关灯   respawn 重生   checkpoint 存点")
-			_print("close 关闭控制台")
+			_print("get_item <道具>  lamp灯 boots靴 whistle哨 key钥匙")
+			_print("  gem_jade翡翠 gem_amber琥珀 gem_violet紫金")
+			_print("give_all 获得全部   clear_items 清空   items 查看")
+			_print("goto <房间号|名>  e.g. goto 5 / goto boss")
+			_print("pos <x> <y> 瞬移   lamp <on/off> 开关灯")
+			_print("respawn 重生   checkpoint 存点   close 关闭")
 		&"get_item":
 			_get_item(arg)
 		&"give_all":
