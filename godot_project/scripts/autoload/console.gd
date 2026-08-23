@@ -22,6 +22,7 @@ var _open := false
 var _history: PackedStringArray = []
 var _history_idx := -1
 var _line: LineEdit
+var _output: Label
 var _panel: PanelContainer
 
 
@@ -35,19 +36,31 @@ func _ready() -> void:
 func _build_ui() -> void:
 	_panel = PanelContainer.new()
 	_panel.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	_panel.offset_bottom = 30.0
+	_panel.offset_bottom = 150.0
 	_panel.visible = false
 	add_child(_panel)
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.06, 0.07, 0.1, 0.9)
+	style.bg_color = Color(0.06, 0.07, 0.1, 0.92)
 	_panel.add_theme_stylebox_override("panel", style)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 4)
+	_panel.add_child(vbox)
 
 	_line = LineEdit.new()
 	_line.placeholder_text = "输入命令（get_item lamp / goto 5 / help）"
 	_line.add_theme_font_size_override("font_size", 10)
 	_line.text_submitted.connect(_on_submit)
 	_line.gui_input.connect(_on_line_gui_input)
-	_panel.add_child(_line)
+	vbox.add_child(_line)
+
+	# 屏上输出区：命令结果可见（不再只打 console）
+	_output = Label.new()
+	_output.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_output.add_theme_font_size_override("font_size", 8)
+	_output.custom_minimum_size = Vector2(0, 110)
+	_output.text = "输入 help 查看命令\n"
+	vbox.add_child(_output)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -91,7 +104,12 @@ func _run(text: String) -> void:
 		&"close":
 			_toggle()
 		&"help":
-			_print("help | get_item <道具> | give_all | clear_items | items | goto <房间数|名> | pos <x> <y> | lamp <on/off> | respawn | checkpoint | info")
+			_print("命令说明")
+			_print("get_item <道具>  道具(灯/靴/哨/钥匙/翡翠/琥珀/紫金)")
+			_print("give_all 获得全部   clear_items 清空   items 查看持有")
+			_print("goto <房间号|名> 传送   pos <x> <y> 瞬移")
+			_print("lamp <on/off> 开关灯   respawn 重生   checkpoint 存点")
+			_print("close 关闭控制台")
 		&"get_item":
 			_get_item(arg)
 		&"give_all":
@@ -210,6 +228,12 @@ func _player() -> Node:
 
 func _print(msg: String) -> void:
 	print("[] ", msg)
+	# 屏上显示（保留最近 8 行）
+	var text := msg + "\n" + _output.text
+	var lines := text.split("\n")
+	while lines.size() > 9:
+		lines.remove_at(lines.size() - 1)
+	_output.text = "\n".join(lines)
 
 
 ## LineEdit 历史导航（上下键）+ 方向键默认行为
