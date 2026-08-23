@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_psb2t"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_ppcur"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="5_lyarj"]
-[ext_resource type="PackedScene" uid="uid://3dk1qh8gfiwi" path="res://scenes/interactables/stone_door.tscn" id="6_on8db"]
-[ext_resource type="PackedScene" uid="uid://wksqrjj8xvvg" path="res://scenes/interactables/lever_platform.tscn" id="8_5l3iw"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="6_on8db"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/lever_platform.tscn" id="8_5l3iw"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_q012h"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_1cqa5"]
-[ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="9_vmiug"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="9_vmiug"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="10_rhna8"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="11_psb2t"]
 
@@ -57,8 +57,10 @@ target_id = &"room_5_door"
 position = Vector2(617, 229)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1154878380]
+physics_interpolation_mode = 1
 top_level = true
-position = Vector2(240, 135)
+position = Vector2(48, 196)
+process_callback = 0
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=982799589]
 process_priority = 300
@@ -66,7 +68,7 @@ process_physics_priority = 300
 script = ExtResource("8_q012h")
 
 [node name="Entrance_from_room_4" type="Marker2D" parent="." unique_id=902308663]
-position = Vector2(617, 229)
+position = Vector2(47, 196)
 
 [node name="Exit_to_room_06" parent="." unique_id=151145637 instance=ExtResource("9_1cqa5")]
 position = Vector2(7, 184)
