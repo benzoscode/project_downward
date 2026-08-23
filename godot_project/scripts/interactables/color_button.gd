@@ -16,13 +16,13 @@ const COLORS: Dictionary = {
 	&"blue": Color(0.35, 0.55, 0.95),
 	&"amber": Color(0.95, 0.75, 0.3),
 }
-# 正式按钮素材（2026-08-20）：红/蓝/黄有独立贴图，琥珀用黄图；
-# 绿色暂无图（2026-08-23 用户拍板：先用蓝图顶替）
+# 正式按钮素材（2026-08-20/23）：四色齐全——绿/红/蓝/黄（琥珀）。
+# 绿色即 button_base（2026-08-23 策划确认：四张颜色钮文件，此前误判 base 为通用）
 const TEXTURES: Dictionary = {
 	&"red": preload("res://assets/props/button_red.png"),
 	&"blue": preload("res://assets/props/button_blue.png"),
 	&"amber": preload("res://assets/props/button_yellow.png"),
-	&"green": preload("res://assets/props/button_blue.png"),
+	&"green": preload("res://assets/props/button_base.png"),
 }
 
 @onready var _sprite: Sprite2D = $Sprite2D
