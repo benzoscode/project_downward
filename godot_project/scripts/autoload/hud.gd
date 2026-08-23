@@ -47,7 +47,7 @@ func _on_item_acquired(item: StringName) -> void:
 	_refresh_inventory()
 	_toast.position = Vector2(200, 240)
 	_toast_icon.texture = ICONS.get(item)
-	_toast_label.text = " Got: %s" % item
+	_toast_label.text = " Got: " + String(item)
 	_show_toast(2.0)
 
 
