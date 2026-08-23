@@ -8,6 +8,8 @@ extends AnimatableBody2D
 @export var close_delay: float = 2.0
 ## 开门动画时长（秒）
 @export var tween_duration: float = 0.4
+## 打开后保持开启：一旦全触发开启就不再关闭（双压力板门用，2026-08-23 需求）
+@export var latch_open: bool = false
 
 var _is_open: bool = false
 var _closed_y: float
@@ -21,8 +23,8 @@ func _ready() -> void:
 	_closed_y = position.y
 	MechanismBus.triggered.connect(_on_changed.unbind(1))
 	MechanismBus.released.connect(_on_changed.unbind(1))
-	# 重生恢复：全部已触发则直接开
-	if _all_triggered():
+	# 重生恢复：已触发则直接开（latch 门一旦开就不关）
+	if _all_triggered() or _latch_was_open():
 		_apply_open(true, true)
 
 
@@ -34,11 +36,19 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_changed() -> void:
+	# latch：开过就不再关
+	if _is_open and latch_open:
+		return
 	if _all_triggered():
 		_close_timer = -1.0
 		_apply_open(true, false)
 	elif _is_open:
 		_close_timer = close_delay
+
+
+## latch 门状态持久化：用 listen_ids 首元素记住"已开过"
+func _latch_was_open() -> bool:
+	return latch_open and not listen_ids.is_empty() and MechanismBus.is_triggered(listen_ids[0])
 
 
 func _all_triggered() -> bool:

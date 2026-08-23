@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/characters/char_mouse_jump_rise.png" id="4_cvrts"]
 [ext_resource type="Texture2D" path="res://assets/characters/char_mouse_run.png" id="5_iyekb"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_4o5sa"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="8_glow"]
 
 [sub_resource type="RectangleShape2D" id="shape_mouse"]
 size = Vector2(20, 8)
@@ -204,6 +205,13 @@ script = ExtResource("1_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1266300073]
 shape = SubResource("shape_mouse")
+
+[node name="Glow" type="PointLight2D" parent="." unique_id=777001]
+color = Color(1, 0.92, 0.75, 1)
+energy = 0.9
+texture = ExtResource("8_glow")
+texture_scale = 0.35
+shadow_enabled = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1940740029]
 sprite_frames = SubResource("SpriteFrames_p1bqb")
