@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_6sl3v"]
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_e1vif"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_ik2oh"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="6_b7cuq"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="7_gpbp3"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="8_hgwl8"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="9_hgwl8"]
+[ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="9_hgwl8"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_m7lh8"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="10_6sl3v"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="10_e1vif"]
 
 [node name="Room04" type="Node2D" unique_id=1792942668]
 script = ExtResource("1_6sl3v")
@@ -29,7 +30,7 @@ tile_map_data = PackedByteArray("AAAAAA4AAQAAAAAAAAAAAA8AAQAAAAIAAAABAA4AAQAAAAA
 tile_set = ExtResource("3_ik2oh")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1642766787]
-tile_map_data = PackedByteArray("AAARAAcAAwAGAAAAAAASAAcAAwAAAAEAAAAQAAcAAwADAAEAAAAWAAwAAwACAAEAAAAVAAwAAwADAAEAAAAZAAwAAwADAAEAAAAaAAwAAwABAAEAAAAeAAwAAwAEAAEAAAAdAAwAAwADAAEAAAADAAcAAwADAAEAAAAEAAcAAwABAAEAAAAGAAcAAwAAAAEAAAABAAkAAwACAAAAAAAHAAUAAwAEAAAAAAAKAAMAAwABAAEAAAAPAAMAAwABAAEAAAANAAMAAwAAAAEAAAAMAAMAAwAEAAEAAAAJAAMAAwAEAAEAAAAaAAMAAwACAAEAAAAWAAMAAwABAAEAAAAVAAMAAwAAAAEAAAAXAAMAAwADAAEAAAAfAAMAAwADAAEAAAAeAAMAAwADAAEAAAAdAAMAAwAEAAEAAAAhAAQAAwABAAAAAAAkAAYAAwABAAEAAAAlAAYAAwADAAEAAAAmAAgAAwAFAAAAAAAIAA0ABgABAAAAAAADAA0ABgAAAAAAAAAEAA0ABgACAAAAAAAMAA0ABgACAAAAAAANAA0ABgAAAAAAAAAKAA0AAwACAAMAAAAiAAsAAwADAAMAAAAgAA0ABgAAAAAAAAAhAA0ABgACAAAAAAA=")
+tile_map_data = PackedByteArray("AAARAAcAAwAGAAAAAAASAAcAAwAAAAEAAAAQAAcAAwADAAEAAAAWAAwAAwACAAEAAAAVAAwAAwADAAEAAAAZAAwAAwADAAEAAAAaAAwAAwABAAEAAAAeAAwAAwAEAAEAAAAdAAwAAwADAAEAAAADAAcAAwADAAEAAAAEAAcAAwABAAEAAAAGAAcAAwAAAAEAAAABAAkAAwACAAAAAAAHAAUAAwAEAAAAAAAKAAMAAwABAAEAAAAPAAMAAwABAAEAAAANAAMAAwAAAAEAAAAMAAMAAwAEAAEAAAAJAAMAAwAEAAEAAAAaAAMAAwACAAEAAAAWAAMAAwABAAEAAAAVAAMAAwAAAAEAAAAXAAMAAwADAAEAAAAfAAMAAwADAAEAAAAeAAMAAwADAAEAAAAdAAMAAwAEAAEAAAAhAAQAAwABAAAAAAAkAAYAAwABAAEAAAAlAAYAAwADAAEAAAAmAAgAAwAFAAAAAAAIAA0ABgABAAAAAAADAA0ABgAAAAAAAAAEAA0ABgACAAAAAAAMAA0ABgACAAAAAAANAA0ABgAAAAAAAAAKAA0AAwACAAMAAAAiAAsAAwADAAMAAAAgAA0ABgAAAAAAAAAhAA0ABgACAAAAAAAIAAMAAwAGAAAAAAAmAAsABgACAAAAAAA=")
 tile_set = ExtResource("3_ik2oh")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=2063995473]
@@ -47,10 +48,6 @@ position = Vector2(281, 84)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=981722934]
 top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 640
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=264114806]
 process_priority = 300
@@ -67,10 +64,6 @@ position = Vector2(280, 248)
 position = Vector2(8, 201)
 target_scene = "res://scenes/rooms/room_05.tscn"
 target_entrance = &"from_room_4"
-
-[node name="Chest" parent="." unique_id=1518233926 instance=ExtResource("6_b7cuq")]
-position = Vector2(590, 180)
-item = &"key"
 
 [node name="OneWayPlatform" parent="." unique_id=1157689160 instance=ExtResource("7_gpbp3")]
 position = Vector2(280, 233)
@@ -117,3 +110,12 @@ position = Vector2(505, 216)
 
 [node name="Entrance_from_room_5" type="Marker2D" parent="." unique_id=2143853972]
 position = Vector2(34, 213)
+
+[node name="BreathingLight" parent="." unique_id=781005556 instance=ExtResource("10_6sl3v")]
+position = Vector2(280, 257)
+light_color = Color(0.3778329, 0.89401335, 0.99517506, 1)
+min_energy = 0.0
+
+[node name="Pickup" parent="." unique_id=1752100484 instance=ExtResource("10_e1vif")]
+position = Vector2(592, 184)
+item = &"key"

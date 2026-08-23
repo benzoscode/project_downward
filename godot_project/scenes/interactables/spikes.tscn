@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://cif7pljvfxxxh"]
 
-[ext_resource type="Script" path="res://scripts/interactables/hazard_area.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_spikes.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://drg0g00k5hjnx" path="res://scripts/interactables/hazard_area.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cr6qypq1p71t7" path="res://assets/decor/decor_stalagmite_01.png" id="2_6hayp"]
 
 [sub_resource type="RectangleShape2D" id="shape_spikes"]
 size = Vector2(14, 8)
 
-[node name="Spikes" type="Area2D"]
+[node name="Spikes" type="Area2D" unique_id=53339150]
 collision_mask = 6
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1683175913]
 position = Vector2(0, 4)
 shape = SubResource("shape_spikes")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=975576923]
+texture = ExtResource("2_6hayp")

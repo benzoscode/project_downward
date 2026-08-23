@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://3dk1qh8gfiwi"]
 
-[ext_resource type="Script" path="res://scripts/interactables/stone_door.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/props/door_stone_idle_1.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://dkgsxs306nbx8" path="res://scripts/interactables/stone_door.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://oyomer267611" path="res://assets/props/door_stone_wrong_1.png" id="2_ly8vn"]
 
 [sub_resource type="RectangleShape2D" id="shape_door"]
 size = Vector2(16, 48)
 
-[node name="StoneDoor" type="AnimatableBody2D"]
+[node name="StoneDoor" type="AnimatableBody2D" unique_id=1058091788]
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=866242125]
 shape = SubResource("shape_door")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1162511516]
+texture = ExtResource("2_ly8vn")

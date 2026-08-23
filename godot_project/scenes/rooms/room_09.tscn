@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_gki84"]
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_rnte2"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_4nn4m"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="4_uekxx"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_uekxx"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="6_5mubj"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_ynyqh"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_k2h2b"]
@@ -28,7 +28,7 @@ tile_map_data = PackedByteArray("AAAAAA0AAQAAAAIAAAABAA0AAQAAAAIAAAACAA0AAQAAAAI
 tile_set = ExtResource("3_4nn4m")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1098201626]
-tile_map_data = PackedByteArray("AAAIAAgAAwAAAAEAAAAHAAYAAwAFAAAAAAALAAEAAwAAAAAAAAALAAQAAwAEAAEAAAAQAAUAAwAEAAEAAAASAAUAAwADAAEAAAARAAUAAwACAAEAAAARAAMAAwADAAAAAAAaAAgABgAAAAAAAAAbAAgABgACAAAAAAAYAA0ABgACAAAAAAAXAA0ABgAAAAAAAAATAA4ABgAAAAAAAAAOAA4ABgAAAAAAAAANAA4ABgACAAAAAAAIAAoABgACAAAAAAADAAkABgACAAAAAAAEAAkABgAAAAAAAAAVAA4AAwACAAMAAAAYAAsAAwAFAAAAAAALAAwAAwACAAAAAAAdAAYAAwABAAEAAAACAAAAAwADAAEAAAADAAAAAwAEAAEAAAAFAAAAAwAAAAEAAAAGAAAAAwAGAAAAAAAHAP3/AwAEAAAAAAALAPz/AwACAAEAAAANAPz/AwADAAEAAAAOAPz/AwAEAAEAAAAXAPz/AwAEAAEAAAAaAPz/AwAEAAEAAAAbAPz/AwADAAEAAAAYAPz/AwAAAAEAAAAcAAIAAwABAAAAAAA=")
+tile_map_data = PackedByteArray("AAAIAAgAAwAAAAEAAAAHAAYAAwAFAAAAAAALAAEAAwAAAAAAAAALAAQAAwAEAAEAAAAQAAUAAwAEAAEAAAASAAUAAwADAAEAAAARAAUAAwACAAEAAAARAAMAAwADAAAAAAAaAAgABgAAAAAAAAAbAAgABgACAAAAAAAYAA0ABgACAAAAAAAXAA0ABgAAAAAAAAATAA4ABgAAAAAAAAAOAA4ABgAAAAAAAAANAA4ABgACAAAAAAAIAAoABgACAAAAAAADAAkABgACAAAAAAAEAAkABgAAAAAAAAAVAA4AAwACAAMAAAAYAAsAAwAFAAAAAAALAAwAAwACAAAAAAAdAAYAAwABAAEAAAACAAAAAwADAAEAAAADAAAAAwAEAAEAAAAFAAAAAwAAAAEAAAAGAAAAAwAGAAAAAAAHAP3/AwAEAAAAAAALAPz/AwACAAEAAAANAPz/AwADAAEAAAAOAPz/AwAEAAEAAAAXAPz/AwAEAAEAAAAaAPz/AwAEAAEAAAAbAPz/AwADAAEAAAAYAPz/AwAAAAEAAAAcAAIAAwABAAAAAAAVAPz/AwAGAAAAAAA=")
 tile_set = ExtResource("3_4nn4m")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=1061059060]
@@ -57,11 +57,8 @@ target_scene = "res://scenes/rooms/room_10.tscn"
 position = Vector2(463, 134)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=463166276]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = -80
-limit_right = 480
-limit_bottom = 271
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=110679913]
 process_priority = 300

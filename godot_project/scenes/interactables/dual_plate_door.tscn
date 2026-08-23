@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://rgb5pxhxwpgk"]
 
-[ext_resource type="Script" path="res://scripts/interactables/dual_button_door.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/props/door_stone_idle_1.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://kvbm5w8me846" path="res://scripts/interactables/dual_button_door.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b5v3tqqnubymr" path="res://assets/props/door_stone_wrong_2.png" id="2_0ol0k"]
 
 [sub_resource type="RectangleShape2D" id="shape_door"]
 size = Vector2(16, 48)
 
-[node name="DualPlateDoor" type="AnimatableBody2D"]
+[node name="DualPlateDoor" type="AnimatableBody2D" unique_id=1635772964]
 script = ExtResource("1_script")
 listen_ids = Array[StringName]([&"plate_a", &"plate_b"])
 close_delay = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1773571301]
 shape = SubResource("shape_door")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=961591674]
+texture = ExtResource("2_0ol0k")

@@ -3,10 +3,14 @@
 [ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_kreq2"]
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_xjnbp"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_vqrhr"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="4_ihp6o"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_ihp6o"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="5_f1agh"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_1r00p"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="7_xjnbp"]
+[ext_resource type="PackedScene" uid="uid://rgb5pxhxwpgk" path="res://scenes/interactables/dual_plate_door.tscn" id="8_1r00p"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="9_veval"]
+[ext_resource type="PackedScene" uid="uid://doqg0y58opym8" path="res://scenes/interactables/pressure_plate.tscn" id="10_w6mbr"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="11_t0515"]
 
 [node name="Room12" type="Node2D" unique_id=724041436]
 script = ExtResource("1_kreq2")
@@ -27,7 +31,7 @@ tile_map_data = PackedByteArray("AAAXABgAAQAAAAAAAAAWABgAAQAAAAAAAAAVABgAAQAAAAA
 tile_set = ExtResource("3_vqrhr")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=910100979]
-tile_map_data = PackedByteArray("AAAMABYAAwAEAAEAAAALABQAAwAAAAAAAAALABYAAwABAAEAAAAGABUAAwABAAEAAAAHABUAAwAEAAEAAAAFABcAAwADAAAAAAAcABcAAwACAAMAAAAGABIABgABAAAAAAAKABcABgAAAAAAAAAUABcABgAAAAAAAAAbABcABgAAAAAAAAATABcABgACAAAAAAALABcABgACAAAAAAAPABcABgACAAAAAAAHABcABgACAAAAAAAfAA4ABgACAAAAAAAeAA4ABgAAAAAAAAACAA4ABgAAAAAAAAAEABEAAwACAAAAAAABAAsAAwAEAAAAAAAhAAsAAwAFAAAAAAAiAAwAAwABAAEAAAAfAAUAAwAAAAEAAAAgAAUAAwAEAAEAAAAZAAEAAwAEAAEAAAARAAEAAwAEAAEAAAAFAAEAAwAEAAEAAAAJAAEAAwAEAAEAAAAGAAEAAwAEAAEAAAAKAAEAAwADAAEAAAASAAEAAwADAAEAAAAaAAEAAwADAAEAAAAPAAEAAwACAAEAAAAUAAEAAwAGAAAAAAADAAEAAwAAAAEAAAAXAAEAAwABAAEAAAAHAA0AAwAAAAEAAAAKAA0AAwABAAEAAAALAA0AAwACAAEAAAANAA0AAwACAAEAAAAQAA0AAwAGAAAAAAARAA0AAwABAAEAAAATAAsAAwADAAAAAAAXAAsAAwAAAAAAAAAYAA0AAwAAAAEAAAAXAA0AAwABAAEAAAAVAA0AAwAEAAEAAAAWAA0AAwAEAAEAAAAaAA0AAwAEAAEAAAAPAA0AAwADAAEAAAAJAA0AAwADAAEAAAATAA0AAwADAAEAAAAQAAsAAwAAAAEAAAAPAAsAAwABAAEAAAAOAAoAAwAFAAAAAAALAAgAAwADAAEAAAAJAAgAAwADAAEAAAAKAAgAAwAEAAEAAAAOAAgAAwAEAAEAAAAIAAgAAwAAAAEAAAAVAAgAAwABAAEAAAAUAAgAAwACAAEAAAAXAAgAAwADAAEAAAAYAAgAAwAEAAEAAAAIABIAAwADAAMAAAA=")
+tile_map_data = PackedByteArray("AAAMABYAAwAEAAEAAAALABQAAwAAAAAAAAALABYAAwABAAEAAAAGABUAAwABAAEAAAAHABUAAwAEAAEAAAAFABcAAwADAAAAAAAcABcAAwACAAMAAAAGABIABgABAAAAAAAKABcABgAAAAAAAAAUABcABgAAAAAAAAAbABcABgAAAAAAAAATABcABgACAAAAAAALABcABgACAAAAAAAPABcABgACAAAAAAAHABcABgACAAAAAAAfAA4ABgACAAAAAAAeAA4ABgAAAAAAAAACAA4ABgAAAAAAAAAEABEAAwACAAAAAAABAAsAAwAEAAAAAAAhAAsAAwAFAAAAAAAiAAwAAwABAAEAAAAfAAUAAwAAAAEAAAAgAAUAAwAEAAEAAAAZAAEAAwAEAAEAAAARAAEAAwAEAAEAAAAFAAEAAwAEAAEAAAAJAAEAAwAEAAEAAAAGAAEAAwAEAAEAAAAKAAEAAwADAAEAAAASAAEAAwADAAEAAAAaAAEAAwADAAEAAAAPAAEAAwACAAEAAAAUAAEAAwAGAAAAAAADAAEAAwAAAAEAAAAXAAEAAwABAAEAAAAHAA0AAwAAAAEAAAAKAA0AAwABAAEAAAALAA0AAwACAAEAAAANAA0AAwACAAEAAAAQAA0AAwAGAAAAAAARAA0AAwABAAEAAAATAAsAAwADAAAAAAAXAAsAAwAAAAAAAAAYAA0AAwAAAAEAAAAXAA0AAwABAAEAAAAVAA0AAwAEAAEAAAAWAA0AAwAEAAEAAAAaAA0AAwAEAAEAAAAPAA0AAwADAAEAAAAJAA0AAwADAAEAAAATAA0AAwADAAEAAAAQAAsAAwAAAAEAAAAPAAsAAwABAAEAAAAOAAoAAwAFAAAAAAALAAgAAwADAAEAAAAJAAgAAwADAAEAAAAKAAgAAwAEAAEAAAAOAAgAAwAEAAEAAAAIAAgAAwAAAAEAAAAVAAgAAwABAAEAAAAUAAgAAwACAAEAAAAXAAgAAwADAAEAAAAYAAgAAwAEAAEAAAAIABIAAwADAAMAAAABAAQAAwACAAAAAAAIAAEAAwAGAAAAAAAcABIAAwAFAAAAAAAgAAcAAwAFAAAAAAA=")
 tile_set = ExtResource("3_vqrhr")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=1587896870]
@@ -46,11 +50,8 @@ position = Vector2(373, 372)
 position = Vector2(373, 372)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1794335173]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 560
-limit_bottom = 400
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1162733194]
 process_priority = 300
@@ -77,3 +78,29 @@ target_scene = "res://scenes/rooms/room_13.tscn"
 
 [node name="Entrance_from_room_13" type="Marker2D" parent="." unique_id=104043198]
 position = Vector2(527, 229)
+
+[node name="DualPlateDoor" parent="." unique_id=1956667073 instance=ExtResource("8_1r00p")]
+position = Vector2(552, 216)
+
+[node name="AmbientLight" parent="." unique_id=1881866726 instance=ExtResource("9_veval")]
+position = Vector2(552, 200)
+radius_tiles = 1.0
+
+[node name="PressurePlate" parent="." unique_id=228964145 instance=ExtResource("10_w6mbr")]
+position = Vector2(164, 110)
+target_id = &"plate_b"
+
+[node name="PressurePlate2" parent="." unique_id=1629055505 instance=ExtResource("10_w6mbr")]
+position = Vector2(393, 110)
+target_id = &"plate_a"
+mouse_only = false
+
+[node name="BreathingLight" parent="." unique_id=1283992091 instance=ExtResource("11_t0515")]
+position = Vector2(164, 110)
+light_color = Color(0.41642818, 0.8881001, 0.9975999, 1)
+min_energy = 0.0
+
+[node name="BreathingLight2" parent="." unique_id=1460894525 instance=ExtResource("11_t0515")]
+position = Vector2(393, 110)
+light_color = Color(0.38837793, 0.893241, 0.9911253, 1)
+min_energy = 0.0

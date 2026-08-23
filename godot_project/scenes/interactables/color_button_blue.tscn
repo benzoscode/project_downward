@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://psndas05ahqt"]
+
+[ext_resource type="Script" uid="uid://b8jtjbmsr6i2o" path="res://scripts/interactables/color_button.gd" id="1_tok3u"]
+[ext_resource type="Texture2D" uid="uid://dsrbl4p2abpm1" path="res://assets/props/button_blue.png" id="2_47gar"]
+
+[sub_resource type="RectangleShape2D" id="shape_button"]
+size = Vector2(28, 20)
+
+[node name="ColorButton" type="Area2D" unique_id=1444363359]
+collision_mask = 6
+script = ExtResource("1_tok3u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1289161028]
+shape = SubResource("shape_button")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=152235307]
+texture = ExtResource("2_47gar")
+
+[node name="Prompt" type="Label" parent="." unique_id=1141453868]
+visible = false
+offset_left = -8.0
+offset_top = -26.0
+offset_right = 24.0
+offset_bottom = -14.0
+theme_override_font_sizes/font_size = 8
+text = "E"
+horizontal_alignment = 1

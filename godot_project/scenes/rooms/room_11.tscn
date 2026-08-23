@@ -5,9 +5,10 @@
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_fyxi0"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_nwivn"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/alternating_platform.tscn" id="5_m1e0a"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/spikes.tscn" id="6_s45o2"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="7_fyxi0"]
+[ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="6_s45o2"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="7_fyxi0"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="8_nwivn"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="9_nwivn"]
 
 [node name="Room11" type="Node2D" unique_id=1015282822]
 script = ExtResource("1_s45o2")
@@ -30,7 +31,7 @@ tile_map_data = PackedByteArray("AAAeAA0AAQAAAAAAAAAfAA0AAQAAAAAAAAAgAA0AAQAAAAA
 tile_set = ExtResource("3_fyxi0")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=361421183]
-tile_map_data = PackedByteArray("AAAlAAoAAwABAAEAAAAkAAcAAwABAAAAAAAgAAIAAwABAAEAAAAhAAIAAwAEAAEAAAAjAAIAAwAEAAEAAAAkAAIAAwADAAEAAAAeAAAAAwAFAAAAAAAfAAwAAwADAAMAAAAJAAYAAwAAAAAAAAAGAAYAAwADAAAAAAAHAAkAAwABAAEAAAAGAAkAAwADAAEAAAAIAAkAAwAEAAEAAAAIAPz/AwAEAAEAAAAJAPz/AwADAAEAAAANAPz/AwAAAAEAAAARAPr/AwACAAEAAAAUAPr/AwAEAAEAAAAVAPr/AwADAAEAAAAWAPr/AwABAAEAAAAaAPr/AwAGAAAAAAAdAPr/AwAEAAEAAAAeAPr/AwADAAEAAAAhAAwABgABAAAAAAAhAP//BgAAAAAAAAAiAP//BgACAAAAAAAkAPv/AwABAAAAAAAFAAAAAwACAAAAAAA=")
+tile_map_data = PackedByteArray("AAAlAAoAAwABAAEAAAAkAAcAAwABAAAAAAAgAAIAAwABAAEAAAAhAAIAAwAEAAEAAAAjAAIAAwAEAAEAAAAkAAIAAwADAAEAAAAeAAAAAwAFAAAAAAAfAAwAAwADAAMAAAAJAAYAAwAAAAAAAAAGAAYAAwADAAAAAAAHAAkAAwABAAEAAAAGAAkAAwADAAEAAAAIAAkAAwAEAAEAAAAIAPz/AwAEAAEAAAAJAPz/AwADAAEAAAANAPz/AwAAAAEAAAARAPr/AwACAAEAAAAUAPr/AwAEAAEAAAAVAPr/AwADAAEAAAAWAPr/AwABAAEAAAAaAPr/AwAGAAAAAAAdAPr/AwAEAAEAAAAeAPr/AwADAAEAAAAhAAwABgABAAAAAAAhAP//BgAAAAAAAAAiAP//BgACAAAAAAAkAPv/AwABAAAAAAAFAAAAAwACAAAAAAAeAAwABgAAAAAAAAAdAAwABgAAAAAAAAAIAAYABgAAAAAAAAALAPz/AwAGAAAAAAAFAAsAAwAEAAAAAAA=")
 tile_set = ExtResource("3_fyxi0")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=360426810]
@@ -46,11 +47,8 @@ tile_set = ExtResource("3_fyxi0")
 position = Vector2(581, 197)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1602621469]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 63
-limit_top = -113
-limit_right = 610
-limit_bottom = 271
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1760734873]
 process_priority = 300
@@ -185,3 +183,46 @@ position = Vector2(551, -87)
 position = Vector2(608, 184)
 target_scene = "uid://saiicpxgnnu0"
 target_entrance = &"from_room_11"
+
+[node name="BreathingLight" parent="." unique_id=103553810 instance=ExtResource("9_nwivn")]
+position = Vector2(408, 212)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight2" parent="." unique_id=329855706 instance=ExtResource("9_nwivn")]
+position = Vector2(328, 180)
+min_energy = 2.0
+max_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight3" parent="." unique_id=1090206498 instance=ExtResource("9_nwivn")]
+position = Vector2(248, 148)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight4" parent="." unique_id=1440165765 instance=ExtResource("9_nwivn")]
+position = Vector2(233, 53)
+min_energy = 2.0
+max_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight5" parent="." unique_id=2142292476 instance=ExtResource("9_nwivn")]
+position = Vector2(327, 20)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight6" parent="." unique_id=679729851 instance=ExtResource("9_nwivn")]
+position = Vector2(372, -12)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight7" parent="." unique_id=1399107489 instance=ExtResource("9_nwivn")]
+position = Vector2(401, 12)
+min_energy = 2.0
+max_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight8" parent="." unique_id=1914133313 instance=ExtResource("9_nwivn")]
+position = Vector2(448, 4)
+min_energy = 0.0
+period = 2.0

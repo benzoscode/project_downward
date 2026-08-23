@@ -1,17 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://doqg0y58opym8"]
 
-[ext_resource type="Script" path="res://scripts/interactables/pressure_plate.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_plate_small.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://cs883w1dh58va" path="res://scripts/interactables/pressure_plate.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b6htk5eejqii" path="res://assets/props/plate_up.png" id="2_7aunv"]
 
 [sub_resource type="RectangleShape2D" id="shape_plate"]
 size = Vector2(8, 6)
 
-[node name="PressurePlate" type="Area2D"]
+[node name="PressurePlate" type="Area2D" unique_id=228964145]
 collision_mask = 6
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1806096435]
 shape = SubResource("shape_plate")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1793365839]
+position = Vector2(0, -6)
+texture = ExtResource("2_7aunv")

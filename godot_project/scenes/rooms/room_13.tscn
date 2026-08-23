@@ -7,14 +7,18 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="5_dw2u0"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/water.tscn" id="6_rrc62"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="7_gcvc3"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/dual_button_door.tscn" id="8_n8y33"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="9_sky0n"]
+[ext_resource type="PackedScene" uid="uid://colhss1sdys1r" path="res://scenes/interactables/dual_button_door.tscn" id="8_n8y33"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="9_sky0n"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="10_7e2n2"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/grass_cover.tscn" id="11_7e2n2"]
+[ext_resource type="PackedScene" uid="uid://b04x1h5us83t3" path="res://scenes/interactables/grass_cover.tscn" id="11_7e2n2"]
+[ext_resource type="PackedScene" uid="uid://wksqrjj8xvvg" path="res://scenes/interactables/lever_platform.tscn" id="12_gidgh"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="13_okkjg"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="14_hqxu0"]
 
 [node name="Room13" type="Node2D" unique_id=274707351]
 script = ExtResource("1_w4lda")
 editor_brightness = Color(0.91228896, 0.9122889, 0.91228884, 1)
+game_darkness = Color(0.12443667, 0.13786155, 0.19031993, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1803999149]
 color = Color(0.91228896, 0.9122889, 0.91228884, 1)
@@ -32,7 +36,7 @@ tile_map_data = PackedByteArray("AAAAABAAAQAHAAEAAAABABAAAQADAAAAAAACABAAAQADAAA
 tile_set = ExtResource("3_rrc62")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1154279242]
-tile_map_data = PackedByteArray("AAAPAA8AAwAAAAEAAAAQAA8AAwAEAAEAAAATABAAAwAEAAEAAAAVABAAAwADAAEAAAAUABAAAwACAAEAAAAUAA4AAwADAAAAAAAhABAAAwAGAAAAAAAgABAAAwAEAAEAAAAfABAAAwADAAEAAAAkAA8AAwABAAEAAAAlAA8AAwACAAEAAAABAAoAAwACAAAAAAABAAkAAwABAAEAAAAEAAkAAwAAAAEAAAACAAkAAwAEAAEAAAADAAkAAwAEAAEAAAAFAAkAAwAEAAEAAAAIAAcAAwAEAAEAAAARAAcAAwAEAAEAAAAWAAcAAwAEAAEAAAAbAAcAAwAEAAEAAAAeAAcAAwAEAAEAAAAlAAcAAwADAAEAAAAmAAcAAwADAAEAAAArAAcAAwADAAEAAAAtAAcAAwADAAEAAAANAAcAAwACAAEAAAAiAAcAAwAGAAAAAAAJAAcAAwAAAAEAAAASAAcAAwAAAAEAAAAXAAcAAwAAAAEAAAAcAAcAAwAAAAEAAAAsAAcAAwAAAAEAAAAUAAcAAwABAAEAAAAaAAcAAwABAAEAAAAMAAcAAwABAAEAAAAKAAcAAwABAAEAAAAkAAcAAwABAAEAAAApAAcAAwABAAEAAAAxAAgAAwABAAEAAAAwAAcAAwAFAAAAAAAzAAgAAwAAAAEAAAAyAA0AAwABAAAAAAAyAA4AAwAFAAAAAAAxAAwAAwACAAEAAAAvABIAAwACAAAAAAACABEAAwABAAEAAAADABEAAwAAAAEAAAAEABEAAwADAAEAAAAFABEAAwAEAAEAAAABABMAAwACAAAAAAAHABQAAwAAAAAAAAACAA4ABgAAAAAAAAADAA4ABgACAAAAAAAqAAsABgACAAAAAAAwAAoABgACAAAAAAAtAA0ABgABAAAAAAApAAsABgAAAAAAAAAxAAoABgAAAAAAAAAFABQABgAAAAAAAAAIABQAAwACAAMAAAAuAAoAAwADAAMAAAA3AAgAAwADAAEAAAA2AAgAAwABAAEAAAA4AAwAAwABAAAAAAA=")
+tile_map_data = PackedByteArray("AAAPAA8AAwAAAAEAAAAQAA8AAwAEAAEAAAATABAAAwAEAAEAAAAVABAAAwADAAEAAAAUABAAAwACAAEAAAAUAA4AAwADAAAAAAAhABAAAwAGAAAAAAAgABAAAwAEAAEAAAAfABAAAwADAAEAAAAkAA8AAwABAAEAAAAlAA8AAwACAAEAAAABAAoAAwACAAAAAAABAAkAAwABAAEAAAAEAAkAAwAAAAEAAAACAAkAAwAEAAEAAAADAAkAAwAEAAEAAAAFAAkAAwAEAAEAAAAIAAcAAwAEAAEAAAARAAcAAwAEAAEAAAAWAAcAAwAEAAEAAAAbAAcAAwAEAAEAAAAeAAcAAwAEAAEAAAAlAAcAAwADAAEAAAAmAAcAAwADAAEAAAArAAcAAwADAAEAAAAtAAcAAwADAAEAAAANAAcAAwACAAEAAAAiAAcAAwAGAAAAAAAJAAcAAwAAAAEAAAASAAcAAwAAAAEAAAAXAAcAAwAAAAEAAAAcAAcAAwAAAAEAAAAsAAcAAwAAAAEAAAAUAAcAAwABAAEAAAAaAAcAAwABAAEAAAAMAAcAAwABAAEAAAAKAAcAAwABAAEAAAAkAAcAAwABAAEAAAApAAcAAwABAAEAAAAxAAgAAwABAAEAAAAwAAcAAwAFAAAAAAAzAAgAAwAAAAEAAAAyAA0AAwABAAAAAAAyAA4AAwAFAAAAAAAxAAwAAwACAAEAAAAvABIAAwACAAAAAAACABEAAwABAAEAAAADABEAAwAAAAEAAAAEABEAAwADAAEAAAAFABEAAwAEAAEAAAABABMAAwACAAAAAAAHABQAAwAAAAAAAAACAA4ABgAAAAAAAAADAA4ABgACAAAAAAAqAAsABgACAAAAAAAwAAoABgACAAAAAAAtAA0ABgABAAAAAAApAAsABgAAAAAAAAAxAAoABgAAAAAAAAAFABQABgAAAAAAAAAIABQAAwACAAMAAAAuAAoAAwADAAMAAAA3AAgAAwADAAEAAAA2AAgAAwABAAEAAAA4AAwAAwABAAAAAAAPAAcAAwAGAAAAAAA=")
 tile_set = ExtResource("3_rrc62")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=938599255]
@@ -51,11 +55,8 @@ position = Vector2(17, 229)
 position = Vector2(17, 229)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=17172444]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 96
-limit_right = 928
-limit_bottom = 368
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1169372857]
 process_priority = 300
@@ -122,13 +123,35 @@ position = Vector2(56, 325)
 [node name="Entrance_from_room_142" type="Marker2D" parent="." unique_id=1878253970]
 position = Vector2(774, 309)
 
-[node name="GrassCover" parent="." unique_id=1570260339 instance=ExtResource("11_7e2n2")]
-position = Vector2(713, 184)
-
-[node name="GrassCover2" parent="." unique_id=2071952613 instance=ExtResource("11_7e2n2")]
-position = Vector2(729, 184)
-
 [node name="RoomExit" parent="." unique_id=844578261 instance=ExtResource("10_7e2n2")]
 position = Vector2(-1, 217)
 target_scene = "uid://cdvxwwk2o05m3"
 target_entrance = &"from_room_13"
+
+[node name="LeverPlatform" parent="." unique_id=1474810672 instance=ExtResource("12_gidgh")]
+position = Vector2(169, 233)
+platform_offset = Vector2(252, 100)
+move_offset = Vector2(0, -132)
+move_speed = 20.0
+
+[node name="BreathingLight" parent="." unique_id=188678626 instance=ExtResource("13_okkjg")]
+position = Vector2(169, 233)
+min_energy = 0.0
+
+[node name="BreathingLight2" parent="." unique_id=116671896 instance=ExtResource("13_okkjg")]
+position = Vector2(65, 328)
+min_energy = 0.0
+
+[node name="BreathingLight3" parent="." unique_id=864560716 instance=ExtResource("13_okkjg")]
+position = Vector2(648, 184)
+min_energy = 0.0
+
+[node name="AmbientLight" parent="." unique_id=445131821 instance=ExtResource("14_hqxu0")]
+position = Vector2(816, 136)
+radius_tiles = 1.0
+
+[node name="GrassCover" parent="." unique_id=1543514715 instance=ExtResource("11_7e2n2")]
+position = Vector2(712, 184)
+
+[node name="GrassCover2" parent="." unique_id=820095086 instance=ExtResource("11_7e2n2")]
+position = Vector2(728, 184)

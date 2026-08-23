@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://colhss1sdys1r"]
 
-[ext_resource type="Script" path="res://scripts/interactables/dual_button_door.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/props/door_stone_idle_3.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://kvbm5w8me846" path="res://scripts/interactables/dual_button_door.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b5v3tqqnubymr" path="res://assets/props/door_stone_wrong_2.png" id="2_nfty0"]
 
 [sub_resource type="RectangleShape2D" id="shape_door"]
 size = Vector2(16, 48)
 
-[node name="DualButtonDoor" type="AnimatableBody2D"]
+[node name="DualButtonDoor" type="AnimatableBody2D" unique_id=2140550333]
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=847889610]
 shape = SubResource("shape_door")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1980288028]
+texture = ExtResource("2_nfty0")

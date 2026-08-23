@@ -6,14 +6,16 @@
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_2owu3"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="5_mpjxv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="6_jwebg"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/stone_door.tscn" id="7_10nlv"]
+[ext_resource type="PackedScene" uid="uid://3dk1qh8gfiwi" path="res://scenes/interactables/stone_door.tscn" id="7_10nlv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/light_crystal.tscn" id="8_10nlv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="9_2owu3"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="10_mpjxv"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="11_t1qwn"]
 
 [node name="Room01" type="Node2D" unique_id=373696794]
 script = ExtResource("1_yt80c")
 editor_brightness = Color(1, 1, 1, 1)
-game_darkness = Color(0.074763484, 0.07476277, 0.0824618, 1)
+game_darkness = Color(0.0469566, 0.046956524, 0.053145386, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=375365177]
 
@@ -28,7 +30,7 @@ tile_map_data = PackedByteArray("AAAiAA0AAQAAAAAAAAAjAA0AAQAAAAAAAAAkAA0AAQAAAAA
 tile_set = ExtResource("3_10nlv")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1528520741]
-tile_map_data = PackedByteArray("AAAWAAYAAwABAAAAAAATAAkAAwACAAEAAAAZAAkAAwADAAAAAAAcAA0AAwAGAAAAAAAeAA0AAwAAAAEAAAAYAAcAAwABAAEAAAAcAAUAAwAGAAAAAAAdAAUAAwABAAEAAAAeAAUAAwAAAAEAAAAeAAsAAwACAAMAAAASAAcAAwADAAMAAAAUAA8ABgACAAAAAAAVAA8ABgAAAAAAAAAYAA8ABgABAAAAAAAOAA0ABgAAAAAAAAAPAA0ABgACAAAAAAAIAAkAAwABAAEAAAAFAAkAAwAAAAEAAAAIAA0AAwACAAMAAAADAAoAAwAEAAAAAAADAAsAAwACAAAAAAAfAA4ABgACAAAAAAAeAA4ABgAAAAAAAAAjAAwABgAAAAAAAAAkAAwABgACAAAAAAARAAEAAwAGAAAAAAAMAAQAAwAEAAAAAAAmAAMAAwAFAAAAAAAjAAEAAwACAAEAAAAmAAcAAwABAAAAAAAaAAEAAwAAAAEAAAA=")
+tile_map_data = PackedByteArray("AAAWAAYAAwABAAAAAAATAAkAAwACAAEAAAAZAAkAAwADAAAAAAAcAA0AAwAGAAAAAAAeAA0AAwAAAAEAAAAYAAcAAwABAAEAAAAcAAUAAwAGAAAAAAAdAAUAAwABAAEAAAAeAAUAAwAAAAEAAAAeAAsAAwACAAMAAAASAAcAAwADAAMAAAAUAA8ABgACAAAAAAAVAA8ABgAAAAAAAAAYAA8ABgABAAAAAAAOAA0ABgAAAAAAAAAPAA0ABgACAAAAAAAIAAkAAwABAAEAAAAFAAkAAwAAAAEAAAAIAA0AAwACAAMAAAADAAoAAwAEAAAAAAADAAsAAwACAAAAAAAfAA4ABgACAAAAAAAeAA4ABgAAAAAAAAAjAAwABgAAAAAAAAAkAAwABgACAAAAAAARAAEAAwAGAAAAAAAMAAQAAwAEAAAAAAAmAAMAAwAFAAAAAAAjAAEAAwACAAEAAAAmAAcAAwABAAAAAAAaAAEAAwAAAAEAAAAHAAkAAwADAAEAAAATAAEAAwADAAEAAAAUAAEAAwADAAEAAAAXAAEAAwADAAEAAAAOAAEAAwADAAEAAAAdAAEAAwAEAAEAAAAeAAEAAwAEAAEAAAAlAAEAAwAEAAEAAAAhAAEAAwAEAAEAAAAXAAsAAwAEAAEAAAAZAAcAAwAEAAEAAAASAAkAAwAEAAEAAAAUAAkAAwADAAEAAAAZAAsAAwADAAEAAAAYAAsAAwADAAEAAAAdAA0AAwADAAEAAAA=")
 tile_set = ExtResource("3_10nlv")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=107656751]
@@ -41,15 +43,11 @@ tile_set = ExtResource("3_10nlv")
 [node name="Lights" type="Node2D" parent="." unique_id=677228460]
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=2009795245]
-position = Vector2(369, 232)
+position = Vector2(369, 244)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1971755176]
 top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 640
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1534093582]
 process_priority = 300
@@ -57,7 +55,7 @@ process_physics_priority = 300
 script = ExtResource("4_2owu3")
 
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=187821451]
-position = Vector2(369, 232)
+position = Vector2(369, 244)
 
 [node name="Exit_to_room_02" parent="." unique_id=932976385 instance=ExtResource("5_mpjxv")]
 position = Vector2(639, 183)
@@ -68,7 +66,7 @@ position = Vector2(472, 56)
 target_id = &"room_1_door1"
 
 [node name="StoneDoor" parent="." unique_id=1776176717 instance=ExtResource("7_10nlv")]
-position = Vector2(176, 201)
+position = Vector2(184, 200)
 listen_id = &"room_1_door1"
 
 [node name="LightCrystal" parent="." unique_id=829589508 instance=ExtResource("8_10nlv")]
@@ -84,3 +82,54 @@ listen_id = &"room_1_door2"
 
 [node name="Entrance_from_room_2" type="Marker2D" parent="." unique_id=1702661152]
 position = Vector2(590, 197)
+
+[node name="AmbientLight" parent="." unique_id=27470844 instance=ExtResource("10_mpjxv")]
+position = Vector2(184, 182)
+radius_tiles = 1.0
+
+[node name="BreathingLight" parent="." unique_id=745700482 instance=ExtResource("11_t1qwn")]
+position = Vector2(472, 56)
+light_color = Color(0.100701444, 0.93127304, 0.8891199, 1)
+min_energy = 0.0
+
+[node name="BreathingLight2" parent="." unique_id=1457274014 instance=ExtResource("11_t1qwn")]
+position = Vector2(280, 26)
+light_color = Color(0.09340679, 0.95352286, 0.70199054, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight3" parent="." unique_id=473644099 instance=ExtResource("11_t1qwn")]
+position = Vector2(619, 120)
+light_color = Color(0.11180013, 0.9504314, 0.72013956, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight4" parent="." unique_id=1462381450 instance=ExtResource("11_t1qwn")]
+position = Vector2(52, 183)
+light_color = Color(0.15185586, 0.95928663, 0.60125566, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight5" parent="." unique_id=1042335525 instance=ExtResource("11_t1qwn")]
+position = Vector2(456, 218)
+light_color = Color(0.12714502, 0.958764, 0.6205155, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight6" parent="." unique_id=444228418 instance=ExtResource("11_t1qwn")]
+position = Vector2(406, 158)
+light_color = Color(0.021615328, 0.93134505, 0.9008327, 1)
+min_energy = 0.0
+max_energy = 0.5
+period = 2.0
+
+[node name="BreathingLight7" parent="." unique_id=233821582 instance=ExtResource("11_t1qwn")]
+position = Vector2(308, 154)
+light_color = Color(0.09521607, 0.947658, 0.75246906, 1)
+min_energy = 0.0
+max_energy = 1.0
+period = 2.0
