@@ -155,10 +155,10 @@ func _run_tests() -> void:
 	var seq: Array[StringName] = [&"red", &"green"]
 	ctrl.set("expected", seq)
 	ctrl.set("target_id", &"seq_done")
-	var btn_red := _spawn("res://scenes/interactables/color_button.tscn", SPAWN + Vector2(16, 0))
+	var btn_red := _spawn("res://scenes/interactables/color_button_red.tscn", SPAWN + Vector2(16, 0))
 	btn_red.set("color_id", &"red")
 	btn_red.set("sequence_id", &"seq1")
-	var btn_green := _spawn("res://scenes/interactables/color_button.tscn", SPAWN + Vector2(16, 0))
+	var btn_green := _spawn("res://scenes/interactables/color_button_red.tscn", SPAWN + Vector2(16, 0))
 	btn_green.set("color_id", &"green")
 	btn_green.set("sequence_id", &"seq1")
 	await _physics_frames(5)
