@@ -461,7 +461,7 @@ script = ExtResource("7_lamp")
 [node name="PointLight2D" type="PointLight2D" parent="Lamp" unique_id=624568834]
 color = Color(1, 0.68, 0.32, 1)
 energy = 2.6
-shadow_enabled = true
+shadow_enabled = false
 texture = ExtResource("8_cone")
 
 [node name="PhantomCamera2D" type="Node2D" parent="." unique_id=1429798706 node_paths=PackedStringArray("follow_target")]
