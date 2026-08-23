@@ -3,14 +3,16 @@
 [ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_e8wg7"]
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_pgnq3"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_mci11"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="4_xtd7u"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/key_door.tscn" id="6_cuuij"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_xtd7u"]
+[ext_resource type="PackedScene" uid="uid://bwfp0eq8pn3on" path="res://scenes/interactables/key_door.tscn" id="6_cuuij"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="6_xtd7u"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_5rxdy"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/water.tscn" id="9_e8wg7"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_jygcb"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/dual_button_door.tscn" id="9_pgnq3"]
+[ext_resource type="PackedScene" uid="uid://colhss1sdys1r" path="res://scenes/interactables/dual_button_door.tscn" id="9_pgnq3"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="10_mci11"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/alternating_platform.tscn" id="11_xtd7u"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="13_vupmi"]
 
 [node name="Room03" type="Node2D" unique_id=852059303]
 script = ExtResource("1_e8wg7")
@@ -33,7 +35,7 @@ tile_map_data = PackedByteArray("AAAAAA0AAQAAAAAAAAABAA0AAQAAAAAAAAACAA0AAQAAAAA
 tile_set = ExtResource("3_mci11")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1092454160]
-tile_map_data = PackedByteArray("AAANAAoAAwADAAAAAAASAAgAAwACAAMAAAAWAAwAAwAAAAEAAAAaAAwAAwACAAEAAAAPAAQAAwAAAAEAAAARAAMAAwAEAAAAAAAQAAQAAwACAAEAAAAFAAoABgAAAAAAAAAGAAoABgACAAAAAAACAAwABgACAAAAAAADAAwABgACAAAAAAAYAAoAAwAAAAAAAAAfAAMAAwAAAAAAAAAdAAMABgAAAAAAAAAeAAMABgACAAAAAAAhAAAAAwAFAAAAAAABAAQAAwACAAAAAAABAAIAAwAEAAAAAAATAAUAAwABAAEAAAAUAAUAAwAGAAAAAAAYAAUAAwADAAAAAAAXAAcAAwADAAEAAAAYAAcAAwAEAAEAAAAbAAgAAwABAAAAAAADAP//AwAGAAAAAAAPAP//AwAAAAEAAAAQAP//AwABAAEAAAAYAP//AwACAAEAAAA=")
+tile_map_data = PackedByteArray("AAANAAoAAwADAAAAAAASAAgAAwACAAMAAAAWAAwAAwAAAAEAAAAaAAwAAwACAAEAAAAPAAQAAwAAAAEAAAARAAMAAwAEAAAAAAAQAAQAAwACAAEAAAAFAAoABgAAAAAAAAAGAAoABgACAAAAAAACAAwABgACAAAAAAADAAwABgACAAAAAAAYAAoAAwAAAAAAAAAfAAMAAwAAAAAAAAAdAAMABgAAAAAAAAAeAAMABgACAAAAAAAhAAAAAwAFAAAAAAABAAQAAwACAAAAAAABAAIAAwAEAAAAAAATAAUAAwABAAEAAAAUAAUAAwAGAAAAAAAYAAUAAwADAAAAAAAXAAcAAwADAAEAAAAYAAcAAwAEAAEAAAAbAAgAAwABAAAAAAADAP//AwAGAAAAAAAPAP//AwAAAAEAAAAQAP//AwABAAEAAAAYAP//AwACAAEAAAAVAP//AwADAAEAAAAUAP//AwADAAEAAAAcAP//AwADAAEAAAAeAP//AwADAAEAAAAdAP//AwAEAAEAAAAEAP//AwAEAAEAAAAFAP//AwAEAAEAAAAMAAQAAwAEAAEAAAAOAAQAAwAEAAEAAAARAAoAAwADAAEAAAATAAoAAwAEAAEAAAASAAoAAwADAAEAAAALAAwAAwADAAEAAAANAAwAAwADAAEAAAAMAAwAAwAEAAEAAAAOAAwAAwAEAAEAAAAXAAwAAwAEAAEAAAAZAAwAAwAEAAEAAAAVAAUAAwAEAAEAAAA=")
 tile_set = ExtResource("3_mci11")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=1621865684]
@@ -51,6 +53,16 @@ height = 130
 [node name="KeyDoor" parent="Mechanisms" unique_id=1036990743 instance=ExtResource("6_cuuij")]
 position = Vector2(560, 40)
 
+[node name="BreathingLight" parent="Mechanisms" unique_id=2063777872 instance=ExtResource("6_xtd7u")]
+position = Vector2(371, 168)
+light_color = Color(0.38368174, 0.89274186, 0.9980914, 1)
+min_energy = 0.0
+
+[node name="BreathingLight2" parent="Mechanisms" unique_id=325358895 instance=ExtResource("6_xtd7u")]
+position = Vector2(150, 35)
+light_color = Color(0.41681027, 0.8877991, 0.99905854, 1)
+min_energy = 0.0
+
 [node name="Characters" type="Node2D" parent="." unique_id=1147407515]
 
 [node name="Lights" type="Node2D" parent="." unique_id=434454370]
@@ -60,11 +72,8 @@ scale = Vector2(1, 1.1599998)
 position = Vector2(24, 197)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1784868094]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = -32
-limit_right = 576
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=618356008]
 process_priority = 300
@@ -78,7 +87,7 @@ position = Vector2(24, 197)
 position = Vector2(136, 3)
 
 [node name="Exit_to_room_04" parent="." unique_id=1014875094 instance=ExtResource("9_jygcb")]
-position = Vector2(167.99998, 281)
+position = Vector2(168, 261)
 rotation = -1.5747578
 target_scene = "res://scenes/rooms/room_04.tscn"
 
@@ -96,18 +105,13 @@ target_scene = "res://scenes/rooms/room_boss.tscn"
 position = Vector2(144, 204)
 size = Vector2i(304, 36)
 
-[node name="DualButtonDoor" parent="." unique_id=1144993014 instance=ExtResource("9_pgnq3")]
-position = Vector2(168.00002, 256.00003)
-rotation = 1.5801584
-listen_ids = Array[StringName]([&"room_2_door1", &"room_2_door2"])
-
 [node name="LionButton" parent="." unique_id=1641131189 instance=ExtResource("10_mci11")]
 position = Vector2(371, 168)
-target_id = &"room_2_door1"
+target_id = &"room_3_door1"
 
 [node name="LionButton2" parent="." unique_id=1215189716 instance=ExtResource("10_mci11")]
 position = Vector2(150, 35)
-target_id = &"room_2_door2"
+target_id = &"room_3_door2"
 
 [node name="AlternatingPlatform" parent="." unique_id=809770805 instance=ExtResource("11_xtd7u")]
 position = Vector2(144, 51)
@@ -121,3 +125,16 @@ target_entrance = &"from_room_3"
 
 [node name="Entrance_from_room_boss" type="Marker2D" parent="." unique_id=961469636]
 position = Vector2(528, 53)
+
+[node name="AmbientLight" parent="." unique_id=284110619 instance=ExtResource("13_vupmi")]
+position = Vector2(184, 248)
+radius_tiles = 1.0
+
+[node name="DualButtonDoor" parent="." unique_id=2140550333 instance=ExtResource("9_pgnq3")]
+position = Vector2(168, 248)
+rotation = 1.5707964
+listen_ids = Array[StringName]([&"room_3_door1", &"room_3_door2"])
+
+[node name="AmbientLight2" parent="." unique_id=1627021120 instance=ExtResource("13_vupmi")]
+position = Vector2(560, 22)
+radius_tiles = 1.0

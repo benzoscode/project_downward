@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://b04x1h5us83t3"]
 
-[ext_resource type="Script" path="res://scripts/interactables/grass_cover.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_grass.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://bveefhcdmq3dm" path="res://scripts/interactables/grass_cover.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bqiyilvu4hnmv" path="res://assets/props/ladder_vine.png" id="2_4ewkd"]
 
 [sub_resource type="RectangleShape2D" id="shape_grass"]
 size = Vector2(16, 16)
 
-[node name="GrassCover" type="Area2D"]
+[node name="GrassCover" type="Area2D" unique_id=1126757537]
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=225088801]
 shape = SubResource("shape_grass")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=160899999]
+texture = ExtResource("2_4ewkd")

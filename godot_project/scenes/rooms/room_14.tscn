@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_t3hg5"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_u7ejs"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_bidwo"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="5_t3hg5"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="5_t3hg5"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="6_u7ejs"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/chest.tscn" id="7_bidwo"]
+[ext_resource type="PackedScene" uid="uid://cevxrw076gwyg" path="res://scenes/interactables/violet.tscn" id="7_bidwo"]
 
 [node name="Room14" type="Node2D" unique_id=922036725]
 script = ExtResource("1_w0jk3")
@@ -26,7 +26,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAFAAAAAAAAAAEAAQAFAAAAAAAAAAIAAQAFAAA
 tile_set = ExtResource("3_u7ejs")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1505851144]
-tile_map_data = PackedByteArray("AAABAAEAAwACAAAAAAAzAAEAAwAFAAAAAAAtAAEAAwACAAEAAAATAAEAAwAGAAAAAAAHAAEAAwAAAAEAAAAXAAEAAwAAAAEAAAAiAAEAAwAAAAEAAAAdAAEAAwABAAEAAAApAAEAAwABAAEAAAAMAAEAAwABAAEAAAAIAAEAAwADAAEAAAAJAAEAAwADAAEAAAAPAAEAAwADAAEAAAAYAAEAAwADAAEAAAAeAAEAAwADAAEAAAAjAAEAAwADAAEAAAAqAAEAAwADAAEAAAAKAAEAAwAEAAEAAAAOAAEAAwAEAAEAAAAWAAEAAwAEAAEAAAAcAAEAAwAEAAEAAAAkAAEAAwAEAAEAAAAoAAEAAwAEAAEAAAAFAAIAAwAAAAAAAAAQAAIAAwADAAAAAAASAAIAAwACAAMAAAAbAAIAAwADAAMAAAAKAAIABgABAAAAAAAMAAIABgACAAAAAAAVAAIABgACAAAAAAAiAAIABgACAAAAAAAnAAIABgACAAAAAAAsAAIABgACAAAAAAAtAAIABgAAAAAAAAAwAAIABgAAAAAAAAAlAAIABgAAAAAAAAAeAAIABgAAAAAAAAALAAIABgAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAABAAEAAwACAAAAAAAzAAEAAwAFAAAAAAAtAAEAAwACAAEAAAATAAEAAwAGAAAAAAAHAAEAAwAAAAEAAAAXAAEAAwAAAAEAAAAiAAEAAwAAAAEAAAAdAAEAAwABAAEAAAApAAEAAwABAAEAAAAMAAEAAwABAAEAAAAIAAEAAwADAAEAAAAJAAEAAwADAAEAAAAPAAEAAwADAAEAAAAYAAEAAwADAAEAAAAeAAEAAwADAAEAAAAjAAEAAwADAAEAAAAqAAEAAwADAAEAAAAKAAEAAwAEAAEAAAAOAAEAAwAEAAEAAAAWAAEAAwAEAAEAAAAcAAEAAwAEAAEAAAAkAAEAAwAEAAEAAAAoAAEAAwAEAAEAAAAFAAIAAwAAAAAAAAAQAAIAAwADAAAAAAASAAIAAwACAAMAAAAbAAIAAwADAAMAAAAKAAIABgABAAAAAAAMAAIABgACAAAAAAAVAAIABgACAAAAAAAiAAIABgACAAAAAAAnAAIABgACAAAAAAAsAAIABgACAAAAAAAtAAIABgAAAAAAAAAwAAIABgAAAAAAAAAlAAIABgAAAAAAAAAeAAIABgAAAAAAAAALAAIABgAAAAAAAAAgAAEAAwAGAAAAAAA=")
 tile_set = ExtResource("3_u7ejs")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=1128652735]
@@ -39,11 +39,8 @@ tile_set = ExtResource("3_u7ejs")
 [node name="Lights" type="Node2D" parent="." unique_id=466574178]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=361577332]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 832
-limit_bottom = 64
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=2096958735]
 process_priority = 300
@@ -78,12 +75,11 @@ position = Vector2(41, 10)
 [node name="Entrance_from_room_132" type="Marker2D" parent="." unique_id=97009044]
 position = Vector2(809, 8)
 
-[node name="Chest" parent="." unique_id=230267493 instance=ExtResource("7_bidwo")]
-position = Vector2(395, 36)
-item = &"amber"
-
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1047515801 groups=["spawn_point"]]
 position = Vector2(62, 37)
 
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=464617887]
 position = Vector2(62, 37)
+
+[node name="Pickup" parent="." unique_id=839770137 instance=ExtResource("7_bidwo")]
+position = Vector2(402, 40)

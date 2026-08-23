@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ccfkujisuuaiq"]
+
+[ext_resource type="Script" uid="uid://bg0vc7qmc001e" path="res://scripts/interactables/pickup.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://74s4oyd3gq8u" path="res://assets/props/item_gem_amber.png" id="2_c5wad"]
+
+[sub_resource type="RectangleShape2D" id="shape_pickup"]
+size = Vector2(16, 16)
+
+[node name="Pickup" type="Area2D" unique_id=119458703]
+collision_mask = 6
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1827650466]
+shape = SubResource("shape_pickup")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1448778005]
+texture = ExtResource("2_c5wad")

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bv1wgvgo6k3pp"]
+
+[ext_resource type="Script" uid="uid://bg0vc7qmc001e" path="res://scripts/interactables/pickup.gd" id="1_tctiy"]
+[ext_resource type="Texture2D" uid="uid://pyna7uggifyv" path="res://assets/props/item_gem_jade.png" id="2_llrw7"]
+
+[sub_resource type="RectangleShape2D" id="shape_pickup"]
+size = Vector2(16, 16)
+
+[node name="Pickup" type="Area2D" unique_id=979133473]
+collision_mask = 6
+script = ExtResource("1_tctiy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=361154583]
+shape = SubResource("shape_pickup")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=305639182]
+texture = ExtResource("2_llrw7")

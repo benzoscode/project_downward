@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3 uid="uid://bg5o8rm5hrui7"]
 
-[ext_resource type="Script" path="res://scripts/interactables/lever_drawbridge.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_lever.png" id="2_lever"]
-[ext_resource type="Texture2D" path="res://assets/props/drawbridge.png" id="3_bridge"]
-[ext_resource type="Texture2D" path="res://assets/props/rope_left.png" id="4_rope_l"]
-[ext_resource type="Texture2D" path="res://assets/props/rope_right.png" id="5_rope_r"]
+[ext_resource type="Script" uid="uid://bsfy43mr20s0h" path="res://scripts/interactables/lever_drawbridge.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cdbvul36frj8n" path="res://assets/props/button_base.png" id="2_v5clr"]
+[ext_resource type="Texture2D" uid="uid://dldfmsrjlawsl" path="res://assets/props/drawbridge.png" id="3_bridge"]
+[ext_resource type="Texture2D" uid="uid://crbn7e0u1p3h3" path="res://assets/props/rope_left.png" id="4_rope_l"]
+[ext_resource type="Texture2D" uid="uid://imcnetd34e8" path="res://assets/props/rope_right.png" id="5_rope_r"]
 
 [sub_resource type="RectangleShape2D" id="shape_lever"]
 size = Vector2(24, 24)
@@ -12,45 +12,50 @@ size = Vector2(24, 24)
 [sub_resource type="RectangleShape2D" id="shape_bridge"]
 size = Vector2(32, 8)
 
-[node name="LeverDrawbridge" type="Node2D"]
+[node name="LeverDrawbridge" type="Node2D" unique_id=253417569]
 script = ExtResource("1_script")
 
-[node name="LeverArea" type="Area2D" parent="."]
+[node name="LeverArea" type="Area2D" parent="." unique_id=1907891835]
 collision_mask = 6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeverArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeverArea" unique_id=811822798]
 shape = SubResource("shape_lever")
 
-[node name="Sprite2D" type="Sprite2D" parent="LeverArea"]
-texture = ExtResource("2_lever")
+[node name="Sprite2D" type="Sprite2D" parent="LeverArea" unique_id=259066877]
+position = Vector2(0, -1)
+texture = ExtResource("2_v5clr")
 
-[node name="RopeLeft" type="TextureRect" parent="."]
+[node name="RopeLeft" type="TextureRect" parent="." unique_id=812464063]
 z_index = -2
+texture_filter = 1
+texture_repeat = 1
 custom_minimum_size = Vector2(16, 1)
-offset_right = 16.0
-offset_bottom = 1.0
+offset_left = 24.0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 17.0
 texture = ExtResource("4_rope_l")
-texture_filter = 1
-texture_repeat = 1
 stretch_mode = 1
 
-[node name="RopeRight" type="TextureRect" parent="."]
+[node name="RopeRight" type="TextureRect" parent="." unique_id=1021447652]
 z_index = -2
-custom_minimum_size = Vector2(16, 1)
-offset_right = 16.0
-offset_bottom = 1.0
-texture = ExtResource("5_rope_r")
 texture_filter = 1
 texture_repeat = 1
+custom_minimum_size = Vector2(16, 1)
+offset_left = 25.0
+offset_top = 1.0
+offset_right = 41.0
+offset_bottom = 17.0
+texture = ExtResource("5_rope_r")
 stretch_mode = 1
 
-[node name="Bridge" type="AnimatableBody2D" parent="."]
+[node name="Bridge" type="AnimatableBody2D" parent="." unique_id=2084148526]
 position = Vector2(96, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bridge"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bridge" unique_id=565569353]
 shape = SubResource("shape_bridge")
 
-[node name="Sprite2D" type="Sprite2D" parent="Bridge"]
-centered = false
+[node name="Sprite2D" type="Sprite2D" parent="Bridge" unique_id=42331359]
 position = Vector2(-16, -8)
 texture = ExtResource("3_bridge")
+centered = false
