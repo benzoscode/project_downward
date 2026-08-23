@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://psndas05ahqt" path="res://scenes/interactables/color_button_blue.tscn" id="13_n3q2y"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="14_n3q2y"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="15_1c8eq"]
+[ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="16_6w70y"]
 
 [node name="Room02" type="Node2D" unique_id=1657679517]
 script = ExtResource("1_vcnne")
@@ -53,10 +54,6 @@ position = Vector2(23, 148)
 [node name="Camera2D" type="Camera2D" parent="." unique_id=580889952]
 top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 0
-limit_right = 768
-limit_bottom = 288
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=692995456]
 process_priority = 300
@@ -205,3 +202,90 @@ light_color = Color(0.093663566, 0.95404106, 0.6879256, 1)
 min_energy = 0.0
 max_energy = 1.5
 period = 2.0
+
+[node name="Spikes" parent="." unique_id=53339150 instance=ExtResource("16_6w70y")]
+position = Vector2(199, 264)
+
+[node name="Spikes2" parent="." unique_id=1765198487 instance=ExtResource("16_6w70y")]
+position = Vector2(213, 264)
+
+[node name="Spikes3" parent="." unique_id=1174541970 instance=ExtResource("16_6w70y")]
+position = Vector2(227, 264)
+
+[node name="Spikes4" parent="." unique_id=868828821 instance=ExtResource("16_6w70y")]
+position = Vector2(241, 264)
+
+[node name="Spikes5" parent="." unique_id=2114604831 instance=ExtResource("16_6w70y")]
+position = Vector2(255, 264)
+
+[node name="Spikes6" parent="." unique_id=1740151208 instance=ExtResource("16_6w70y")]
+position = Vector2(269, 264)
+
+[node name="Spikes7" parent="." unique_id=1389728594 instance=ExtResource("16_6w70y")]
+position = Vector2(283, 264)
+
+[node name="Spikes8" parent="." unique_id=947172454 instance=ExtResource("16_6w70y")]
+position = Vector2(297, 264)
+
+[node name="Spikes9" parent="." unique_id=527170525 instance=ExtResource("16_6w70y")]
+position = Vector2(311, 264)
+
+[node name="Spikes10" parent="." unique_id=1859214271 instance=ExtResource("16_6w70y")]
+position = Vector2(325, 264)
+
+[node name="Spikes11" parent="." unique_id=1083468957 instance=ExtResource("16_6w70y")]
+position = Vector2(339, 264)
+
+[node name="Spikes12" parent="." unique_id=1300784468 instance=ExtResource("16_6w70y")]
+position = Vector2(353, 264)
+
+[node name="Spikes13" parent="." unique_id=1109748932 instance=ExtResource("16_6w70y")]
+position = Vector2(367, 264)
+
+[node name="Spikes14" parent="." unique_id=1143126431 instance=ExtResource("16_6w70y")]
+position = Vector2(381, 264)
+
+[node name="Spikes15" parent="." unique_id=1425293625 instance=ExtResource("16_6w70y")]
+position = Vector2(395, 264)
+
+[node name="Spikes16" parent="." unique_id=1346307729 instance=ExtResource("16_6w70y")]
+position = Vector2(409, 264)
+
+[node name="Spikes17" parent="." unique_id=1891117275 instance=ExtResource("16_6w70y")]
+position = Vector2(423, 264)
+
+[node name="Spikes18" parent="." unique_id=1445303605 instance=ExtResource("16_6w70y")]
+position = Vector2(437, 264)
+
+[node name="Spikes19" parent="." unique_id=2048808782 instance=ExtResource("16_6w70y")]
+position = Vector2(451, 264)
+
+[node name="Spikes20" parent="." unique_id=1410410577 instance=ExtResource("16_6w70y")]
+position = Vector2(465, 264)
+
+[node name="Spikes21" parent="." unique_id=29845268 instance=ExtResource("16_6w70y")]
+position = Vector2(479, 264)
+
+[node name="Spikes22" parent="." unique_id=76084476 instance=ExtResource("16_6w70y")]
+position = Vector2(493, 264)
+
+[node name="Spikes23" parent="." unique_id=1500737791 instance=ExtResource("16_6w70y")]
+position = Vector2(507, 264)
+
+[node name="Spikes24" parent="." unique_id=592842439 instance=ExtResource("16_6w70y")]
+position = Vector2(521, 264)
+
+[node name="Spikes25" parent="." unique_id=1852064683 instance=ExtResource("16_6w70y")]
+position = Vector2(535, 264)
+
+[node name="Spikes26" parent="." unique_id=1423027198 instance=ExtResource("16_6w70y")]
+position = Vector2(549, 264)
+
+[node name="Spikes27" parent="." unique_id=507377840 instance=ExtResource("16_6w70y")]
+position = Vector2(563, 264)
+
+[node name="Spikes28" parent="." unique_id=1199472145 instance=ExtResource("16_6w70y")]
+position = Vector2(577, 264)
+
+[node name="Spikes29" parent="." unique_id=1136253612 instance=ExtResource("16_6w70y")]
+position = Vector2(585, 264)

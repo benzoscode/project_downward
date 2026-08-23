@@ -104,3 +104,41 @@ min_energy = 0.0
 position = Vector2(393, 110)
 light_color = Color(0.38837793, 0.893241, 0.9911253, 1)
 min_energy = 0.0
+
+[node name="BreathingLight3" parent="." unique_id=373747890 instance=ExtResource("11_t0515")]
+position = Vector2(20, 70)
+light_color = Color(0.09364686, 0.9421132, 0.8034276, 1)
+min_energy = 0.0
+
+[node name="BreathingLight4" parent="." unique_id=1122327143 instance=ExtResource("11_t0515")]
+position = Vector2(328, 25)
+light_color = Color(0.20839894, 0.96402436, 0.48723412, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight5" parent="." unique_id=880847923 instance=ExtResource("11_t0515")]
+position = Vector2(264, 217)
+light_color = Color(0.27224827, 0.9550317, 0.55667937, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight6" parent="." unique_id=1624122746 instance=ExtResource("11_t0515")]
+position = Vector2(461, 296)
+light_color = Color(0.22020516, 0.93277156, 0.8323105, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight7" parent="." unique_id=2024762807 instance=ExtResource("11_t0515")]
+position = Vector2(87, 380)
+light_color = Color(0.39810365, 0.89113414, 0.9956085, 1)
+min_energy = 0.0
+max_energy = 1.5
+period = 2.0
+
+[node name="BreathingLight8" parent="." unique_id=1999411589 instance=ExtResource("11_t0515")]
+position = Vector2(68, 280)
+light_color = Color(0.1797795, 0.9357188, 0.8281431, 1)
+min_energy = 0.0
+max_energy = 3.0

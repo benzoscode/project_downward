@@ -4,13 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_rpi6y"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_6veew"]
 [ext_resource type="PackedScene" uid="uid://bv1wgvgo6k3pp" path="res://scenes/interactables/jade.tscn" id="6_ouiua"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="7_nb3w4"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_n2dvj"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_lxqfm"]
 
 [node name="Room08" type="Node2D" unique_id=1868964825]
 script = ExtResource("1_fbcop")
 editor_brightness = Color(0.8891468, 0.8891468, 0.88914675, 1)
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+game_darkness = Color(0.07649364, 0.07649288, 0.092963316, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=549128643]
 color = Color(0.8891468, 0.8891468, 0.88914675, 1)
@@ -67,3 +68,37 @@ position = Vector2(32, 148)
 
 [node name="Pickup" parent="." unique_id=979133473 instance=ExtResource("6_ouiua")]
 position = Vector2(287, 232)
+
+[node name="BreathingLight" parent="." unique_id=801837992 instance=ExtResource("7_nb3w4")]
+position = Vector2(200, 22)
+light_color = Color(0.3661992, 0.8959709, 0.99253994, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight2" parent="." unique_id=1228002232 instance=ExtResource("7_nb3w4")]
+position = Vector2(423, 26)
+light_color = Color(0.15591577, 0.9538931, 0.6646296, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight3" parent="." unique_id=210231852 instance=ExtResource("7_nb3w4")]
+position = Vector2(555, 87)
+light_color = Color(0.08307373, 0.94513434, 0.7790446, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 4.0
+
+[node name="BreathingLight4" parent="." unique_id=1319857558 instance=ExtResource("7_nb3w4")]
+position = Vector2(248, 236)
+light_color = Color(0.39542457, 0.89161104, 0.99503356, 1)
+min_energy = 0.0
+max_energy = 1.5
+period = 2.0
+
+[node name="BreathingLight5" parent="." unique_id=496586596 instance=ExtResource("7_nb3w4")]
+position = Vector2(151, 221)
+light_color = Color(0.5214875, 0.8694424, 0.9971177, 1)
+min_energy = 0.0
+max_energy = 1.0
+period = 2.0

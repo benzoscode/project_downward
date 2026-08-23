@@ -14,7 +14,7 @@
 [node name="Room04" type="Node2D" unique_id=1792942668]
 script = ExtResource("1_6sl3v")
 editor_brightness = Color(0.9384497, 0.9384497, 0.9384497, 1)
-game_darkness = Color(0.14064944, 0.14027354, 0.16491938, 1)
+game_darkness = Color(0.10184019, 0.10183828, 0.12075109, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=380342385]
 color = Color(0.9384497, 0.9384497, 0.9384497, 1)
@@ -119,3 +119,48 @@ min_energy = 0.0
 [node name="Pickup" parent="." unique_id=1752100484 instance=ExtResource("10_e1vif")]
 position = Vector2(592, 184)
 item = &"key"
+
+[node name="BreathingLight2" parent="." unique_id=1481075222 instance=ExtResource("10_6sl3v")]
+position = Vector2(135, 58)
+light_color = Color(0.15943247, 0.95716554, 0.62392974, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight3" parent="." unique_id=457800360 instance=ExtResource("10_6sl3v")]
+position = Vector2(279, 122)
+light_color = Color(0.15985501, 0.94654447, 0.73997474, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight4" parent="." unique_id=500489426 instance=ExtResource("10_6sl3v")]
+position = Vector2(424, 55)
+light_color = Color(0.031834062, 0.93356895, 0.88306767, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight5" parent="." unique_id=870991978 instance=ExtResource("10_6sl3v")]
+position = Vector2(540, 71)
+light_color = Color(0.10567295, 0.9456503, 0.7684597, 1)
+min_energy = 0.0
+max_energy = 2.5
+
+[node name="BreathingLight6" parent="." unique_id=573087455 instance=ExtResource("10_6sl3v")]
+position = Vector2(359, 198)
+light_color = Color(0.13512951, 0.92279506, 0.9410789, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight7" parent="." unique_id=259380540 instance=ExtResource("10_6sl3v")]
+position = Vector2(21, 151)
+light_color = Color(0.1531522, 0.9239369, 0.9277402, 1)
+min_energy = 0.0
+max_energy = 2.5
+
+[node name="BreathingLight8" parent="." unique_id=1638282079 instance=ExtResource("10_6sl3v")]
+position = Vector2(621, 132)
+light_color = Color(0.06628804, 0.94550437, 0.77920395, 1)
+min_energy = 0.0
+max_energy = 1.5
+period = 2.0

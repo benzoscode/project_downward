@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="5_t3hg5"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="6_u7ejs"]
 [ext_resource type="PackedScene" uid="uid://cevxrw076gwyg" path="res://scenes/interactables/violet.tscn" id="7_bidwo"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="8_3v76g"]
 
 [node name="Room14" type="Node2D" unique_id=922036725]
 script = ExtResource("1_w0jk3")
@@ -83,3 +84,42 @@ position = Vector2(62, 37)
 
 [node name="Pickup" parent="." unique_id=839770137 instance=ExtResource("7_bidwo")]
 position = Vector2(402, 40)
+
+[node name="BreathingLight" parent="." unique_id=747308584 instance=ExtResource("8_3v76g")]
+position = Vector2(20, 23)
+light_color = Color(0.20785981, 0.92418164, 0.9046039, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight2" parent="." unique_id=1690930710 instance=ExtResource("8_3v76g")]
+position = Vector2(263, 45)
+light_color = Color(0.33903605, 0.90066636, 0.98406166, 1)
+min_energy = 0.0
+max_energy = 1.0
+period = 2.0
+
+[node name="BreathingLight3" parent="." unique_id=1401509139 instance=ExtResource("8_3v76g")]
+position = Vector2(311, 25)
+light_color = Color(0.14925075, 0.94466984, 0.7624655, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight4" parent="." unique_id=1417526824 instance=ExtResource("8_3v76g")]
+position = Vector2(520, 26)
+light_color = Color(0.11954158, 0.94493, 0.7708829, 1)
+min_energy = 0.0
+period = 4.0
+
+[node name="BreathingLight5" parent="." unique_id=1070004077 instance=ExtResource("8_3v76g")]
+position = Vector2(728, 22)
+light_color = Color(0.12152492, 0.9321636, 0.87714076, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight6" parent="." unique_id=1362691196 instance=ExtResource("8_3v76g")]
+position = Vector2(830, 23)
+light_color = Color(0.20300445, 0.9452378, 0.7301575, 1)
+min_energy = 0.0
+max_energy = 1.5

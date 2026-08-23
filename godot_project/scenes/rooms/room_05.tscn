@@ -15,7 +15,7 @@
 [node name="Room05" type="Node2D" unique_id=1359627143]
 script = ExtResource("1_rhna8")
 editor_brightness = Color(0.9064933, 0.9064934, 0.9064934, 1)
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+game_darkness = Color(0.081664614, 0.08166397, 0.098773606, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=537669472]
 color = Color(0.9064933, 0.9064934, 0.9064934, 1)
@@ -144,3 +144,38 @@ radius_tiles = 1.0
 position = Vector2(541, 233)
 light_color = Color(0.29538062, 0.90336066, 0.99642116, 1)
 min_energy = 0.0
+
+[node name="BreathingLight3" parent="." unique_id=1661835216 instance=ExtResource("10_rhna8")]
+position = Vector2(343, 10)
+light_color = Color(0.16054848, 0.9581906, 0.6103866, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight4" parent="." unique_id=711270731 instance=ExtResource("10_rhna8")]
+position = Vector2(264, 106)
+light_color = Color(0.12141811, 0.93747455, 0.8351376, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight5" parent="." unique_id=1860544132 instance=ExtResource("10_rhna8")]
+position = Vector2(605, 102)
+light_color = Color(0.40101102, 0.89091516, 0.9944015, 1)
+min_energy = 0.0
+max_energy = 1.5
+period = 2.0
+
+[node name="BreathingLight6" parent="." unique_id=1144716302 instance=ExtResource("10_rhna8")]
+position = Vector2(131, 55)
+light_color = Color(0.51077753, 0.8714066, 0.998355, 1)
+min_energy = 0.0
+max_energy = 1.5
+period = 2.0
+
+[node name="BreathingLight7" parent="." unique_id=106421626 instance=ExtResource("10_rhna8")]
+position = Vector2(56, 102)
+light_color = Color(0.36118695, 0.8954346, 0.99970585, 1)
+min_energy = 0.0
+max_energy = 1.5
+period = 2.0

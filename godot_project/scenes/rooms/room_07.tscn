@@ -3,14 +3,15 @@
 [ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_rsf61"]
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_ko01y"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_hbm8v"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/ladder.tscn" id="4_awih2"]
+[ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_awih2"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_7hbb7"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="7_1psil"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="7_d0g4v"]
 
 [node name="Room07" type="Node2D" unique_id=291690898]
 script = ExtResource("1_rsf61")
 editor_brightness = Color(0.918091, 0.91809106, 0.91809094, 1)
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+game_darkness = Color(0.081664614, 0.08166397, 0.098773606, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1281007018]
 color = Color(0.918091, 0.91809106, 0.91809094, 1)
@@ -51,11 +52,8 @@ target_entrance = &"secret"
 position = Vector2(38, 245)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1005893480]
+top_level = true
 position = Vector2(240, 135)
-limit_left = 0
-limit_top = 160
-limit_right = 640
-limit_bottom = 272
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=1864392181]
 process_priority = 300
@@ -64,3 +62,22 @@ script = ExtResource("6_7hbb7")
 
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=2115443825]
 position = Vector2(38, 245)
+
+[node name="BreathingLight" parent="." unique_id=1918102864 instance=ExtResource("7_1psil")]
+position = Vector2(20, 198)
+light_color = Color(0.11626578, 0.9598363, 0.6117505, 1)
+min_energy = 0.0
+max_energy = 2.5
+period = 4.0
+
+[node name="BreathingLight2" parent="." unique_id=957209412 instance=ExtResource("7_1psil")]
+position = Vector2(185, 250)
+light_color = Color(0.17328864, 0.95083624, 0.68929046, 1)
+min_energy = 0.0
+
+[node name="BreathingLight3" parent="." unique_id=1554986981 instance=ExtResource("7_1psil")]
+position = Vector2(440, 186)
+light_color = Color(0.103167094, 0.94830865, 0.7439479, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0

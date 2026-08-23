@@ -226,3 +226,30 @@ period = 2.0
 position = Vector2(448, 4)
 min_energy = 0.0
 period = 2.0
+
+[node name="BreathingLight9" parent="." unique_id=1420529322 instance=ExtResource("9_nwivn")]
+position = Vector2(86, 6)
+light_color = Color(0.30646184, 0.9508516, 0.57253057, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight10" parent="." unique_id=1154874116 instance=ExtResource("9_nwivn")]
+position = Vector2(84, 184)
+light_color = Color(0.11689787, 0.93127066, 0.88516164, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight11" parent="." unique_id=659301434 instance=ExtResource("9_nwivn")]
+position = Vector2(589, -73)
+light_color = Color(0.16746184, 0.9533853, 0.664273, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 4.0
+
+[node name="BreathingLight12" parent="." unique_id=305971234 instance=ExtResource("9_nwivn")]
+position = Vector2(587, 118)
+light_color = Color(0.114772476, 0.94312936, 0.7887183, 1)
+min_energy = 0.0
+max_energy = 2.5
+period = 4.0

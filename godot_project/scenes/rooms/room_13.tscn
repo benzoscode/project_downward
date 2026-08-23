@@ -18,7 +18,7 @@
 [node name="Room13" type="Node2D" unique_id=274707351]
 script = ExtResource("1_w4lda")
 editor_brightness = Color(0.91228896, 0.9122889, 0.91228884, 1)
-game_darkness = Color(0.12443667, 0.13786155, 0.19031993, 1)
+game_darkness = Color(0.08217163, 0.09115305, 0.13311034, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1803999149]
 color = Color(0.91228896, 0.9122889, 0.91228884, 1)
@@ -155,3 +155,54 @@ position = Vector2(712, 184)
 
 [node name="GrassCover2" parent="." unique_id=820095086 instance=ExtResource("11_7e2n2")]
 position = Vector2(728, 184)
+
+[node name="BreathingLight4" parent="." unique_id=673616922 instance=ExtResource("13_okkjg")]
+position = Vector2(20, 167)
+light_color = Color(0.23281464, 0.92250556, 0.90439737, 1)
+min_energy = 0.0
+
+[node name="BreathingLight5" parent="." unique_id=1560551394 instance=ExtResource("13_okkjg")]
+position = Vector2(247, 121)
+light_color = Color(0.30765653, 0.95227057, 0.5509411, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight6" parent="." unique_id=236113242 instance=ExtResource("13_okkjg")]
+position = Vector2(328, 261)
+light_color = Color(0.24855569, 0.92134035, 0.90421814, 1)
+min_energy = 0.0
+max_energy = 2.5
+period = 4.0
+
+[node name="BreathingLight7" parent="." unique_id=1786804500 instance=ExtResource("13_okkjg")]
+position = Vector2(536, 265)
+light_color = Color(0.18139598, 0.9550933, 0.6360553, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight8" parent="." unique_id=351173778 instance=ExtResource("13_okkjg")]
+position = Vector2(552, 122)
+light_color = Color(0.30347896, 0.406439, 0.9459676, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight9" parent="." unique_id=787161709 instance=ExtResource("13_okkjg")]
+position = Vector2(757, 295)
+light_color = Color(0.1589869, 0.9405803, 0.7955704, 1)
+min_energy = 0.0
+
+[node name="BreathingLight10" parent="." unique_id=1536242122 instance=ExtResource("13_okkjg")]
+position = Vector2(793, 197)
+light_color = Color(0.36318824, 0.89812005, 0.9816285, 1)
+min_energy = 0.0
+period = 2.5
+
+[node name="BreathingLight11" parent="." unique_id=1245985335 instance=ExtResource("13_okkjg")]
+position = Vector2(907, 201)
+light_color = Color(0.20462778, 0.95633596, 0.6042829, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0

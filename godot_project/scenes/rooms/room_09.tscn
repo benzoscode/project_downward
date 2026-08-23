@@ -5,13 +5,14 @@
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_4nn4m"]
 [ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_uekxx"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="6_5mubj"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="8_tuop8"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_ynyqh"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_k2h2b"]
 
 [node name="Room09" type="Node2D" unique_id=277084684]
 script = ExtResource("1_gki84")
 editor_brightness = Color(0.9007046, 0.90070456, 0.90070456, 1)
-game_darkness = Color(0.1, 0.1, 0.12, 1)
+game_darkness = Color(0.07649364, 0.07649288, 0.092963316, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=831004652]
 color = Color(0.9007046, 0.90070456, 0.90070456, 1)
@@ -82,3 +83,42 @@ target_entrance = &"from_room_9"
 
 [node name="Entrance_from_room_11" type="Marker2D" parent="." unique_id=1357127639]
 position = Vector2(31, 150)
+
+[node name="BreathingLight" parent="." unique_id=1411372134 instance=ExtResource("8_tuop8")]
+position = Vector2(124, 103)
+light_color = Color(0.51204485, 0.8712632, 0.9977066, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight2" parent="." unique_id=1839286389 instance=ExtResource("8_tuop8")]
+position = Vector2(184, 27)
+light_color = Color(0.11954158, 0.94493, 0.7708829, 1)
+min_energy = 0.0
+max_energy = 2.5
+period = 4.0
+
+[node name="BreathingLight3" parent="." unique_id=382451543 instance=ExtResource("8_tuop8")]
+position = Vector2(460, 40)
+light_color = Color(0.12847558, 0.94182813, 0.79592, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight4" parent="." unique_id=480038945 instance=ExtResource("8_tuop8")]
+position = Vector2(343, -55)
+light_color = Color(0.21666402, 0.9475079, 0.69822276, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0
+
+[node name="BreathingLight5" parent="." unique_id=1319525729 instance=ExtResource("8_tuop8")]
+position = Vector2(396, 182)
+light_color = Color(0.1659053, 0.91922885, 0.95571464, 1)
+min_energy = 0.0
+period = 2.0
+
+[node name="BreathingLight6" parent="." unique_id=1437771359 instance=ExtResource("8_tuop8")]
+position = Vector2(115, -40)
+light_color = Color(0.14767462, 0.9292583, 0.891127, 1)
+min_energy = 0.0
+period = 2.0
