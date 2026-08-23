@@ -153,11 +153,15 @@ func _get_item(arg: String) -> void:
 
 func _goto(arg: String) -> void:
 	var name := arg.strip_edges().to_lower()
+	var path: String
 	if name.is_valid_int():
-		name = "room_%02d" % name.to_int()
-	var path := ROOM_BASE + name + ".tscn"
+		# 纯数字 → room_0N
+		path = ROOM_BASE + "%02d.tscn" % name.to_int()
+	else:
+		# 名（room_05 / boss）→ room_<名>.tscn
+		path = ROOM_BASE + name + ".tscn"
 	if not ResourceLoader.exists(path):
-		_print("房间不存在 " + path)
+		_print("房间不存在 " + path + "（可用 goto 1..14 或 goto boss）")
 		return
 	# 关闭控制台后传送（避免暂停树时切场景）
 	_open = false
