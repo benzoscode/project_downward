@@ -55,7 +55,7 @@ target_id = &"room_5_door"
 [node name="Lights" type="Node2D" parent="." unique_id=1391201689]
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=664855434]
-position = Vector2(617, 229)
+position = Vector2(560, 230)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1154878380]
 physics_interpolation_mode = 1
@@ -181,7 +181,10 @@ max_energy = 1.5
 period = 2.0
 
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=1939955928]
-position = Vector2(617, 229)
+position = Vector2(560, 230)
+
+[node name="Entrance_from_room_4" type="Marker2D" parent="." unique_id=1010101010]
+position = Vector2(560, 230)
 
 [node name="Sign" parent="." unique_id=839441515 instance=ExtResource("12_ppcur")]
 position = Vector2(571, 232)
