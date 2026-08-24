@@ -18,6 +18,9 @@ var _activated: bool = false
 
 
 func _ready() -> void:
+	# 始终显示美术素材（不发光），激活后才发光（用户 2026-08-23 需求）
+	_sprite.modulate = Color.WHITE
+	_glow.visible = false
 	# 死亡重生不重置：总线已触发则直接亮
 	if MechanismBus.is_triggered(target_id):
 		_activate(true)
@@ -30,16 +33,12 @@ func _physics_process(delta: float) -> void:
 		_charge = minf(_charge + delta, charge_time)
 	else:
 		_charge = 0.0
-	# 进度反馈：随充能提高亮度
-	var t := _charge / charge_time
-	_sprite.modulate = Color(0.4 + 0.6 * t, 0.4 + 0.6 * t, 0.4 + 0.6 * t)
 	if _charge >= charge_time:
 		_activate(false)
 
 
 func _activate(instant: bool) -> void:
 	_activated = true
-	_sprite.texture = _tex_on
 	_sprite.modulate = Color.WHITE
 	_glow.visible = true
 	if not instant:

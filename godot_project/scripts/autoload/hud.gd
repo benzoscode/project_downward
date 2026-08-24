@@ -6,6 +6,7 @@ const ICONS: Dictionary = {
 	&"lamp": preload("res://assets/props/item_lamp.png"),
 	&"boots": preload("res://assets/props/item_boots.png"),
 	&"whistle": preload("res://assets/props/item_whistle.png"),
+	&"key": preload("res://assets/props/item_key.png"),
 	&"gem_jade": preload("res://assets/props/item_gem_jade.png"),
 	&"gem_amber": preload("res://assets/props/item_gem_amber.png"),
 	&"gem_violet": preload("res://assets/props/item_gem_violet.png"),
@@ -46,7 +47,7 @@ func _on_item_acquired(item: StringName) -> void:
 	_refresh_inventory()
 	_toast.position = Vector2(200, 240)
 	_toast_icon.texture = ICONS.get(item)
-	_toast_label.text = " Got: %s" % item
+	_toast_label.text = " Got: " + String(item)
 	_show_toast(2.0)
 
 
@@ -87,5 +88,7 @@ func _has_item(item: StringName) -> bool:
 			return GameState.has_boots
 		&"whistle":
 			return GameState.has_whistle
+		&"key":
+			return GameState.has_key
 		_:
 			return GameState.gems.has(item)

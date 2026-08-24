@@ -62,13 +62,13 @@ func _run_tests() -> void:
 	await _physics_frames(40)
 	var both_open: bool = door.call("is_open")
 	MechanismBus.release(&"plate_a")
-	await _physics_frames(30) # 立即关（close_delay=0），30 帧后必已关闭
+	await _physics_frames(60) # latch：开过就不再关（2026-08-23 需求）
 	var grace_open: bool = door.call("is_open")
-	await _physics_frames(90)
+	await _physics_frames(60)
 	var closed_later: bool = not door.call("is_open")
 	MechanismBus.release(&"plate_b")
-	_check("T1 双压力板门逻辑", single_closed and both_open and not grace_open and closed_later,
-		"single=%s both=%s grace=%s later=%s" % [single_closed, both_open, grace_open, closed_later])
+	_check("T1 双压力板门逻辑+锁存", single_closed and both_open and grace_open and not closed_later,
+		"single=%s both=%s staysOpen=%s laterClose=%s" % [single_closed, both_open, grace_open, closed_later])
 	door.queue_free()
 
 	# ---- T2 摇杆吊桥：按住 E 升起，松开立即缓慢下降回起始位 ----

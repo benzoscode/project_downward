@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="downward"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/ui/main_menu.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
@@ -22,6 +22,7 @@ MechanismBus="*res://scripts/autoload/mechanism_bus.gd"
 LightSystem="*res://scripts/autoload/light_system.gd"
 ControlManager="*res://scripts/autoload/control_manager.gd"
 HUD="*res://scripts/autoload/hud.gd"
+Console="*res://scripts/autoload/console.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
 Music="*res://scripts/autoload/music.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"

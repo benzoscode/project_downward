@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/relic_pedestal.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/props/relic_pedestal.png" id="2_ped"]
+[ext_resource type="Texture2D" path="res://assets/props/item_lamp.png" id="3_item"]
+[ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="4_glow"]
+
+[sub_resource type="RectangleShape2D" id="shape_pickup"]
+size = Vector2(20, 16)
+
+[node name="RelicPedestal" type="Area2D"]
+collision_mask = 6
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("shape_pickup")
+
+[node name="Pedestal" type="Sprite2D" parent="."]
+position = Vector2(0, 4)
+texture = ExtResource("2_ped")
+
+[node name="Item" type="Sprite2D" parent="."]
+position = Vector2(0, -14)
+texture = ExtResource("3_item")
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(0, -6)
+energy = 1.0
+texture = ExtResource("4_glow")
+texture_scale = 0.7
+shadow_enabled = false

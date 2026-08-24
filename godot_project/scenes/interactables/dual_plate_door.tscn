@@ -10,6 +10,7 @@ size = Vector2(16, 48)
 script = ExtResource("1_script")
 listen_ids = Array[StringName]([&"plate_a", &"plate_b"])
 close_delay = 0.0
+latch_open = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1773571301]
 shape = SubResource("shape_door")
