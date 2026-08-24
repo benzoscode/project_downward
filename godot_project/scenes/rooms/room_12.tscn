@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="11_t0515"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="12_w6mbr"]
 [ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="13_t0515"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ending_trigger.tscn" id="14_endt"]
 
 [node name="Room12" type="Node2D" unique_id=724041436]
 script = ExtResource("1_kreq2")
@@ -152,3 +153,6 @@ text = "这是召唤哨，按Q试试，之后按R会有神奇的事情发生....
 [node name="Sign2" parent="." unique_id=839441515 instance=ExtResource("13_t0515")]
 position = Vector2(228, 104)
 text = "狭小的洞口我无法通过"
+
+[node name="EndingTrigger" parent="." unique_id=120237701 instance=ExtResource("14_endt")]
+position = Vector2(430, 372)
