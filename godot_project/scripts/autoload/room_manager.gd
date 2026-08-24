@@ -80,6 +80,18 @@ func goto_room(target_scene: String, target_entrance: StringName = &"default") -
 	_transitioning = false
 
 
+## 退出到独立 UI 场景（结局/菜单）。RoomManager 把房间挂在 root（current_scene 为空 Main），
+## 直接 change_scene_to_file 只释放 current_scene、不会清掉房间，故需先在此清理房间与玩家。
+func exit_to_scene(scene_path: String) -> void:
+	_lock_player(true)
+	ControlManager.force_recall()
+	if _room != null and is_instance_valid(_room) and _room != get_tree().current_scene:
+		_room.queue_free()
+	_room = null
+	_player = null
+	get_tree().change_scene_to_file(scene_path)
+
+
 ## 死亡重生：回最近检查点（可能跨房间重载）。由 player.die() 调用。
 func respawn() -> void:
 	if _transitioning:

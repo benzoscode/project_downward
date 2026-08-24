@@ -173,13 +173,13 @@ func _goto(arg: String) -> void:
 	RoomManager.goto_room(path, &"default")
 
 
-## 进入结局画面（独立 UI 场景，不走 RoomManager 的房间托管/淡入淡出）
+## 进入结局画面（独立 UI 场景）：room 挂在 root 需先清理，走 RoomManager.exit_to_scene
 func _ending() -> void:
 	if not ResourceLoader.exists("res://scenes/ui/ending.tscn"):
 		_print("未找到结局场景 res://scenes/ui/ending.tscn")
 		return
 	_close_for_scene_change()
-	get_tree().change_scene_to_file("res://scenes/ui/ending.tscn")
+	RoomManager.exit_to_scene("res://scenes/ui/ending.tscn")
 
 
 ## 关闭控制台并恢复游戏运行（切场景/传送前调用）：暂停树时 LineEdit 仍在，需先恢复

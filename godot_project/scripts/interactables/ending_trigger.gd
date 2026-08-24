@@ -14,7 +14,8 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group(&"player"):
 		return
-	get_tree().change_scene_to_file("res://scenes/ui/ending.tscn")
+	# 走 RoomManager 清理挂载的房间后再切结局；直接 change_scene 会残留旧房间灯光
+	RoomManager.exit_to_scene("res://scenes/ui/ending.tscn")
 
 
 func _draw() -> void:
