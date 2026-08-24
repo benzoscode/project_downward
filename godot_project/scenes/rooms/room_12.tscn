@@ -4,13 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_xjnbp"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_vqrhr"]
 [ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_ihp6o"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="5_f1agh"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_1r00p"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="7_xjnbp"]
 [ext_resource type="PackedScene" uid="uid://rgb5pxhxwpgk" path="res://scenes/interactables/dual_plate_door.tscn" id="8_1r00p"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="9_veval"]
 [ext_resource type="PackedScene" uid="uid://doqg0y58opym8" path="res://scenes/interactables/pressure_plate.tscn" id="10_w6mbr"]
+[ext_resource type="PackedScene" uid="uid://civ1ghjyxi53v" path="res://scenes/interactables/relic_pedestal_whistle.tscn" id="11_1r00p"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="11_t0515"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="12_w6mbr"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="13_t0515"]
 
 [node name="Room12" type="Node2D" unique_id=724041436]
 script = ExtResource("1_kreq2")
@@ -57,10 +59,6 @@ position = Vector2(240, 135)
 process_priority = 300
 process_physics_priority = 300
 script = ExtResource("6_1r00p")
-
-[node name="Pickup" parent="." unique_id=2065484054 instance=ExtResource("5_f1agh")]
-position = Vector2(263, 378)
-item = &"whistle"
 
 [node name="Ladder" parent="." unique_id=563188879 instance=ExtResource("4_ihp6o")]
 position = Vector2(400, 405)
@@ -142,3 +140,15 @@ position = Vector2(68, 280)
 light_color = Color(0.1797795, 0.9357188, 0.8281431, 1)
 min_energy = 0.0
 max_energy = 3.0
+
+[node name="RelicPedestal" parent="." unique_id=1419186655 instance=ExtResource("11_1r00p")]
+position = Vector2(278, 372)
+item = &"whistle"
+
+[node name="Sign" parent="." unique_id=1306045008 instance=ExtResource("12_w6mbr")]
+position = Vector2(348, 376)
+text = "这是召唤哨，按Q试试，之后按R会有神奇的事情发生......"
+
+[node name="Sign2" parent="." unique_id=839441515 instance=ExtResource("13_t0515")]
+position = Vector2(228, 104)
+text = "狭小的洞口我无法通过"

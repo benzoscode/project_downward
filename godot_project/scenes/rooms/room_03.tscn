@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="10_mci11"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/alternating_platform.tscn" id="11_xtd7u"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="13_vupmi"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="14_vupmi"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="15_cuuij"]
 
 [node name="Room03" type="Node2D" unique_id=852059303]
 script = ExtResource("1_e8wg7")
@@ -178,3 +180,15 @@ period = 2.0
 position = Vector2(505, 59)
 light_color = Color(0.08281996, 0.9386387, 0.8352649, 1)
 min_energy = 0.0
+
+[node name="Sign" parent="." unique_id=1781636953 instance=ExtResource("14_vupmi")]
+position = Vector2(529, 56)
+text = "这扇门需要钥匙才能打开......"
+
+[node name="Sign2" parent="." unique_id=286088852 instance=ExtResource("14_vupmi")]
+position = Vector2(205, 40)
+text = "把握好跳跃时机"
+
+[node name="Sign3" parent="." unique_id=839441515 instance=ExtResource("15_cuuij")]
+position = Vector2(125, 168)
+text = "水下似乎有出路......石门上的红灯......"

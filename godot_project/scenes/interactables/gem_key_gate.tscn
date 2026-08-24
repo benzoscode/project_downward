@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://bwh3o4lvoyy1d"]
 
-[ext_resource type="Script" path="res://scripts/interactables/gem_key_gate.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/props/door_stone_idle_1.png" id="2_tex"]
+[ext_resource type="Script" uid="uid://imvi4v4650pq" path="res://scripts/interactables/gem_key_gate.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://8r3cysldrcj2" path="res://assets/props/door_stone_correct_3.png" id="2_0jeom"]
 
 [sub_resource type="RectangleShape2D" id="shape_gate"]
 size = Vector2(16, 48)
@@ -9,23 +9,23 @@ size = Vector2(16, 48)
 [sub_resource type="RectangleShape2D" id="shape_zone"]
 size = Vector2(56, 56)
 
-[node name="GemKeyGate" type="AnimatableBody2D"]
+[node name="GemKeyGate" type="AnimatableBody2D" unique_id=1232808927]
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=401739690]
 shape = SubResource("shape_gate")
 
-[node name="InteractZone" type="Area2D" parent="."]
+[node name="InteractZone" type="Area2D" parent="." unique_id=375443899]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone" unique_id=1907963712]
 shape = SubResource("shape_zone")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tex")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=358976786]
+texture = ExtResource("2_0jeom")
 
-[node name="Prompt" type="Label" parent="."]
+[node name="Prompt" type="Label" parent="." unique_id=922484602]
 visible = false
 offset_left = -8.0
 offset_top = -60.0

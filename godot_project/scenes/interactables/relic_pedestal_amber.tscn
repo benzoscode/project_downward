@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dv5dfuc2a1cyy"]
+
+[ext_resource type="Script" uid="uid://ogsj2ga3fb4v" path="res://scripts/interactables/relic_pedestal.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://epyclvljsekd" path="res://assets/props/relic_pedestal.png" id="2_ped"]
+[ext_resource type="Texture2D" uid="uid://74s4oyd3gq8u" path="res://assets/props/item_gem_amber.png" id="3_di5xi"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="4_gafp4"]
+
+[sub_resource type="RectangleShape2D" id="shape_pickup"]
+size = Vector2(20, 16)
+
+[node name="RelicPedestal" type="Area2D" unique_id=1794751122]
+collision_mask = 6
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1518465677]
+position = Vector2(0, 4)
+shape = SubResource("shape_pickup")
+
+[node name="Pedestal" type="Sprite2D" parent="." unique_id=1289484057]
+position = Vector2(0, 4)
+texture = ExtResource("2_ped")
+
+[node name="Item" type="Sprite2D" parent="." unique_id=370495012]
+position = Vector2(0, -14)
+texture = ExtResource("3_di5xi")
+
+[node name="BreathingLight" parent="." unique_id=1514957315 instance=ExtResource("4_gafp4")]
+position = Vector2(0, -14)
+light_color = Color(0.8580301, 0.3986718, 0.059596263, 1)
+min_energy = 0.0
+max_energy = 3.0
+period = 5.0

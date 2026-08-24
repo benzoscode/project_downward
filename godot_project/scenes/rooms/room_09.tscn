@@ -4,9 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_rnte2"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_4nn4m"]
 [ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="4_uekxx"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="6_5mubj"]
+[ext_resource type="PackedScene" uid="uid://bfxdwmpxjw0kk" path="res://scenes/interactables/relic_pedestal_boots.tscn" id="8_1pg4f"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="8_tuop8"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_ynyqh"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="9_1pg4f"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_k2h2b"]
 
 [node name="Room09" type="Node2D" unique_id=277084684]
@@ -40,10 +41,6 @@ tile_set = ExtResource("3_4nn4m")
 [node name="Ladder" parent="Mechanisms" unique_id=2080584282 instance=ExtResource("4_uekxx")]
 position = Vector2(289, 5)
 height = 85
-
-[node name="Pickup" parent="Mechanisms" unique_id=790394344 instance=ExtResource("6_5mubj")]
-position = Vector2(267, 234)
-item = &"boots"
 
 [node name="RoomExit" parent="Mechanisms" unique_id=15897395 instance=ExtResource("9_k2h2b")]
 position = Vector2(297, -73)
@@ -122,3 +119,11 @@ position = Vector2(115, -40)
 light_color = Color(0.14767462, 0.9292583, 0.891127, 1)
 min_energy = 0.0
 period = 2.0
+
+[node name="RelicPedestal" parent="." unique_id=140347155 instance=ExtResource("8_1pg4f")]
+position = Vector2(269, 228)
+item = &"boots"
+
+[node name="Sign" parent="." unique_id=839441515 instance=ExtResource("9_1pg4f")]
+position = Vector2(312, 232)
+text = "这是羽翎靴，穿上它，在空中再次跳跃试试"

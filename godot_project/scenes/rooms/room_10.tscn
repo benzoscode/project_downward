@@ -11,7 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://colhss1sdys1r" path="res://scenes/interactables/dual_button_door.tscn" id="9_fvr2h"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="11_s6yr0"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="12_x4b77"]
-[ext_resource type="PackedScene" uid="uid://ccfkujisuuaiq" path="res://scenes/interactables/amber.tscn" id="12_ykmci"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="13_e4et3"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="14_6kq5r"]
+[ext_resource type="PackedScene" uid="uid://dv5dfuc2a1cyy" path="res://scenes/interactables/relic_pedestal_amber.tscn" id="14_e4et3"]
 
 [node name="Room10" type="Node2D" unique_id=1976524293]
 script = ExtResource("1_d568n")
@@ -96,9 +98,6 @@ position = Vector2(231, 56)
 light_color = Color(0.37753308, 0.89374787, 0.99703246, 1)
 min_energy = 0.0
 
-[node name="Pickup" parent="." unique_id=119458703 instance=ExtResource("12_ykmci")]
-position = Vector2(392, 56)
-
 [node name="BreathingLight3" parent="." unique_id=1516209171 instance=ExtResource("12_x4b77")]
 position = Vector2(20, 40)
 light_color = Color(0.07513925, 0.93276024, 0.8831188, 1)
@@ -135,3 +134,15 @@ light_color = Color(0.19217363, 0.9531664, 0.65193105, 1)
 min_energy = 0.0
 max_energy = 3.0
 period = 5.0
+
+[node name="Sign" parent="." unique_id=839441515 instance=ExtResource("13_e4et3")]
+position = Vector2(216, 248)
+text = "狭小的洞口我我无法通过......"
+
+[node name="Sign2" parent="." unique_id=1340664643 instance=ExtResource("14_6kq5r")]
+position = Vector2(376, 56)
+text = "上古琥珀！"
+
+[node name="RelicPedestal" parent="." unique_id=1794751122 instance=ExtResource("14_e4et3")]
+position = Vector2(401, 52)
+item = &"gem_amber"

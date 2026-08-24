@@ -6,8 +6,9 @@
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_bidwo"]
 [ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="5_t3hg5"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="6_u7ejs"]
-[ext_resource type="PackedScene" uid="uid://cevxrw076gwyg" path="res://scenes/interactables/violet.tscn" id="7_bidwo"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="8_3v76g"]
+[ext_resource type="PackedScene" uid="uid://7n3alj42ppu8" path="res://scenes/interactables/relic_pedestal_violet.tscn" id="8_467vs"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="9_467vs"]
 
 [node name="Room14" type="Node2D" unique_id=922036725]
 script = ExtResource("1_w0jk3")
@@ -82,9 +83,6 @@ position = Vector2(62, 37)
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=464617887]
 position = Vector2(62, 37)
 
-[node name="Pickup" parent="." unique_id=839770137 instance=ExtResource("7_bidwo")]
-position = Vector2(402, 40)
-
 [node name="BreathingLight" parent="." unique_id=747308584 instance=ExtResource("8_3v76g")]
 position = Vector2(20, 23)
 light_color = Color(0.20785981, 0.92418164, 0.9046039, 1)
@@ -123,3 +121,11 @@ position = Vector2(830, 23)
 light_color = Color(0.20300445, 0.9452378, 0.7301575, 1)
 min_energy = 0.0
 max_energy = 1.5
+
+[node name="RelicPedestal" parent="." unique_id=2081621693 instance=ExtResource("8_467vs")]
+position = Vector2(396, 36)
+item = &"gem_violet"
+
+[node name="Sign" parent="." unique_id=1538330487 instance=ExtResource("9_467vs")]
+position = Vector2(366, 40)
+text = "这是......紫金宝石！"

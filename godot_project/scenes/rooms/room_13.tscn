@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_dw2u0"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_rrc62"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_y00uv"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="5_dw2u0"]
+[ext_resource type="PackedScene" uid="uid://ck2gfkufp237e" path="res://scenes/interactables/one_way_platform.tscn" id="5_dw2u0"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/water.tscn" id="6_rrc62"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="7_gcvc3"]
 [ext_resource type="PackedScene" uid="uid://colhss1sdys1r" path="res://scenes/interactables/dual_button_door.tscn" id="8_n8y33"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://wksqrjj8xvvg" path="res://scenes/interactables/lever_platform.tscn" id="12_gidgh"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="13_okkjg"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="14_hqxu0"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="15_1hg7b"]
 
 [node name="Room13" type="Node2D" unique_id=274707351]
 script = ExtResource("1_w4lda")
@@ -206,3 +207,7 @@ light_color = Color(0.20462778, 0.95633596, 0.6042829, 1)
 min_energy = 0.0
 max_energy = 3.0
 period = 5.0
+
+[node name="Sign" parent="." unique_id=163116731 instance=ExtResource("15_1hg7b")]
+position = Vector2(849, 168)
+text = "深渊下方又是何处......"

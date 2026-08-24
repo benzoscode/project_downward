@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_7hbb7"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="7_1psil"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="7_d0g4v"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="8_rsf61"]
 
 [node name="Room07" type="Node2D" unique_id=291690898]
 script = ExtResource("1_rsf61")
@@ -81,3 +82,7 @@ light_color = Color(0.103167094, 0.94830865, 0.7439479, 1)
 min_energy = 0.0
 max_energy = 3.0
 period = 5.0
+
+[node name="Sign" parent="." unique_id=839441515 instance=ExtResource("8_rsf61")]
+position = Vector2(146, 248)
+text = "这好像是连通两个房间的暗道......"

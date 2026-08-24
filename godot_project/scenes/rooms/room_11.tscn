@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://djmti411nc0gd" path="res://scenes/interactables/ladder.tscn" id="7_fyxi0"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="8_nwivn"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="9_nwivn"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="10_ijgog"]
 
 [node name="Room11" type="Node2D" unique_id=1015282822]
 script = ExtResource("1_s45o2")
@@ -253,3 +254,7 @@ light_color = Color(0.114772476, 0.94312936, 0.7887183, 1)
 min_energy = 0.0
 max_energy = 2.5
 period = 4.0
+
+[node name="Sign" parent="." unique_id=839441515 instance=ExtResource("10_ijgog")]
+position = Vector2(520, 200)
+text = "别踏空了......探险者们"

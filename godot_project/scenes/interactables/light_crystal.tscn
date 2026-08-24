@@ -1,19 +1,19 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://bke0qsgrvipjg"]
 
-[ext_resource type="Script" path="res://scripts/interactables/light_crystal.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/prop_crystal_off.png" id="2_tex"]
-[ext_resource type="Texture2D" path="res://assets/placeholder/light_radial.png" id="3_glow"]
+[ext_resource type="Script" uid="uid://dv342ducv4303" path="res://scripts/interactables/light_crystal.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dmeik18a6qu6m" path="res://assets/props/crystal_light.png" id="2_7cpnr"]
+[ext_resource type="Texture2D" uid="uid://cxet4oqmjxwcs" path="res://assets/placeholder/light_radial.png" id="3_glow"]
 
-[node name="LightCrystal" type="Node2D"]
+[node name="LightCrystal" type="Node2D" unique_id=965011475]
 script = ExtResource("1_script")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1382495875]
 modulate = Color(0.4, 0.4, 0.4, 1)
-texture = ExtResource("2_tex")
+texture = ExtResource("2_7cpnr")
 
-[node name="Glow" type="PointLight2D" parent="."]
+[node name="Glow" type="PointLight2D" parent="." unique_id=900117494]
 visible = false
 color = Color(0.55, 0.95, 0.9, 1)
 energy = 0.8
-texture_scale = 0.8
 texture = ExtResource("3_glow")
+texture_scale = 0.8

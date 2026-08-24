@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ng6c874wu68v"]
 
 [ext_resource type="Script" uid="uid://beictcmt4pt54" path="res://scripts/interactables/sign.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://c77mu4x26bl15" path="res://assets/props/sign_stone.png" id="2_twgyp"]
+[ext_resource type="Texture2D" uid="uid://dpv4h6rlwusux" path="res://assets/props/sign_wood.png" id="2_twgyp"]
 
 [sub_resource type="RectangleShape2D" id="shape_sign"]
 size = Vector2(24, 24)
@@ -24,4 +24,3 @@ offset_top = -30.0
 offset_right = 120.0
 offset_bottom = -10.0
 theme_override_font_sizes/font_size = 6
-text = ""

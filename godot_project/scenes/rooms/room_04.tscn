@@ -3,13 +3,14 @@
 [ext_resource type="Script" uid="uid://b2or14rde8w31" path="res://scripts/rooms/room_base.gd" id="1_6sl3v"]
 [ext_resource type="Texture2D" uid="uid://ndrotuu2m0h7" path="res://assets/placeholder/bg_cave.png" id="2_e1vif"]
 [ext_resource type="TileSet" uid="uid://w5ircosqyx7p" path="res://assets/tiles/tileset_cave.tres" id="3_ik2oh"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="7_gpbp3"]
+[ext_resource type="PackedScene" uid="uid://ck2gfkufp237e" path="res://scenes/interactables/one_way_platform.tscn" id="7_gpbp3"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="8_d3mn6"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="8_hgwl8"]
 [ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="9_hgwl8"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="9_m7lh8"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="10_6sl3v"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/pickup.tscn" id="10_e1vif"]
+[ext_resource type="PackedScene" uid="uid://fbvamtysakxd" path="res://scenes/interactables/relic_pedestal_key.tscn" id="10_e1vif"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="11_ik2oh"]
 
 [node name="Room04" type="Node2D" unique_id=1792942668]
 script = ExtResource("1_6sl3v")
@@ -30,7 +31,7 @@ tile_map_data = PackedByteArray("AAAAAA4AAQAAAAAAAAAAAA8AAQAAAAIAAAABAA4AAQAAAAA
 tile_set = ExtResource("3_ik2oh")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1642766787]
-tile_map_data = PackedByteArray("AAARAAcAAwAGAAAAAAASAAcAAwAAAAEAAAAQAAcAAwADAAEAAAAWAAwAAwACAAEAAAAVAAwAAwADAAEAAAAZAAwAAwADAAEAAAAaAAwAAwABAAEAAAAeAAwAAwAEAAEAAAAdAAwAAwADAAEAAAADAAcAAwADAAEAAAAEAAcAAwABAAEAAAAGAAcAAwAAAAEAAAABAAkAAwACAAAAAAAHAAUAAwAEAAAAAAAKAAMAAwABAAEAAAAPAAMAAwABAAEAAAANAAMAAwAAAAEAAAAMAAMAAwAEAAEAAAAJAAMAAwAEAAEAAAAaAAMAAwACAAEAAAAWAAMAAwABAAEAAAAVAAMAAwAAAAEAAAAXAAMAAwADAAEAAAAfAAMAAwADAAEAAAAeAAMAAwADAAEAAAAdAAMAAwAEAAEAAAAhAAQAAwABAAAAAAAkAAYAAwABAAEAAAAlAAYAAwADAAEAAAAmAAgAAwAFAAAAAAAIAA0ABgABAAAAAAADAA0ABgAAAAAAAAAEAA0ABgACAAAAAAAMAA0ABgACAAAAAAANAA0ABgAAAAAAAAAKAA0AAwACAAMAAAAiAAsAAwADAAMAAAAgAA0ABgAAAAAAAAAhAA0ABgACAAAAAAAIAAMAAwAGAAAAAAAmAAsABgACAAAAAAA=")
+tile_map_data = PackedByteArray("AAARAAcAAwAGAAAAAAASAAcAAwAAAAEAAAAQAAcAAwADAAEAAAAWAAwAAwACAAEAAAAVAAwAAwADAAEAAAAZAAwAAwADAAEAAAAaAAwAAwABAAEAAAAeAAwAAwAEAAEAAAAdAAwAAwADAAEAAAADAAcAAwADAAEAAAAEAAcAAwABAAEAAAAGAAcAAwAAAAEAAAABAAkAAwACAAAAAAAHAAUAAwAEAAAAAAAKAAMAAwABAAEAAAAPAAMAAwABAAEAAAANAAMAAwAAAAEAAAAMAAMAAwAEAAEAAAAJAAMAAwAEAAEAAAAaAAMAAwACAAEAAAAWAAMAAwABAAEAAAAVAAMAAwAAAAEAAAAXAAMAAwADAAEAAAAfAAMAAwADAAEAAAAeAAMAAwADAAEAAAAdAAMAAwAEAAEAAAAhAAQAAwABAAAAAAAkAAYAAwABAAEAAAAlAAYAAwADAAEAAAAmAAgAAwAFAAAAAAAIAA0ABgABAAAAAAADAA0ABgAAAAAAAAAEAA0ABgACAAAAAAAMAA0ABgACAAAAAAANAA0ABgAAAAAAAAAKAA0AAwACAAMAAAAiAAsAAwADAAMAAAAgAA0ABgAAAAAAAAAhAA0ABgACAAAAAAAIAAMAAwAGAAAAAAA=")
 tile_set = ExtResource("3_ik2oh")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=2063995473]
@@ -116,10 +117,6 @@ position = Vector2(280, 257)
 light_color = Color(0.3778329, 0.89401335, 0.99517506, 1)
 min_energy = 0.0
 
-[node name="Pickup" parent="." unique_id=1752100484 instance=ExtResource("10_e1vif")]
-position = Vector2(592, 184)
-item = &"key"
-
 [node name="BreathingLight2" parent="." unique_id=1481075222 instance=ExtResource("10_6sl3v")]
 position = Vector2(135, 58)
 light_color = Color(0.15943247, 0.95716554, 0.62392974, 1)
@@ -164,3 +161,11 @@ light_color = Color(0.06628804, 0.94550437, 0.77920395, 1)
 min_energy = 0.0
 max_energy = 1.5
 period = 2.0
+
+[node name="RelicPedestal" parent="." unique_id=607369294 instance=ExtResource("10_e1vif")]
+position = Vector2(607, 180)
+item = &"key"
+
+[node name="Sign" parent="." unique_id=1045520322 instance=ExtResource("11_ik2oh")]
+position = Vector2(572, 184)
+text = "这是......开启那扇门的钥匙"

@@ -10,8 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://doqg0y58opym8" path="res://scenes/interactables/pressure_plate.tscn" id="9_de644"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="10_de644"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="11_3ktgn"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/one_way_platform.tscn" id="12_65cqu"]
+[ext_resource type="PackedScene" uid="uid://ck2gfkufp237e" path="res://scenes/interactables/one_way_platform.tscn" id="12_65cqu"]
 [ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="12_okxok"]
+[ext_resource type="PackedScene" uid="uid://bwh3o4lvoyy1d" path="res://scenes/interactables/gem_key_gate.tscn" id="13_okxok"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="13_r7h0j"]
 
 [node name="RoomBoss" type="Node2D" unique_id=288183477]
 script = ExtResource("1_kreq2")
@@ -64,14 +66,6 @@ position = Vector2(21, 178)
 position = Vector2(372, 89)
 platform_offset = Vector2(148, -50)
 move_offset = Vector2(-200, 0)
-
-[node name="AmbientLight" parent="." unique_id=795855346 instance=ExtResource("7_fe6ma")]
-position = Vector2(282, 136)
-radius_tiles = 2.5
-
-[node name="AmbientLight2" parent="." unique_id=2089662592 instance=ExtResource("7_fe6ma")]
-position = Vector2(521, 74)
-radius_tiles = 2.5
 
 [node name="StoneDoor" parent="." unique_id=667211009 instance=ExtResource("8_nsrwn")]
 position = Vector2(184, 104)
@@ -147,3 +141,59 @@ position = Vector2(545, 88)
 
 [node name="Spikes11" parent="." unique_id=778629587 instance=ExtResource("12_okxok")]
 position = Vector2(559, 88)
+
+[node name="GemKeyGate" parent="." unique_id=1567473445 instance=ExtResource("13_okxok")]
+position = Vector2(808, 71)
+
+[node name="BreathingLight" parent="." unique_id=962489982 instance=ExtResource("13_r7h0j")]
+position = Vector2(372, 89)
+light_color = Color(0.5228287, 0.86910707, 0.9974595, 1)
+min_energy = 0.0
+period = 4.0
+
+[node name="BreathingLight2" parent="." unique_id=1443657611 instance=ExtResource("13_r7h0j")]
+position = Vector2(184, 190)
+light_color = Color(0.47069037, 0.8794774, 0.9955464, 1)
+min_energy = 0.0
+max_energy = 1.0
+period = 2.0
+
+[node name="BreathingLight3" parent="." unique_id=693885110 instance=ExtResource("13_r7h0j")]
+position = Vector2(393, 190)
+light_color = Color(0.47069037, 0.8794774, 0.9955464, 1)
+min_energy = 0.0
+max_energy = 1.0
+period = 2.0
+
+[node name="BreathingLight4" parent="." unique_id=1890956754 instance=ExtResource("13_r7h0j")]
+position = Vector2(616, 190)
+light_color = Color(0.33949855, 0.8986237, 0.99635655, 1)
+min_energy = 0.0
+max_energy = 1.0
+period = 2.0
+
+[node name="BreathingLight5" parent="." unique_id=1157466840 instance=ExtResource("13_r7h0j")]
+position = Vector2(399, 152)
+light_color = Color(0.28172964, 0.90502423, 0.9942127, 1)
+min_energy = 0.0
+period = 4.0
+
+[node name="AmbientLight" parent="." unique_id=990913774 instance=ExtResource("7_fe6ma")]
+position = Vector2(202, 104)
+radius_tiles = 1.0
+
+[node name="AmbientLight2" parent="." unique_id=431537501 instance=ExtResource("7_fe6ma")]
+position = Vector2(483, 118)
+radius_tiles = 1.0
+
+[node name="AmbientLight3" parent="." unique_id=1277701719 instance=ExtResource("7_fe6ma")]
+position = Vector2(618, 104)
+radius_tiles = 1.0
+
+[node name="AmbientLight4" parent="." unique_id=901040211 instance=ExtResource("7_fe6ma")]
+position = Vector2(664, 54)
+radius_tiles = 1.0
+
+[node name="AmbientLight5" parent="." unique_id=2100015224 instance=ExtResource("7_fe6ma")]
+position = Vector2(808, 56)
+radius_tiles = 1.0

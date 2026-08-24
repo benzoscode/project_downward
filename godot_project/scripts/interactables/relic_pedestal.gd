@@ -58,7 +58,8 @@ func _update_visual() -> void:
 	var icon: Texture2D = ICONS.get(item)
 	if icon != null:
 		_icon.texture = icon
-	_glow.color = GLOW_COLORS.get(item, Color(1, 0.9, 0.7))
+	if _glow != null:
+		_glow.color = GLOW_COLORS.get(item, Color(1, 0.9, 0.7))
 
 
 func _on_body_entered(body: Node2D) -> void:

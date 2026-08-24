@@ -7,10 +7,12 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/room_exit.tscn" id="5_mpjxv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/lion_button.tscn" id="6_jwebg"]
 [ext_resource type="PackedScene" uid="uid://3dk1qh8gfiwi" path="res://scenes/interactables/stone_door.tscn" id="7_10nlv"]
-[ext_resource type="PackedScene" path="res://scenes/interactables/light_crystal.tscn" id="8_10nlv"]
+[ext_resource type="PackedScene" uid="uid://bke0qsgrvipjg" path="res://scenes/interactables/light_crystal.tscn" id="8_10nlv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/relic_pedestal.tscn" id="9_2owu3"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/ambient_light.tscn" id="10_mpjxv"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="11_t1qwn"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="12_8fqiy"]
+[ext_resource type="PackedScene" uid="uid://ng6c874wu68v" path="res://scenes/interactables/sign.tscn" id="13_wwxbo"]
 
 [node name="Room01" type="Node2D" unique_id=373696794]
 script = ExtResource("1_yt80c")
@@ -30,7 +32,7 @@ tile_map_data = PackedByteArray("AAAiAA0AAQAAAAAAAAAjAA0AAQAAAAAAAAAkAA0AAQAAAAA
 tile_set = ExtResource("3_10nlv")
 
 [node name="TileMapDecor" type="TileMapLayer" parent="." unique_id=1528520741]
-tile_map_data = PackedByteArray("AAAWAAYAAwABAAAAAAATAAkAAwACAAEAAAAZAAkAAwADAAAAAAAcAA0AAwAGAAAAAAAeAA0AAwAAAAEAAAAYAAcAAwABAAEAAAAcAAUAAwAGAAAAAAAdAAUAAwABAAEAAAAeAAUAAwAAAAEAAAAeAAsAAwACAAMAAAASAAcAAwADAAMAAAAUAA8ABgACAAAAAAAVAA8ABgAAAAAAAAAYAA8ABgABAAAAAAAOAA0ABgAAAAAAAAAPAA0ABgACAAAAAAAIAAkAAwABAAEAAAAFAAkAAwAAAAEAAAAIAA0AAwACAAMAAAADAAoAAwAEAAAAAAADAAsAAwACAAAAAAAfAA4ABgACAAAAAAAeAA4ABgAAAAAAAAAjAAwABgAAAAAAAAAkAAwABgACAAAAAAARAAEAAwAGAAAAAAAMAAQAAwAEAAAAAAAmAAMAAwAFAAAAAAAjAAEAAwACAAEAAAAmAAcAAwABAAAAAAAaAAEAAwAAAAEAAAAHAAkAAwADAAEAAAATAAEAAwADAAEAAAAUAAEAAwADAAEAAAAXAAEAAwADAAEAAAAOAAEAAwADAAEAAAAdAAEAAwAEAAEAAAAeAAEAAwAEAAEAAAAlAAEAAwAEAAEAAAAhAAEAAwAEAAEAAAAXAAsAAwAEAAEAAAAZAAcAAwAEAAEAAAASAAkAAwAEAAEAAAAUAAkAAwADAAEAAAAZAAsAAwADAAEAAAAYAAsAAwADAAEAAAAdAA0AAwADAAEAAAA=")
+tile_map_data = PackedByteArray("AAAWAAYAAwABAAAAAAATAAkAAwACAAEAAAAZAAkAAwADAAAAAAAcAA0AAwAGAAAAAAAeAA0AAwAAAAEAAAAYAAcAAwABAAEAAAAcAAUAAwAGAAAAAAAdAAUAAwABAAEAAAAeAAUAAwAAAAEAAAAeAAsAAwACAAMAAAASAAcAAwADAAMAAAAUAA8ABgACAAAAAAAVAA8ABgAAAAAAAAAOAA0ABgAAAAAAAAAPAA0ABgACAAAAAAAIAAkAAwABAAEAAAAFAAkAAwAAAAEAAAAIAA0AAwACAAMAAAADAAoAAwAEAAAAAAADAAsAAwACAAAAAAAfAA4ABgACAAAAAAAeAA4ABgAAAAAAAAAjAAwABgAAAAAAAAAkAAwABgACAAAAAAARAAEAAwAGAAAAAAAMAAQAAwAEAAAAAAAmAAMAAwAFAAAAAAAjAAEAAwACAAEAAAAmAAcAAwABAAAAAAAaAAEAAwAAAAEAAAAHAAkAAwADAAEAAAATAAEAAwADAAEAAAAUAAEAAwADAAEAAAAXAAEAAwADAAEAAAAOAAEAAwADAAEAAAAdAAEAAwAEAAEAAAAeAAEAAwAEAAEAAAAlAAEAAwAEAAEAAAAhAAEAAwAEAAEAAAAXAAsAAwAEAAEAAAAZAAcAAwAEAAEAAAASAAkAAwAEAAEAAAAUAAkAAwADAAEAAAAZAAsAAwADAAEAAAAYAAsAAwADAAEAAAAdAA0AAwADAAEAAAAbAA8ABgACAAAAAAAcAA8ABgACAAAAAAA=")
 tile_set = ExtResource("3_10nlv")
 
 [node name="TileMapMechanismMarkers" type="TileMapLayer" parent="." unique_id=107656751]
@@ -70,7 +72,7 @@ position = Vector2(184, 200)
 listen_id = &"room_1_door1"
 
 [node name="LightCrystal" parent="." unique_id=829589508 instance=ExtResource("8_10nlv")]
-position = Vector2(604, 201)
+position = Vector2(607, 200)
 target_id = &"room_1_door2"
 
 [node name="RelicPedestal" parent="." unique_id=1538069417 instance=ExtResource("9_2owu3")]
@@ -133,3 +135,15 @@ light_color = Color(0.09521607, 0.947658, 0.75246906, 1)
 min_energy = 0.0
 max_energy = 1.0
 period = 2.0
+
+[node name="Sign" parent="." unique_id=1607971600 instance=ExtResource("12_8fqiy")]
+position = Vector2(408, 248)
+text = "这里是.......地下吗....."
+
+[node name="Sign2" parent="." unique_id=839441515 instance=ExtResource("13_wwxbo")]
+position = Vector2(551, 200)
+text = "前面的水晶似乎对光线有反应，按F开关灯"
+
+[node name="Sign3" parent="." unique_id=123079903 instance=ExtResource("12_8fqiy")]
+position = Vector2(115, 216)
+text = "探险家们......好好观察吧......"
