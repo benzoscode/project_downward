@@ -18,7 +18,10 @@ shape = SubResource("shape_sign")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_tex")
 
-[node name="TextLabel" type="Label" parent="."]
+[node name="TextLayer" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="TextLabel" type="Label" parent="TextLayer"]
 visible = false
 offset_left = -36.0
 offset_top = -48.0
