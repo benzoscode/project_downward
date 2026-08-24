@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="8_3v76g"]
 [ext_resource type="PackedScene" uid="uid://7n3alj42ppu8" path="res://scenes/interactables/relic_pedestal_violet.tscn" id="8_467vs"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/sign_stone.tscn" id="9_467vs"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ending_trigger.tscn" id="10_e2xt"]
 
 [node name="Room14" type="Node2D" unique_id=922036725]
 script = ExtResource("1_w0jk3")
@@ -129,3 +130,6 @@ item = &"gem_violet"
 [node name="Sign" parent="." unique_id=1538330487 instance=ExtResource("9_467vs")]
 position = Vector2(366, 40)
 text = "这是......紫金宝石！"
+
+[node name="EndingTrigger" parent="." unique_id=120237701 instance=ExtResource("10_e2xt")]
+position = Vector2(456, 36)
