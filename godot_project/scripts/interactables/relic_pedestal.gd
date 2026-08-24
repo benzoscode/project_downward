@@ -38,7 +38,7 @@ var _t: float = 0.0
 var _icon_base_y: float
 
 @onready var _icon: Sprite2D = $Item
-@onready var _glow: PointLight2D = $Glow
+@onready var _glow: PointLight2D = get_node_or_null("Glow") as PointLight2D
 
 
 func _ready() -> void:
