@@ -111,6 +111,7 @@ func _run(text: String) -> void:
 			_print("goto <房间号|名>  e.g. goto 5 / goto boss")
 			_print("pos <x> <y> 瞬移   lamp <on/off> 开关灯")
 			_print("respawn 重生   checkpoint 存点   close 关闭")
+			_print("ending 进入结局画面")
 		&"get_item":
 			_get_item(arg)
 		&"give_all":
@@ -138,6 +139,10 @@ func _run(text: String) -> void:
 			_checkpoint()
 		&"info":
 			_print("房间=" + RoomManager.current_room_id + "  " + _items_str())
+		&"ending":
+			_ending()
+		&"结局":
+			_ending()
 		_:
 			_print("未知命令 " + cmd + "（输入 help 查看）")
 
@@ -164,11 +169,25 @@ func _goto(arg: String) -> void:
 		_print("房间不存在 " + path + "（可用 goto 1..14 或 goto boss）")
 		return
 	# 关闭控制台后传送（避免暂停树时切场景）
+	_close_for_scene_change()
+	RoomManager.goto_room(path, &"default")
+
+
+## 进入结局画面（独立 UI 场景，不走 RoomManager 的房间托管/淡入淡出）
+func _ending() -> void:
+	if not ResourceLoader.exists("res://scenes/ui/ending.tscn"):
+		_print("未找到结局场景 res://scenes/ui/ending.tscn")
+		return
+	_close_for_scene_change()
+	get_tree().change_scene_to_file("res://scenes/ui/ending.tscn")
+
+
+## 关闭控制台并恢复游戏运行（切场景/传送前调用）：暂停树时 LineEdit 仍在，需先恢复
+func _close_for_scene_change() -> void:
 	_open = false
 	_panel.visible = false
 	_line.release_focus()
 	get_tree().paused = false
-	RoomManager.goto_room(path, &"default")
 
 
 func _pos(arg: String) -> void:
