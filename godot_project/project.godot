@@ -36,6 +36,7 @@ window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
+window/size/initial_mode=3
 
 [editor_plugins]
 
