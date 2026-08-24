@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cif7pljvfxxxh" path="res://scenes/interactables/spikes.tscn" id="12_okxok"]
 [ext_resource type="PackedScene" uid="uid://bwh3o4lvoyy1d" path="res://scenes/interactables/gem_key_gate.tscn" id="13_okxok"]
 [ext_resource type="PackedScene" path="res://scenes/interactables/breathing_light.tscn" id="13_r7h0j"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/ending_trigger.tscn" id="14_endt"]
 
 [node name="RoomBoss" type="Node2D" unique_id=288183477]
 script = ExtResource("1_kreq2")
@@ -60,6 +61,9 @@ process_physics_priority = 300
 script = ExtResource("6_1r00p")
 
 [node name="Entrance_default" type="Marker2D" parent="." unique_id=1707756096]
+position = Vector2(21, 178)
+
+[node name="Entrance_from_room_14" type="Marker2D" parent="." unique_id=1707756097]
 position = Vector2(21, 178)
 
 [node name="LeverPlatform" parent="." unique_id=1381447964 instance=ExtResource("6_gq3uu")]
@@ -197,3 +201,6 @@ radius_tiles = 1.0
 [node name="AmbientLight5" parent="." unique_id=2100015224 instance=ExtResource("7_fe6ma")]
 position = Vector2(808, 56)
 radius_tiles = 1.0
+
+[node name="EndingTrigger" parent="." unique_id=120237701 instance=ExtResource("14_endt")]
+position = Vector2(775, 95)
