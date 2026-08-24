@@ -203,4 +203,4 @@ position = Vector2(808, 56)
 radius_tiles = 1.0
 
 [node name="EndingTrigger" parent="." unique_id=120237701 instance=ExtResource("14_endt")]
-position = Vector2(775, 95)
+position = Vector2(818, 71)
