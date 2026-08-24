@@ -14,15 +14,22 @@ extends Area2D
 
 func _ready() -> void:
 	_sprite.texture = sign_texture if sign_texture != null else preload("res://assets/props/sign_wood.png")
+	# 小像素下字号 6 太细、放大发虚：加大字号并加黑描边，保证清晰可读
+	var ls := LabelSettings.new()
+	ls.font_size = 9
+	ls.font_color = Color(1, 1, 1, 1)
+	ls.outline_size = 2
+	ls.outline_color = Color(0, 0, 0, 0.9)
+	_text_label.label_settings = ls
 	_text_label.text = text
 	_text_label.visible = false
 	# 文字层跟随视口：子节点坐标即世界坐标，随镜头移动，且不受房间暗度(CanvasModulate)影响
 	_text_layer.follow_viewport_enabled = true
-	# 锚定到牌子正上方的世界坐标（牌子静止，设定一次即可）
+	# 锚定到牌子正上方的世界坐标（牌子静止，设定一次即可）；字号加大后抬高留足高度
 	var base := global_position
-	_text_label.offset_left = base.x - 36.0
-	_text_label.offset_top = base.y - 48.0
-	_text_label.offset_right = base.x + 36.0
+	_text_label.offset_left = base.x - 42.0
+	_text_label.offset_top = base.y - 60.0
+	_text_label.offset_right = base.x + 42.0
 	_text_label.offset_bottom = base.y - 14.0
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
